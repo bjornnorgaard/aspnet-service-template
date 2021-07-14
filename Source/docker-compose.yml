@@ -1,0 +1,40 @@
+version: '3.7'
+
+services: 
+
+  todo-backend:
+    image: ursu/ant-todo-backend:x86
+    build:
+      context: .
+      dockerfile: Dockerfile.todo-backend.x86
+    ports:
+      - 5000:80
+    environment: 
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__Default: "User ID=postgres;Password=MyPassword;Host=postgres;Port=5432;Database=postgres"
+    depends_on: 
+      - postgres
+
+  todo-backend-arm:
+    image: ursu/ant-todo-backend:arm
+    build:
+      context: .
+      dockerfile: Dockerfile.todo-backend.arm
+    ports:
+      - 6000:80
+    environment: 
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__Default: "User ID=postgres;Password=MyPassword;Host=postgres;Port=5432;Database=postgres"
+    depends_on: 
+      - postgres
+  
+  postgres:
+    image: postgres:13.3-alpine
+    ports: 
+      - 5432:5432
+    environment: 
+      POSTGRES_PASSWORD: "MyPassword"
+    volumes:
+    - ./Ant.Todo.Data/postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+    

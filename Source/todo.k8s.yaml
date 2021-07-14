@@ -1,0 +1,118 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: todo
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres
+  namespace: todo
+type: Opaque
+data:
+  password: TXlQYXNzd29yZA==
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: todo 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:13.3-alpine
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"
+        ports:
+        - containerPort: 5432
+        env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres
+                key: password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: todo
+spec:
+  selector:
+    app: postgres
+  ports:
+  - port: 5432
+    targetPort: 5432
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: todo-backend
+  namespace: todo
+data:
+  environment: "Development"
+  connectionString: "User ID=postgres;Password=MyPassword;Host=postgres;Port=5432;Database=postgres;Pooling=true;Min Pool Size=0;Max Pool Size=100;Connection Lifetime=0;"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-backend
+  namespace: todo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: todo-backend
+  template:
+    metadata:
+      labels:
+        app: todo-backend
+    spec:
+      containers:
+      - name: todo-backend
+        image: ursu/ant-todo-backend:arm-1429
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"
+        ports:
+        - containerPort: 80
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            valueFrom:
+              configMapKeyRef:
+                name: todo-backend
+                key: environment
+          - name: ConnectionStrings__Default
+            valueFrom:
+              configMapKeyRef:
+                name: todo-backend
+                key: connectionString
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-backend
+  namespace: todo
+spec:
+  selector:
+    app: todo-backend
+  type: NodePort
+  ports:
+  - port: 5000
+    targetPort: 80
+    nodePort: 30080
