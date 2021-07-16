@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Ant.Todo.Api.Database.Migrations
 {
@@ -11,10 +11,9 @@ namespace Ant.Todo.Api.Database.Migrations
                 name: "Todos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: false),
-                    Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     IsCompleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false)
                 },
                 constraints: table =>

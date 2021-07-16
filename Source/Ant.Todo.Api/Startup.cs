@@ -1,12 +1,11 @@
-using System.Linq;
+using Ant.Platform;
 using Ant.Todo.Api.Database;
+using Ant.Todo.Api.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
-using Microsoft.VisualBasic;
 
 namespace Ant.Todo.Api
 {
@@ -21,36 +20,18 @@ namespace Ant.Todo.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.CustomSchemaIds(t =>
-                {
-                    if (t.FullName.Contains("+")) return t.FullName.Split(".").Last().Replace("+", "");
-                    return t.Name;
-                });
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Ant.Todo.Api", Version = "v1"});
-            });
-            var cs = Configuration.GetConnectionString("Default");
-            services.AddDbContext<TodoContext>(o => o.UseNpgsql(cs));
+            var assembly = typeof(Startup).Assembly;
+            services.AddPlatformServices(Configuration, assembly);
+            
+            var connectionString = new DatabaseOptions(Configuration).TodoDatabase;
+            services.AddDbContext<Context>(o => o.UseNpgsql(connectionString));
+
+            services.AddAutoMapper(assembly);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ant.Todo.Api v1");
-                c.RoutePrefix = string.Empty;
-            });
-
-            app.UseRouting();
-            app.UseAuthorization();
-            app.UseEndpoints(endpoints => endpoints.MapControllers());
-
-            var scope = app.ApplicationServices.CreateScope();
-            var context = scope.ServiceProvider.GetService<TodoContext>();
-            context.Database.Migrate();
+            app.UsePlatformServices(Configuration);
         }
     }
 }

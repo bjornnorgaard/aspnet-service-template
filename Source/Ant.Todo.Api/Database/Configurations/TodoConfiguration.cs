@@ -9,7 +9,7 @@ namespace Ant.Todo.Api.Database.Configurations
         {
             todo.HasKey(t => t.Id);
             todo.Property(t => t.Title).HasMaxLength(25).IsRequired();
-            todo.Property(t => t.Description).HasMaxLength(100).IsRequired();
+            todo.Property(t => t.Description).HasMaxLength(100).IsRequired(false);
             todo.Property(t => t.IsCompleted).HasDefaultValue(false);
         }
     }

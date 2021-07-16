@@ -1,3 +1,4 @@
+using Ant.Platform;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -12,6 +13,7 @@ namespace Ant.Todo.Api
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UsePlatformLogger()
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
     }
 }

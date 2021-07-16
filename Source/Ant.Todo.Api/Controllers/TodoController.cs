@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using Ant.Todo.Api.Controllers.Requests.Todos;
-using Ant.Todo.Api.Database;
+using Ant.Platform.Hangfire;
+using Ant.Todo.Api.Features.Todos;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ant.Todo.Api.Controllers
 {
@@ -12,89 +11,51 @@ namespace Ant.Todo.Api.Controllers
     [Route("todos")]
     public class TodoController : ControllerBase
     {
-        private readonly TodoContext _context;
+        private readonly IMediator _mediator;
 
-        public TodoController(TodoContext context)
+        public TodoController(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<Database.Models.Todo>>> GetTodos(
-            [FromQuery] int take = 10,
-            [FromQuery] int skip = 0)
+        [HttpPost("get-todo")]
+        public async Task<GetTodo.Result> GetTodo(
+            [FromBody] GetTodo.Command command,
+            CancellationToken ct)
         {
-            var todos = await _context.Todos.AsNoTracking()
-                .OrderBy(t => t.Id)
-                .Skip(skip).Take(take)
-                .ToListAsync();
-
-            return Ok(todos);
+            return await _mediator.Send(command, ct);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Database.Models.Todo>> GetTodo(
-            [FromRoute] int id)
+        [HttpPost("get-todos")]
+        public async Task<GetTodos.Result> GetTodos(
+            [FromBody] GetTodos.Command command,
+            CancellationToken ct)
         {
-            var todo = await _context.Todos.AsNoTracking()
-                .FirstOrDefaultAsync(t => t.Id == id);
-
-            if (todo == null) return NotFound();
-
-            return Ok(todo);
+            return await _mediator.Send(command, ct);
         }
 
-        [HttpPost("")]
-        public async Task<ActionResult<int>> CreateTodo(
-            [FromBody] CreateTodoRequest request)
+        [HttpPost("create-todo")]
+        public async Task<CreateTodo.Result> CreateTodo(
+            [FromBody] CreateTodo.Command command,
+            CancellationToken ct)
         {
-            var todo = new Database.Models.Todo
-            {
-                Title = request.Title,
-                Description = request.Description,
-                IsCompleted = false
-            };
-
-            await _context.Todos.AddAsync(todo);
-            await _context.SaveChangesAsync();
-
-            return Ok(todo.Id);
+            return await _mediator.Send(command, ct);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<int>> UpdateTodo(
-            [FromRoute] int id,
-            [FromBody] UpdateTodoRequest request)
+        [HttpPost("update-todo")]
+        public async Task<UpdateTodo.Result> UpdateTodo(
+            [FromBody] UpdateTodo.Command command,
+            CancellationToken ct)
         {
-            var todo = await _context.Todos.AsNoTracking()
-                .Where(t => t.Id == id)
-                .FirstOrDefaultAsync();
-
-            if (todo == null) return NotFound();
-
-            todo.Title = request.Title;
-            todo.Description = request.Description;
-            todo.IsCompleted = request.IsCompleted;
-
-            await _context.SaveChangesAsync();
-
-            return Ok(todo.Id);
+            return await _mediator.Send(command, ct);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<int>> DeleteTodo(
-            [FromRoute] int id)
+        [HttpPost("DeleteTodo")]
+        public AcceptedResult DeleteTodo(
+            [FromBody] DeleteTodo.Command command)
         {
-            var todo = await _context.Todos.AsNoTracking()
-                .Where(t => t.Id == id)
-                .FirstOrDefaultAsync();
-
-            if (todo == null) return NotFound();
-
-            _context.Todos.Remove(todo);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+             _mediator.Enqueue(command);
+             return Accepted();
         }
     }
 }

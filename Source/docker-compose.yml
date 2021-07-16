@@ -2,32 +2,25 @@ version: '3.7'
 
 services: 
 
-  todo-backend:
-    image: ursu/ant-todo-backend:x86
+  todo-api:
+    image: ursu/ant-todo-api:x86
     build:
       context: .
-      dockerfile: Dockerfile.todo-backend.x86
+      dockerfile: Dockerfile.todo-api
     ports:
       - 5000:80
     environment: 
       ASPNETCORE_ENVIRONMENT: "Development"
-      ConnectionStrings__Default: "User ID=postgres;Password=MyPassword;Host=postgres;Port=5432;Database=postgres"
+      ConnectionStrings__TodoDatabase: "User ID=postgres;Password=MyPassword;Host=postgres;Port=5432;Database=postgres"
+      HangfireOptions__ConnectionString: "User ID=postgres;Password=MyPassword;Host=postgres;Port=5432;Database=postgres"
+      SwaggerOptions__ApplicationTitle: "Ant Todo Api Docker"
+      LoggingOptions__ApplicationName: "Ant Todo Api Docker"
+      LoggingOptions__ElasticSearchUrl: "http://elasticsearch:9200"
+      ElasticApm__ServiceName: "Ant Todo Api Docker"
+      ElasticApm__ServerUrls: "http://apm-server:8200"
     depends_on: 
       - postgres
 
-  # todo-backend-arm:
-  #   image: ursu/ant-todo-backend:arm
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.todo-backend.arm
-  #   ports:
-  #     - 6000:80
-  #   environment: 
-  #     ASPNETCORE_ENVIRONMENT: "Development"
-  #     ConnectionStrings__Default: "User ID=postgres;Password=MyPassword;Host=postgres;Port=5432;Database=postgres"
-  #   depends_on: 
-  #     - postgres
-  
   postgres:
     image: postgres:13.3-alpine
     ports: 
@@ -36,5 +29,51 @@ services:
       POSTGRES_PASSWORD: "MyPassword"
     volumes:
     - ./Ant.Todo.Data/postgres:/var/lib/postgresql/data
-    restart: unless-stopped
+  
+  apm-server:
+    image: docker.elastic.co/apm/apm-server:7.9.1
+    ports:
+      - "8200:8200"    
+    depends_on:
+      - elasticsearch
+      - kibana
+    cap_add: ["CHOWN", "DAC_OVERRIDE", "SETGID", "SETUID"]
+    cap_drop: ["ALL"]
+    command: >
+        apm-server -e
+          -E apm-server.rum.enabled=true
+          -E setup.kibana.host=kibana:5601
+          -E setup.template.settings.index.number_of_replicas=0
+          -E apm-server.kibana.enabled=true
+          -E apm-server.kibana.host=kibana:5601
+          -E output.elasticsearch.hosts=["elasticsearch:9200"]
     
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.9.1
+    ports:
+      - "5601:5601"
+    depends_on: 
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      elasticsearch.username: elastic
+      elasticsearch.password: changeme
+      
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.1
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      http.cors.enabled: "true"
+      http.cors.allow-origin: "*"
+      cluster.name: "es-docker-cluster"
+      bootstrap.memory_lock: "true"
+      ES_JAVA_OPTS: "-Xms512m -Xms512m"
+      discovery.type: "single-node"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./Ant.Todo.Data/elasticsearch:/usr/share/elasticsearch/data

@@ -2,11 +2,11 @@
 
 namespace Ant.Todo.Api.Database
 {
-    public class TodoContext : DbContext
+    public class Context : DbContext
     {
         public DbSet<Database.Models.Todo> Todos { get; set; }
         
-        public TodoContext(DbContextOptions options) : base(options)
+        public Context(DbContextOptions options) : base(options)
         {
             
         }
@@ -14,7 +14,7 @@ namespace Ant.Todo.Api.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(TodoContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(Context).Assembly);
         }
     }
 }
