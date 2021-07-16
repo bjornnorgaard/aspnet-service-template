@@ -62,7 +62,7 @@ metadata:
   namespace: todo
 data:
   environment: "Development"
-  connectionString: "User ID=postgres;Password=MyPassword;Host=postgres;Port=5432;Database=postgres;Pooling=true;Min Pool Size=0;Max Pool Size=100;Connection Lifetime=0;"
+  connectionString: "User ID=postgres;Password=MyPassword;Host=postgres;Port=5432;Database=postgres"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -81,7 +81,7 @@ spec:
     spec:
       containers:
       - name: todo-backend
-        image: ursu/ant-todo-backend:arm-1429
+        image: ursu/ant-todo-backend:x86-1726
         resources:
           requests:
             memory: "256Mi"
@@ -110,9 +110,27 @@ metadata:
   namespace: todo
 spec:
   selector:
-    app: todo-backend
-  type: NodePort
+    app: todo-backend  
   ports:
   - port: 5000
     targetPort: 80
-    nodePort: 30080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: todo-backend
+  namespace: todo
+  labels:
+    name: todo-backend
+spec:
+  rules:
+  - host: todo.softwarebybear.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: todo-backend
+            port: 
+              number: 5000

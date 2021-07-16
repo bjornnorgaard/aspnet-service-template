@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Microsoft.VisualBasic;
 
 namespace Ant.Todo.Api
 {
@@ -37,7 +38,11 @@ namespace Ant.Todo.Api
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ant.Todo.Api v1"));
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ant.Todo.Api v1");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseRouting();
             app.UseAuthorization();
