@@ -50,7 +50,7 @@ namespace Ant.Todo.Api.Controllers
             return await _mediator.Send(command, ct);
         }
 
-        [HttpPost("DeleteTodo")]
+        [HttpPost("delete-todo")]
         public AcceptedResult DeleteTodo(
             [FromBody] DeleteTodo.Command command)
         {
