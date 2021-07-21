@@ -1,4 +1,5 @@
 using Ant.Platform;
+using Ant.Todo.Api.Background;
 using Ant.Todo.Api.Database;
 using Ant.Todo.Api.Options;
 using Microsoft.AspNetCore.Builder;
@@ -27,6 +28,8 @@ namespace Ant.Todo.Api
             services.AddDbContext<Context>(o => o.UseSqlServer(connectionString));
 
             services.AddAutoMapper(assembly);
+
+            services.AddHostedService<CleanupBackgroundService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

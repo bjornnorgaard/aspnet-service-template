@@ -8,6 +8,7 @@ namespace Ant.Todo.Api.Features.Todos
         {
             CreateMap<Database.Models.Todo, TodoViewModel>();
             CreateMap<UpdateTodo.Command, Database.Models.Todo>();
+            CreateMap<CreateTodo.Command, Database.Models.Todo>();
         }
     }
 }

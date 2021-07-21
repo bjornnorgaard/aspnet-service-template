@@ -3,8 +3,10 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using Ant.Todo.Api.Database;
+using AutoMapper;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ant.Todo.Api.Features.Todos
 {
@@ -32,11 +34,24 @@ namespace Ant.Todo.Api.Features.Todos
         
         public class Handler : IRequestHandler<Command, Result>
         {
-            public Context Context { get; set; }
-            
-            public Task<Result> Handle(Command request, CancellationToken cancellationToken)
+            private readonly Context _context;
+            private readonly IMapper _mapper;
+
+            public Handler(Context context, IMapper mapper)
             {
-                throw new NotImplementedException();
+                _context = context;
+                _mapper = mapper;
+            }
+
+            public async Task<Result> Handle(Command request, CancellationToken ct)
+            {
+                var todo = _mapper.Map<Database.Models.Todo>(request);
+
+                await _context.Todos.AddAsync(todo, ct);
+                await _context.SaveChangesAsync(ct);
+
+                var result = new Result{TodoId = todo.Id};
+                return result;
             }
         }
     }
