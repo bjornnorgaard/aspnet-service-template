@@ -1,7 +1,6 @@
 ﻿using Ant.Platform.Hangfire;
 using Ant.Platform.Options;
 using Hangfire;
-using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +15,7 @@ namespace Ant.Platform.Configurations
             
             services.AddHangfire(o =>
             {
-                o.UsePostgreSqlStorage(options.ConnectionString);
+                o.UseSqlServerStorage(options.ConnectionString);
                 o.AddMediatR();
             });
 

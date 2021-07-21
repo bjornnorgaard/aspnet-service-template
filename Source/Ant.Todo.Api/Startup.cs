@@ -24,13 +24,17 @@ namespace Ant.Todo.Api
             services.AddPlatformServices(Configuration, assembly);
             
             var connectionString = new DatabaseOptions(Configuration).TodoDatabase;
-            services.AddDbContext<Context>(o => o.UseNpgsql(connectionString));
+            services.AddDbContext<Context>(o => o.UseSqlServer(connectionString));
 
             services.AddAutoMapper(assembly);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var scope = app.ApplicationServices.CreateScope();
+            var context = scope.ServiceProvider.GetService<Context>();
+            context.Database.Migrate();
+            
             app.UsePlatformServices(Configuration);
         }
     }
