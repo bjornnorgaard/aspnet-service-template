@@ -1,5 +1,4 @@
 using Ant.Platform;
-using Ant.Todo.Api.Background;
 using Ant.Todo.Api.Database;
 using Ant.Todo.Api.Options;
 using Microsoft.AspNetCore.Builder;
@@ -22,22 +21,17 @@ namespace Ant.Todo.Api
         public void ConfigureServices(IServiceCollection services)
         {
             var assembly = typeof(Startup).Assembly;
-            services.AddPlatformServices(Configuration, assembly);
             
             var connectionString = new DatabaseOptions(Configuration).TodoDatabase;
             services.AddDbContext<Context>(o => o.UseSqlServer(connectionString));
-
+            
             services.AddAutoMapper(assembly);
-
-            services.AddHostedService<CleanupBackgroundService>();
+            services.AddPlatformServices(Configuration, assembly);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, Context context)
         {
-            var scope = app.ApplicationServices.CreateScope();
-            var context = scope.ServiceProvider.GetService<Context>();
             context.Database.Migrate();
-            
             app.UsePlatformServices(Configuration);
         }
     }

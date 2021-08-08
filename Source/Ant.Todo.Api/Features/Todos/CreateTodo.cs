@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using Ant.Todo.Api.Database;
+using Ant.Todo.Api.Database.Configurations;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ant.Todo.Api.Features.Todos
 {
@@ -16,6 +15,7 @@ namespace Ant.Todo.Api.Features.Todos
         {
             public string Title { get; set; }
             public string Description { get; set; }
+            public string UserId { get; set; }
         }
         
         public class Result
@@ -27,8 +27,16 @@ namespace Ant.Todo.Api.Features.Todos
         {
             public Validator()
             {
-                RuleFor(c => c.Title).NotEmpty().MinimumLength(2).MaximumLength(25);
-                RuleFor(c => c.Description).MaximumLength(100);
+                RuleFor(c => c.Title).NotEmpty()
+                    .MinimumLength(TodoConstants.Title.MinLength)
+                    .MaximumLength(TodoConstants.Title.MaxLength);
+                
+                RuleFor(c => c.Description)
+                    .MaximumLength(TodoConstants.Description.MaxLength);
+                
+                RuleFor(c => c.UserId).NotEmpty()
+                    .MinimumLength(TodoConstants.UserId.MinLenght)
+                    .MaximumLength(TodoConstants.UserId.MaxLength);
             }
         }
         

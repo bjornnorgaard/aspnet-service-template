@@ -22,13 +22,9 @@ namespace Ant.Platform.Filters
         {
             switch (context.Exception)
             {
-                case NotFoundException e:
+                case PlatformException e:
                     _logger.LogWarning(e, e.Message);
-                    context.Result = new NotFoundObjectResult(e.Message);
-                    break;
-                case BadRequestException e:
-                    _logger.LogWarning(e, e.Message);
-                    context.Result = new BadRequestObjectResult(e.Message);
+                    context.Result = e.ToResponseObject();
                     break;
                 case ValidationException e:
                     var validationResult = new ValidationResult(e.Errors);
@@ -38,7 +34,7 @@ namespace Ant.Platform.Filters
                 case Exception e:
                     var template = "HTTP request threw unhandled exception.";
                     _logger.LogError(e, template);
-                    throw e;
+                    break;
             }
         }
     }

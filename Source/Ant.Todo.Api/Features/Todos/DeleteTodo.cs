@@ -15,6 +15,7 @@ namespace Ant.Todo.Api.Features.Todos
         public class Command : IRequest
         {
             public Guid TodoId { get; set; }
+            public string UserId { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -22,6 +23,7 @@ namespace Ant.Todo.Api.Features.Todos
             public Validator()
             {
                 RuleFor(c => c.TodoId).NotEmpty();
+                RuleFor(c => c.UserId).NotEmpty();
             }
         }
 
@@ -38,9 +40,10 @@ namespace Ant.Todo.Api.Features.Todos
             {
                 var todo = await _context.Todos.AsTracking()
                     .Where(t => t.Id == request.TodoId)
+                    .Where(t => t.UserId == request.UserId)
                     .FirstOrDefaultAsync(ct);
 
-                if (todo == null) throw new NotFoundException();
+                if (todo == null) throw new PlatformException(PlatformError.TodoNotFound);
 
                 _context.Todos.Remove(todo);
                 await _context.SaveChangesAsync(ct);

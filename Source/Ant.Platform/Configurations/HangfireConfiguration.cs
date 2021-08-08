@@ -12,7 +12,7 @@ namespace Ant.Platform.Configurations
         public static void AddPlatformHangfire(this IServiceCollection services, IConfiguration configuration)
         {
             var options = new HangfireOptions(configuration);
-            
+
             services.AddHangfire(o =>
             {
                 o.UseSqlServerStorage(options.ConnectionString);

@@ -3,7 +3,7 @@ version: '3.7'
 services: 
 
   todo-api:
-    image: ursu/ant-todo-api:2244
+    image: ursu/ant-todo-api:latest
     build:
       context: .
       dockerfile: Dockerfile.todo-api
@@ -11,17 +11,17 @@ services:
       - 5001:80
     environment: 
       ASPNETCORE_ENVIRONMENT: "Development"
-      DatabaseOptions__TodoDatabase: "Server=sqlserver;Database=Todo;User=sa;Password=Your_password123;"
-      HangfireOptions__ConnectionString: "Server=sqlserver;Database=Todo;User=sa;Password=Your_password123;"
+      DatabaseOptions__TodoDatabase: "Server=mssqlserver;Database=Todo;User=sa;Password=Your_password123;"
+      HangfireOptions__ConnectionString: "Server=mssqlserver;Database=Todo;User=sa;Password=Your_password123;"
       SwaggerOptions__ApplicationTitle: "Ant Todo Api Docker"
       LoggingOptions__ApplicationName: "Ant Todo Api Docker"
       LoggingOptions__ElasticSearchUrl: "http://elasticsearch:9200"
       ElasticApm__ServiceName: "Ant Todo Api Docker"
       ElasticApm__ServerUrls: "http://apm-server:8200"
     depends_on: 
-      - sqlserver
+      - mssqlserver
 
-  sqlserver:
+  mssqlserver:
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     ports:
       - "1433:1433"
@@ -29,8 +29,8 @@ services:
       SA_PASSWORD: "Your_password123"
       ACCEPT_EULA: "Y"
     volumes:
-      - ./Ant.Todo.Data/sqlserver/mssql/data:/var/opt/mssql/data
-      - ./Ant.Todo.Data/sqlserver/sqlserver:/var/opt/sqlserver
+      - ./Ant.Todo.Data/mssqlserver/mssql/data:/var/opt/mssql/data
+      - ./Ant.Todo.Data/mssqlserver/sqlserver:/var/opt/mssqlserver
 
   apm-server:
     image: docker.elastic.co/apm/apm-server:7.9.1

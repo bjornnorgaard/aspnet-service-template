@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Ant.Platform.Hangfire;
+using Ant.Todo.Api.Authentication;
 using Ant.Todo.Api.Features.Todos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,7 @@ namespace Ant.Todo.Api.Controllers
             [FromBody] GetTodo.Command command,
             CancellationToken ct)
         {
+            command.UserId = User.GetUserId();
             return await _mediator.Send(command, ct);
         }
 
@@ -31,6 +33,7 @@ namespace Ant.Todo.Api.Controllers
             [FromBody] GetTodos.Command command,
             CancellationToken ct)
         {
+            command.UserId = User.GetUserId();
             return await _mediator.Send(command, ct);
         }
 
@@ -39,6 +42,7 @@ namespace Ant.Todo.Api.Controllers
             [FromBody] CreateTodo.Command command,
             CancellationToken ct)
         {
+            command.UserId = User.GetUserId();
             return await _mediator.Send(command, ct);
         }
 
@@ -47,6 +51,7 @@ namespace Ant.Todo.Api.Controllers
             [FromBody] UpdateTodo.Command command,
             CancellationToken ct)
         {
+            command.UserId = User.GetUserId();
             return await _mediator.Send(command, ct);
         }
 
@@ -54,8 +59,9 @@ namespace Ant.Todo.Api.Controllers
         public AcceptedResult DeleteTodo(
             [FromBody] DeleteTodo.Command command)
         {
-             _mediator.Enqueue(command);
-             return Accepted();
+            command.UserId = User.GetUserId();
+            _mediator.Enqueue(command);
+            return Accepted();
         }
     }
 }
