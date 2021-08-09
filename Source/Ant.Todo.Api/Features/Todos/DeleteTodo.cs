@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Ant.Platform.Exceptions;
@@ -15,7 +16,7 @@ namespace Ant.Todo.Api.Features.Todos
         public class Command : IRequest
         {
             public Guid TodoId { get; set; }
-            public string UserId { get; set; }
+            [JsonIgnore] public string UserId { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Ant.Todo.Api.Database;
@@ -15,9 +16,9 @@ namespace Ant.Todo.Api.Features.Todos
         {
             public string Title { get; set; }
             public string Description { get; set; }
-            public string UserId { get; set; }
+            [JsonIgnore] public string UserId { get; set; }
         }
-        
+
         public class Result
         {
             public Guid TodoId { get; set; }
@@ -30,16 +31,16 @@ namespace Ant.Todo.Api.Features.Todos
                 RuleFor(c => c.Title).NotEmpty()
                     .MinimumLength(TodoConstants.Title.MinLength)
                     .MaximumLength(TodoConstants.Title.MaxLength);
-                
+
                 RuleFor(c => c.Description)
                     .MaximumLength(TodoConstants.Description.MaxLength);
-                
+
                 RuleFor(c => c.UserId).NotEmpty()
                     .MinimumLength(TodoConstants.UserId.MinLenght)
                     .MaximumLength(TodoConstants.UserId.MaxLength);
             }
         }
-        
+
         public class Handler : IRequestHandler<Command, Result>
         {
             private readonly Context _context;
@@ -58,7 +59,7 @@ namespace Ant.Todo.Api.Features.Todos
                 await _context.Todos.AddAsync(todo, ct);
                 await _context.SaveChangesAsync(ct);
 
-                var result = new Result{TodoId = todo.Id};
+                var result = new Result { TodoId = todo.Id };
                 return result;
             }
         }

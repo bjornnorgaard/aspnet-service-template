@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Ant.Platform.Exceptions;
@@ -20,7 +21,7 @@ namespace Ant.Todo.Api.Features.Todos
             public string Description { get; set; }
             public bool IsCompleted { get; set; }
             public Guid TodoId { get; set; }
-            public string UserId { get; set; }
+            [JsonIgnore] public string UserId { get; set; }
         }
 
         public class Result
@@ -33,14 +34,14 @@ namespace Ant.Todo.Api.Features.Todos
             public Validator()
             {
                 RuleFor(c => c.TodoId).NotEmpty();
-                
+
                 RuleFor(c => c.Title).NotEmpty()
                     .MinimumLength(TodoConstants.Title.MinLength)
                     .MaximumLength(TodoConstants.Title.MaxLength);
-                
+
                 RuleFor(c => c.Description)
                     .MaximumLength(TodoConstants.Description.MaxLength);
-                
+
                 RuleFor(c => c.UserId).NotEmpty()
                     .MinimumLength(TodoConstants.UserId.MinLenght)
                     .MaximumLength(TodoConstants.UserId.MaxLength);
@@ -71,7 +72,7 @@ namespace Ant.Todo.Api.Features.Todos
                 await _context.SaveChangesAsync(ct);
 
                 var mapped = _mapper.Map<TodoViewModel>(todo);
-                var result = new Result{UpdatedTodo = mapped};
+                var result = new Result { UpdatedTodo = mapped };
                 return result;
             }
         }

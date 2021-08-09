@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Ant.Platform.Exceptions;
@@ -17,26 +18,26 @@ namespace Ant.Todo.Api.Features.Todos
         public class Command : IRequest<Result>
         {
             public Guid TodoId { get; set; }
-            public string UserId { get; set; }
+            [JsonIgnore] public string UserId { get; set; }
         }
-        
+
         public class Result
         {
             public TodoViewModel TodoViewModel { get; set; }
         }
-        
+
         public class Validator : AbstractValidator<Command>
         {
             public Validator()
             {
                 RuleFor(c => c.TodoId).NotEmpty();
-                
+
                 RuleFor(c => c.UserId).NotEmpty()
                     .MinimumLength(TodoConstants.UserId.MinLenght)
                     .MaximumLength(TodoConstants.UserId.MaxLength);
             }
         }
-        
+
         public class Handler : IRequestHandler<Command, Result>
         {
             private readonly Context _context;
@@ -58,8 +59,8 @@ namespace Ant.Todo.Api.Features.Todos
                 if (todo == null) throw new PlatformException(PlatformError.TodoNotFound);
 
                 var mapped = _mapper.Map<TodoViewModel>(todo);
-                var result = new Result{ TodoViewModel = mapped};
-                
+                var result = new Result { TodoViewModel = mapped };
+
                 return result;
             }
         }

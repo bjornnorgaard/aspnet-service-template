@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Ant.Todo.Api.Database;
 using Ant.Todo.Api.Database.Configurations;
+using Ant.Todo.Api.Database.Extensions;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
@@ -17,7 +19,9 @@ namespace Ant.Todo.Api.Features.Todos
         {
             public int PageNumber { get; set; } = 0;
             public int PageSize { get; set; } = 10;
-            public string UserId { get; set; }
+            [JsonIgnore] public string UserId { get; set; }
+            public string SortProperty { get; set; } = nameof(TodoViewModel.Id);
+            public SortOrder SortOrder { get; set; } = SortOrder.None;
         }
 
         public class Result
@@ -39,6 +43,8 @@ namespace Ant.Todo.Api.Features.Todos
                 RuleFor(c => c.UserId).NotEmpty()
                     .MinimumLength(TodoConstants.UserId.MinLenght)
                     .MaximumLength(TodoConstants.UserId.MaxLength);
+
+                RuleFor(c => c.SortOrder).IsInEnum();
             }
         }
 
@@ -57,7 +63,7 @@ namespace Ant.Todo.Api.Features.Todos
             {
                 var todos = await _context.Todos.AsNoTracking()
                     .Where(t => t.UserId == request.UserId)
-                    .OrderBy(t => t.Id)
+                    .SortBy(TodoSortExpressions.Get(request.SortProperty), request.SortOrder)
                     .Skip(request.PageNumber * request.PageSize)
                     .Take(request.PageSize)
                     .ToListAsync(ct);
