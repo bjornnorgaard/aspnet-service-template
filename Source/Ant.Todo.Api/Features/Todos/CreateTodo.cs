@@ -43,12 +43,12 @@ namespace Ant.Todo.Api.Features.Todos
 
         public class Handler : IRequestHandler<Command, Result>
         {
-            private readonly Context _context;
+            private readonly TodoContext _todoContext;
             private readonly IMapper _mapper;
 
-            public Handler(Context context, IMapper mapper)
+            public Handler(TodoContext todoContext, IMapper mapper)
             {
-                _context = context;
+                _todoContext = todoContext;
                 _mapper = mapper;
             }
 
@@ -56,8 +56,8 @@ namespace Ant.Todo.Api.Features.Todos
             {
                 var todo = _mapper.Map<Database.Models.Todo>(request);
 
-                await _context.Todos.AddAsync(todo, ct);
-                await _context.SaveChangesAsync(ct);
+                await _todoContext.Todos.AddAsync(todo, ct);
+                await _todoContext.SaveChangesAsync(ct);
 
                 var result = new Result { TodoId = todo.Id };
                 return result;

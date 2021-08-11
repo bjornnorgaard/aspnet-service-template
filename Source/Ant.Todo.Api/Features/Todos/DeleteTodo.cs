@@ -30,24 +30,24 @@ namespace Ant.Todo.Api.Features.Todos
 
         public class Handler : AsyncRequestHandler<Command>
         {
-            private readonly Context _context;
+            private readonly TodoContext _todoContext;
 
-            public Handler(Context context)
+            public Handler(TodoContext todoContext)
             {
-                _context = context;
+                _todoContext = todoContext;
             }
 
             protected override async Task Handle(Command request, CancellationToken ct)
             {
-                var todo = await _context.Todos.AsTracking()
+                var todo = await _todoContext.Todos.AsTracking()
                     .Where(t => t.Id == request.TodoId)
                     .Where(t => t.UserId == request.UserId)
                     .FirstOrDefaultAsync(ct);
 
                 if (todo == null) throw new PlatformException(PlatformError.TodoNotFound);
 
-                _context.Todos.Remove(todo);
-                await _context.SaveChangesAsync(ct);
+                _todoContext.Todos.Remove(todo);
+                await _todoContext.SaveChangesAsync(ct);
             }
         }
     }

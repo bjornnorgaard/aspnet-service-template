@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ant.Todo.Api.Database.Migrations
 {
-    [DbContext(typeof(Context))]
+    [DbContext(typeof(TodoContext))]
     [Migration("20210808085742_TodoUserId")]
     partial class TodoUserId
     {

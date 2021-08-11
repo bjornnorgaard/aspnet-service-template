@@ -21,17 +21,17 @@ namespace Ant.Todo.Api
         public void ConfigureServices(IServiceCollection services)
         {
             var assembly = typeof(Startup).Assembly;
-            
+
             var connectionString = new DatabaseOptions(Configuration).TodoDatabase;
-            services.AddDbContext<Context>(o => o.UseSqlServer(connectionString));
-            
+            services.AddDbContext<TodoContext>(o => o.UseSqlServer(connectionString));
+
             services.AddAutoMapper(assembly);
             services.AddPlatformServices(Configuration, assembly);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, Context context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TodoContext todoContext)
         {
-            context.Database.Migrate();
+            todoContext.Database.Migrate();
             app.UsePlatformServices(Configuration);
         }
     }

@@ -50,18 +50,18 @@ namespace Ant.Todo.Api.Features.Todos
 
         public class Handler : IRequestHandler<Command, Result>
         {
-            private readonly Context _context;
+            private readonly TodoContext _todoContext;
             private readonly IMapper _mapper;
 
-            public Handler(Context context, IMapper mapper)
+            public Handler(TodoContext todoContext, IMapper mapper)
             {
-                _context = context;
+                _todoContext = todoContext;
                 _mapper = mapper;
             }
 
             public async Task<Result> Handle(Command request, CancellationToken ct)
             {
-                var todos = await _context.Todos.AsNoTracking()
+                var todos = await _todoContext.Todos.AsNoTracking()
                     .Where(t => t.UserId == request.UserId)
                     .SortBy(TodoSortExpressions.Get(request.SortProperty), request.SortOrder)
                     .Skip(request.PageNumber * request.PageSize)
