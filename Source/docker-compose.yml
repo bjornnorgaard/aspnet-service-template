@@ -6,7 +6,7 @@ services:
     image: ursu/ant-todo-api:latest
     build:
       context: .
-      dockerfile: todo-api.dockerfile
+      dockerfile: todos-api.dockerfile
     ports:
       - 5001:80
     environment: 

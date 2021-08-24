@@ -1,0 +1,22 @@
+name: Build Todos API
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "Svc.Todos/**"
+      - "todos-api.dockerfile"
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "Svc.Todos/**"
+      - "todos-api.dockerfile"
+
+jobs:
+  build:
+    name: "Build Dockerfile"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build --file todos-api.dockerfile .
