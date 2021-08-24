@@ -4,14 +4,14 @@ on:
   push:
     branches: [ main ]
     paths:
-      - "Svc.Todos/**"
-      - "todos-api.dockerfile"
+      - "Source/Svc.Todos/**"
+      - "Source/todos-api.dockerfile"
       - ".github/**"
   pull_request:
     branches: [ main ]
     paths:
-      - "Svc.Todos/**"
-      - "todos-api.dockerfile"
+      - "Source/Svc.Todos/**"
+      - "Source/todos-api.dockerfile"
       - ".github/**"
 
 jobs:
@@ -21,4 +21,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build --file todos-api.dockerfile .
+      run: docker build --file Source/todos-api.dockerfile .
