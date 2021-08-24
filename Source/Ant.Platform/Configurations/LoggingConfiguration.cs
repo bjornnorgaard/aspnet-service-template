@@ -5,9 +5,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using Serilog.Exceptions;
-using Serilog.Exceptions.Core;
-using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
 using Serilog.Sinks.Elasticsearch;
 
 namespace Ant.Platform.Configurations
@@ -31,9 +28,6 @@ namespace Ant.Platform.Configurations
                 .ReadFrom.Configuration(configuration)
                 .Enrich.WithProperty("Application", options.ApplicationName)
                 .Enrich.WithProperty("Environment", Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"))
-                .Enrich.WithExceptionDetails(new DestructuringOptionsBuilder()
-                    .WithDefaultDestructurers()
-                    .WithDestructurers(new[] {new DbUpdateExceptionDestructurer()}))
                 .WriteTo.Console()
                 .WriteTo.Elasticsearch(esOptions)
                 .CreateLogger();
