@@ -2,8 +2,8 @@ version: '3.7'
 
 services: 
 
-  todo-api:
-    image: ursu/ant-todo-api:latest
+  todos-api:
+    image: ursu/ant-todos-api:latest
     build:
       context: .
       dockerfile: todos-api.dockerfile
