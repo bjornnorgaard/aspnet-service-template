@@ -14,6 +14,6 @@ namespace Ant.Todos.Api
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .UsePlatformLogger()
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+                .ConfigureWebHostDefaults(builder => builder.UseStartup<Startup>());
     }
 }
