@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using Svc.Platform.Options;
+using Ant.Platform.Options;
 
-namespace Svc.Platform.Configurations
+namespace Ant.Platform.Configurations
 {
     internal static class SwaggerConfiguration
     {

@@ -1,4 +1,4 @@
-﻿namespace Svc.Platform.Exceptions
+﻿namespace Ant.Platform.Exceptions
 {
     public enum PlatformError
     {

@@ -1,5 +1,5 @@
+using System.Net;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Xunit;
 
 namespace Svc.Todos.Tests.Integration.Middleware
@@ -20,7 +20,7 @@ namespace Svc.Todos.Tests.Integration.Middleware
             var content = await result.Content.ReadAsStringAsync();
 
             // Assert
-            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
             content.Should().Contain("Healthy");
         }
     }

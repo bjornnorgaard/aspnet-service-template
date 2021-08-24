@@ -1,11 +1,11 @@
-﻿using Svc.Platform.Hangfire;
+﻿using Ant.Platform.Hangfire;
 using Hangfire;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Svc.Platform.Options;
+using Ant.Platform.Options;
 
-namespace Svc.Platform.Configurations
+namespace Ant.Platform.Configurations
 {
     public static class HangfireConfiguration
     {

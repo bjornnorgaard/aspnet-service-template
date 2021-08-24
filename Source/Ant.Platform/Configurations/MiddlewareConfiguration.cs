@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Svc.Platform.Middleware;
+using Ant.Platform.Middleware;
 
-namespace Svc.Platform.Configurations
+namespace Ant.Platform.Configurations
 {
     public static class MiddlewareConfiguration
     {

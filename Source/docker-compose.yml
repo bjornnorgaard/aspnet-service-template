@@ -6,7 +6,7 @@ services:
     image: ursu/ant-todo-api:latest
     build:
       context: .
-      dockerfile: Dockerfile.todo-api
+      dockerfile: todo-api.dockerfile
     ports:
       - 5001:80
     environment: 
@@ -29,8 +29,8 @@ services:
       SA_PASSWORD: "Your_password123"
       ACCEPT_EULA: "Y"
     volumes:
-      - ./Ant.Todo.Data/mssqlserver/mssql/data:/var/opt/mssql/data
-      - ./Ant.Todo.Data/mssqlserver/sqlserver:/var/opt/mssqlserver
+      - ./Svc.Todos.Data/mssqlserver/mssql/data:/var/opt/mssql/data
+      - ./Svc.Todos.Data/mssqlserver/sqlserver:/var/opt/mssqlserver
 
   apm-server:
     image: docker.elastic.co/apm/apm-server:7.9.1
@@ -78,4 +78,4 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ./Ant.Todo.Data/elasticsearch/data:/usr/share/elasticsearch/data
+      - ./Svc.Todos.Data/elasticsearch/data:/usr/share/elasticsearch/data

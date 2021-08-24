@@ -4,10 +4,10 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Serilog;
-using Svc.Platform.Exceptions;
-using Svc.Platform.Options;
+using Ant.Platform.Exceptions;
+using Ant.Platform.Options;
 
-namespace Svc.Platform
+namespace Ant.Platform
 {
     internal static class ConfigurationValidator
     {

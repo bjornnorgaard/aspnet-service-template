@@ -5,9 +5,9 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using Svc.Platform.Exceptions;
+using Ant.Platform.Exceptions;
 
-namespace Svc.Platform.Filters
+namespace Ant.Platform.Filters
 {
     public class ExceptionFilter : IExceptionFilter
     {

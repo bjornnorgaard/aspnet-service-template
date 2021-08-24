@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace Svc.Platform.Options
+namespace Ant.Platform.Options
 {
     public class ElasticApm : AbstractOptions
     {

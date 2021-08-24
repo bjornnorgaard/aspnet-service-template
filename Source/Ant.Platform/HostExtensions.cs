@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace Svc.Platform
+namespace Ant.Platform
 {
     public static class HostExtensions
     {

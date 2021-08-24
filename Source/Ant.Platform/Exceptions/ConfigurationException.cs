@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Svc.Platform.Exceptions
+namespace Ant.Platform.Exceptions
 {
     internal class ConfigurationException : Exception
     {

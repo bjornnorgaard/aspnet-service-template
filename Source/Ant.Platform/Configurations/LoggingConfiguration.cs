@@ -5,9 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
-using Svc.Platform.Options;
+using Ant.Platform.Options;
 
-namespace Svc.Platform.Configurations
+namespace Ant.Platform.Configurations
 {
     public static class LoggingConfiguration
     {

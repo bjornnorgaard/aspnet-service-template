@@ -7,7 +7,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Svc.Platform.Exceptions;
+using Ant.Platform.Exceptions;
 using Svc.Todos.Api.Database;
 using Svc.Todos.Api.Database.Configurations;
 

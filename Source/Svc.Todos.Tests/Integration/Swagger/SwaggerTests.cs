@@ -1,5 +1,5 @@
+using System.Net;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Xunit;
 
 namespace Svc.Todos.Tests.Integration.Swagger
@@ -19,7 +19,7 @@ namespace Svc.Todos.Tests.Integration.Swagger
             var result = await Client.GetAsync("swagger/v1/swagger.json");
 
             // Assert
-            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
         }
     }
 }

@@ -353,4 +353,4 @@ MigrationBackup/
 **/.idea/
 
 # Docker data folders
-Ant.Todo.Data/
+Svc.Todos.Data/

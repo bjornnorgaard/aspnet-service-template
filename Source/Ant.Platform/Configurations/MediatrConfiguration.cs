@@ -2,9 +2,9 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Svc.Platform.PipelineBehaviors;
+using Ant.Platform.PipelineBehaviors;
 
-namespace Svc.Platform.Configurations
+namespace Ant.Platform.Configurations
 {
     public static class MediatrConfiguration
     {
