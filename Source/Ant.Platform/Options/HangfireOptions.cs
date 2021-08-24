@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Ant.Platform.Options
+namespace Svc.Platform.Options
 {
     public class HangfireOptions : AbstractOptions
     {

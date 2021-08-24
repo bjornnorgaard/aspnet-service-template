@@ -1,8 +1,8 @@
-﻿using Ant.Platform.Configurations;
-using Hangfire;
+﻿using Hangfire;
 using MediatR;
+using Svc.Platform.Configurations;
 
-namespace Ant.Platform.Hangfire
+namespace Svc.Platform.Hangfire
 {
     public static class HangfireMediatorExtensions
     {

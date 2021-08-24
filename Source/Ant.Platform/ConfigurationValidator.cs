@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Ant.Platform.Exceptions;
-using Ant.Platform.Options;
 using Microsoft.Extensions.Configuration;
 using Serilog;
+using Svc.Platform.Exceptions;
+using Svc.Platform.Options;
 
-namespace Ant.Platform
+namespace Svc.Platform
 {
     internal static class ConfigurationValidator
     {

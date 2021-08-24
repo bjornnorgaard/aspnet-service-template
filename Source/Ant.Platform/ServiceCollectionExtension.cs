@@ -1,12 +1,12 @@
 ﻿using System.Reflection;
-using Ant.Platform.Configurations;
-using Ant.Platform.Filters;
+using Svc.Platform.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Svc.Platform.Filters;
 
-namespace Ant.Platform
+namespace Svc.Platform
 {
     public static class ServiceCollectionExtension
     {

@@ -5,7 +5,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Ant.Platform.PipelineBehaviors
+namespace Svc.Platform.PipelineBehaviors
 {
     public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {

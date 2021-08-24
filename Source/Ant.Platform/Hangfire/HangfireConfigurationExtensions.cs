@@ -1,7 +1,7 @@
 ﻿using Hangfire;
 using Newtonsoft.Json;
 
-namespace Ant.Platform.Hangfire
+namespace Svc.Platform.Hangfire
 {
     public static class HangfireConfigurationExtensions
     {

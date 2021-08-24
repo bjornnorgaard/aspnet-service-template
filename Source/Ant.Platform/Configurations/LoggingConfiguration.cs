@@ -1,13 +1,13 @@
 ﻿using System;
-using Ant.Platform.Options;
 using Elastic.Apm.NetCoreAll;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
+using Svc.Platform.Options;
 
-namespace Ant.Platform.Configurations
+namespace Svc.Platform.Configurations
 {
     public static class LoggingConfiguration
     {

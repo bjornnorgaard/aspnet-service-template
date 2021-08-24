@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 
-namespace Ant.Platform.Configurations
+namespace Svc.Platform.Configurations
 {
     public class MediatorHangfireBridge
     {

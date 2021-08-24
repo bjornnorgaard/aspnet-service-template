@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ant.Todos.Api", "Ant.Todos.Api\Ant.Todos.Api.csproj", "{2F93A5E4-458E-4F42-B3C6-FEF0D7BAA709}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svc.Todos.Api", "Svc.Todos.Api\Svc.Todos.Api.csproj", "{2F93A5E4-458E-4F42-B3C6-FEF0D7BAA709}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ant.Platform", "Ant.Platform\Ant.Platform.csproj", "{D6C602B5-00B6-4D5F-A195-4BFEE7682E14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ant.Todos.Tests", "Ant.Todos.Tests\Ant.Todos.Tests.csproj", "{CEF5B33E-0C56-4B75-9397-B6CA159BC134}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svc.Todos.Tests", "Svc.Todos.Tests\Svc.Todos.Tests.csproj", "{CEF5B33E-0C56-4B75-9397-B6CA159BC134}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

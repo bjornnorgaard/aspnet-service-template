@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Ant.Platform.Configurations
+namespace Svc.Platform.Configurations
 {
     public static class CorsConfiguration
     {

@@ -1,13 +1,13 @@
 ﻿using System;
-using Ant.Platform.Exceptions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using Svc.Platform.Exceptions;
 
-namespace Ant.Platform.Filters
+namespace Svc.Platform.Filters
 {
     public class ExceptionFilter : IExceptionFilter
     {

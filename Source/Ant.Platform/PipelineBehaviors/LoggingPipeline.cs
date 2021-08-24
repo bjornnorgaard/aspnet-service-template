@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Ant.Platform.PipelineBehaviors
+namespace Svc.Platform.PipelineBehaviors
 {
     public class LoggingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {

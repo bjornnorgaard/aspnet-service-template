@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
-using Ant.Platform.PipelineBehaviors;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Svc.Platform.PipelineBehaviors;
 
-namespace Ant.Platform.Configurations
+namespace Svc.Platform.Configurations
 {
     public static class MediatrConfiguration
     {
