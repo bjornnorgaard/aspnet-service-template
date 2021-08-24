@@ -6,11 +6,13 @@ on:
     paths:
       - "Svc.Todos/**"
       - "todos-api.dockerfile"
+      - ".github/**"
   pull_request:
     branches: [ main ]
     paths:
       - "Svc.Todos/**"
       - "todos-api.dockerfile"
+      - ".github/**"
 
 jobs:
   build:
