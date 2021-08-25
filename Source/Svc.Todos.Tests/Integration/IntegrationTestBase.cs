@@ -8,7 +8,7 @@ namespace Svc.Todos.Tests.Integration
     [Collection("IntegrationTests")]
     public abstract class IntegrationTestBase : IDisposable
     {
-        public TodoContext TodoContext { get; set; }
+        public TodoContext Context { get; set; }
         public HttpClient Client { get; set; }
 
         /// <summary>
@@ -18,7 +18,7 @@ namespace Svc.Todos.Tests.Integration
         public IntegrationTestBase(IntegrationTestFixture fixture)
         {
             Client = fixture.Client;
-            TodoContext = fixture.TodoContext;
+            Context = fixture.TodoContext;
         }
 
         /// <summary>

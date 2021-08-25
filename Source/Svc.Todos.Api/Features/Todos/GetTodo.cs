@@ -3,11 +3,11 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using Ant.Platform.Exceptions;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Ant.Platform.Exceptions;
 using Svc.Todos.Api.Database;
 using Svc.Todos.Api.Database.Configurations;
 
@@ -23,7 +23,7 @@ namespace Svc.Todos.Api.Features.Todos
 
         public class Result
         {
-            public TodoViewModel TodoViewModel { get; set; }
+            public TodoViewModel Todo { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -59,7 +59,7 @@ namespace Svc.Todos.Api.Features.Todos
                 if (todo == null) throw new PlatformException(PlatformError.TodoNotFound);
 
                 var mapped = _mapper.Map<TodoViewModel>(todo);
-                var result = new Result { TodoViewModel = mapped };
+                var result = new Result { Todo = mapped };
 
                 return result;
             }

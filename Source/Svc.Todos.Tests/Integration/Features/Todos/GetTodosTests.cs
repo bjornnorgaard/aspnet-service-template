@@ -19,8 +19,7 @@ namespace Svc.Todos.Tests.Integration.Features.Todos
             var command = new GetTodos.Command();
 
             // Act
-            var todosGetTodos = Routes.Todos.GetTodos;
-            var response = await Client.PostAsJsonAsync(todosGetTodos, command);
+            var response = await Client.PostAsJsonAsync(Routes.Todos.GetTodos, command);
             var content = await response.Content.ReadFromJsonAsync<GetTodos.Result>();
 
             // Assert

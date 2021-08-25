@@ -1,11 +1,11 @@
 ﻿using System;
+using Ant.Platform.Exceptions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using Ant.Platform.Exceptions;
 
 namespace Ant.Platform.Filters
 {
@@ -24,7 +24,7 @@ namespace Ant.Platform.Filters
             {
                 case PlatformException e:
                     _logger.LogWarning(e, e.Message);
-                    context.Result = e.ToResponseObject();
+                    context.Result = e.ToBadRequestObjectResponse();
                     break;
                 case ValidationException e:
                     var validationResult = new ValidationResult(e.Errors);
