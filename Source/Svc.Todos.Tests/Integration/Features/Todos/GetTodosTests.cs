@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using FluentAssertions;
+using Svc.Todos.Api.Controllers;
 using Svc.Todos.Api.Features.Todos;
 using Xunit;
 
@@ -18,7 +19,8 @@ namespace Svc.Todos.Tests.Integration.Features.Todos
             var command = new GetTodos.Command();
 
             // Act
-            var response = await Client.PostAsJsonAsync("todos/get-todos", command);
+            var todosGetTodos = Routes.Todos.GetTodos;
+            var response = await Client.PostAsJsonAsync(todosGetTodos, command);
             var content = await response.Content.ReadFromJsonAsync<GetTodos.Result>();
 
             // Assert

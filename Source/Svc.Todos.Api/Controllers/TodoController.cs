@@ -1,15 +1,14 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Ant.Platform.Hangfire;
-using Svc.Todos.Api.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Svc.Todos.Api.Authentication;
 using Svc.Todos.Api.Features.Todos;
 
 namespace Svc.Todos.Api.Controllers
 {
     [ApiController]
-    [Route("todos")]
     public class TodoController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -19,7 +18,7 @@ namespace Svc.Todos.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("get-todo")]
+        [HttpPost(Routes.Todos.GetTodo)]
         public async Task<GetTodo.Result> GetTodo(
             [FromBody] GetTodo.Command command,
             CancellationToken ct)
@@ -28,7 +27,7 @@ namespace Svc.Todos.Api.Controllers
             return await _mediator.Send(command, ct);
         }
 
-        [HttpPost("get-todos")]
+        [HttpPost(Routes.Todos.GetTodos)]
         public async Task<GetTodos.Result> GetTodos(
             [FromBody] GetTodos.Command command,
             CancellationToken ct)
@@ -37,7 +36,7 @@ namespace Svc.Todos.Api.Controllers
             return await _mediator.Send(command, ct);
         }
 
-        [HttpPost("create-todo")]
+        [HttpPost(Routes.Todos.CreateTodo)]
         public async Task<CreateTodo.Result> CreateTodo(
             [FromBody] CreateTodo.Command command,
             CancellationToken ct)
@@ -46,7 +45,7 @@ namespace Svc.Todos.Api.Controllers
             return await _mediator.Send(command, ct);
         }
 
-        [HttpPost("update-todo")]
+        [HttpPost(Routes.Todos.UpdateTodo)]
         public async Task<UpdateTodo.Result> UpdateTodo(
             [FromBody] UpdateTodo.Command command,
             CancellationToken ct)
@@ -55,7 +54,7 @@ namespace Svc.Todos.Api.Controllers
             return await _mediator.Send(command, ct);
         }
 
-        [HttpPost("delete-todo")]
+        [HttpPost(Routes.Todos.DeleteTodo)]
         public AcceptedResult DeleteTodo(
             [FromBody] DeleteTodo.Command command)
         {
