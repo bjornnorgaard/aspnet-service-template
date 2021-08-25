@@ -4,13 +4,13 @@ on:
   push:
     branches: [ main ]
     paths:
-      - "Source/Svc.Todos/**"
+      - "Source/Svc.Todos.*/**"
       - "Source/todos-api.dockerfile"
       - ".github/**"
   pull_request:
     branches: [ main ]
     paths:
-      - "Source/Svc.Todos/**"
+      - "Source/Svc.Todos.*/**"
       - "Source/todos-api.dockerfile"
       - ".github/**"
 
