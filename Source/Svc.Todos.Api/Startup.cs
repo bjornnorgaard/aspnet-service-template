@@ -1,13 +1,13 @@
+using Ant.Platform;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Ant.Platform;
 using Svc.Todos.Api.Database;
 using Svc.Todos.Api.Options;
 
-namespace Ant.Todos.Api
+namespace Svc.Todos.Api
 {
     public class Startup
     {
