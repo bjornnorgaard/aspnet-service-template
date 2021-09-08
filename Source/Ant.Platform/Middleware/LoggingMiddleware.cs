@@ -19,17 +19,19 @@ namespace Ant.Platform.Middleware
         public async Task Invoke(HttpContext context)
         {
             var sw = Stopwatch.StartNew();
-            
             await _next.Invoke(context);
+            sw.Stop();
+
+            var statusCode = context.Response.StatusCode;
 
             if (context.Request.Method == "OPTIONS") return;
-            
+
             var level = LogLevel.Information;
             if (399 < context.Response.StatusCode) level = LogLevel.Warning;
-            if (499 <  context.Response.StatusCode) level = LogLevel.Error;
+            if (499 < context.Response.StatusCode) level = LogLevel.Error;
 
             var template = "HTTP {Path} responded {StatusCode} in {ElapsedMilliseconds} ms";
-            _logger.Log(level, template, context.Request.Path, context.Response.StatusCode, sw.ElapsedMilliseconds);
+            _logger.Log(level, template, context.Request.Path, statusCode, sw.ElapsedMilliseconds);
         }
     }
 }
