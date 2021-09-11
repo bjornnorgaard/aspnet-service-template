@@ -18,6 +18,7 @@ services:
       LoggingOptions__ElasticSearchUrl: "http://elasticsearch:9200"
       ElasticApm__ServiceName: "Ant Todo Api Docker"
       ElasticApm__ServerUrls: "http://apm-server:8200"
+      Serilog__MinimumLevel__Override__Elastic.Apm: "Error"
     depends_on: 
       - mssqlserver
 
@@ -33,7 +34,7 @@ services:
       - ./Svc.Todos.Data/mssqlserver/sqlserver:/var/opt/mssqlserver
 
   apm-server:
-    image: docker.elastic.co/apm/apm-server:7.9.1
+    image: docker.elastic.co/apm/apm-server:7.14.1
     ports:
       - "8200:8200"    
     depends_on:
@@ -51,7 +52,7 @@ services:
           -E output.elasticsearch.hosts=["elasticsearch:9200"]
     
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.9.1
+    image: docker.elastic.co/kibana/kibana:7.14.1
     ports:
       - "5601:5601"
     depends_on: 
@@ -62,7 +63,7 @@ services:
       elasticsearch.password: changeme
       
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.1
     ports:
       - "9200:9200"
       - "9300:9300"
