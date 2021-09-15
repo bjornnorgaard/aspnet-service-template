@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
 using Ant.Platform.Configurations;
+using Ant.Platform.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using Ant.Platform.Filters;
 
 namespace Ant.Platform
 {
@@ -16,9 +16,9 @@ namespace Ant.Platform
             Assembly assembly)
         {
             services.AddPlatformLogging(configuration);
-            
+
             Log.Information("Adding platform services...");
-            
+
             configuration.ValidatePlatformConfiguration();
 
             services.AddMemoryCache();
@@ -28,26 +28,28 @@ namespace Ant.Platform
             services.AddPlatformMediatr(assembly);
             services.AddPlatformSwagger(configuration);
             services.AddPlatformHangfire(configuration);
-            
+            services.AddPlatformAuthentication(configuration);
+
             Log.Information("Platform services added");
         }
 
         public static void UsePlatformServices(this IApplicationBuilder app, IConfiguration configuration)
         {
             Log.Information("Setting up platform pipeline...");
-            
+
             app.UsePlatformLogging(configuration);
             app.UsePlatformSwagger(configuration);
             app.UsePlatformMiddleware();
             app.UseRouting();
             app.UseCorsPolicy();
+            app.UsePlatformAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
                 endpoints.MapHealthChecks("/hc");
                 endpoints.EnabledHangfireDashboard();
             });
-            
+
             Log.Information("Platform successfully started");
         }
     }

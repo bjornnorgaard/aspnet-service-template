@@ -6,8 +6,8 @@ namespace Ant.Platform.Exceptions
     internal class ConfigurationException : Exception
     {
         public List<string> MissingConfigurations { get; }
-        
-        public ConfigurationException(List<string> invalidConfigurations) 
+
+        public ConfigurationException(List<string> invalidConfigurations)
             : base($"Found missing configurations, check {nameof(MissingConfigurations)} property for details.")
         {
             MissingConfigurations = invalidConfigurations;

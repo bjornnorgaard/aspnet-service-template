@@ -26,12 +26,12 @@ namespace Ant.Platform.PipelineBehaviors
             {
                 var template = "Beginning {FeatureName} {@FeatureCommand}";
                 _logger.LogInformation(template, featureName, req);
-                
+
                 var result = await next();
-                
+
                 template = "Completed {FeatureName} {@FeatureResult} in {FeatureElapsedMilliseconds} ms";
                 _logger.LogInformation(template, featureName, result, sw.ElapsedMilliseconds);
-            
+
                 return result;
             }
             catch (Exception e)

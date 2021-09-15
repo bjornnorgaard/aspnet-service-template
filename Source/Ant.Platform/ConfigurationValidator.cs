@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Extensions.Configuration;
-using Serilog;
 using Ant.Platform.Exceptions;
 using Ant.Platform.Options;
+using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace Ant.Platform
 {
@@ -38,12 +38,12 @@ namespace Ant.Platform
                     invalidConfigurations.Add($"{optionType.Name}:{prop}");
                 }
             }
-            
+
             if (invalidConfigurations.Any())
             {
                 var errorMessage = string.Join("\n\t", invalidConfigurations);
                 Log.Error($"Application has missing values for these configurations:\n\t{errorMessage}");
-                
+
                 throw new ConfigurationException(invalidConfigurations);
             }
         }

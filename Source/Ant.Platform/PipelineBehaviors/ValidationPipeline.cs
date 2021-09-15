@@ -21,7 +21,7 @@ namespace Ant.Platform.PipelineBehaviors
         }
 
         public async Task<TResponse> Handle(
-            TRequest request, 
+            TRequest request,
             CancellationToken cancellationToken,
             RequestHandlerDelegate<TResponse> next)
         {
