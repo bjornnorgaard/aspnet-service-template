@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Ant.Platform.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -33,6 +34,11 @@ namespace Ant.Platform.PipelineBehaviors
                 _logger.LogInformation(template, featureName, result, sw.ElapsedMilliseconds);
 
                 return result;
+            }
+            catch (PlatformException)
+            {
+                // Not an issue.
+                throw;
             }
             catch (Exception e)
             {
