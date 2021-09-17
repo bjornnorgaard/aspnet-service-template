@@ -1,11 +1,12 @@
 ﻿using System;
+using Ant.Platform.Options;
+using Destructurama;
 using Elastic.Apm.NetCoreAll;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
-using Ant.Platform.Options;
 
 namespace Ant.Platform.Configurations
 {
@@ -28,6 +29,7 @@ namespace Ant.Platform.Configurations
                 .ReadFrom.Configuration(configuration)
                 .Enrich.WithProperty("Application", options.ApplicationName)
                 .Enrich.WithProperty("Environment", Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"))
+                .Destructure.UsingAttributes()
                 .WriteTo.Console()
                 .WriteTo.Elasticsearch(esOptions)
                 .CreateLogger();
