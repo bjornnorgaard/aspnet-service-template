@@ -28,7 +28,6 @@ namespace Ant.Platform
             services.AddPlatformMediatr(assembly);
             services.AddPlatformSwagger(configuration);
             services.AddPlatformHangfire(configuration);
-            services.AddPlatformAuthentication(configuration);
 
             Log.Information("Platform services added");
         }
@@ -42,7 +41,6 @@ namespace Ant.Platform
             app.UsePlatformMiddleware();
             app.UseRouting();
             app.UseCorsPolicy();
-            app.UsePlatformAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
