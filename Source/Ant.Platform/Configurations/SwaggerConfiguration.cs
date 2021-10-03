@@ -17,7 +17,12 @@ namespace Ant.Platform.Configurations
             {
                 c.CustomSchemaIds(t =>
                 {
-                    if (t.FullName.Contains("+"))
+                    if (string.IsNullOrWhiteSpace(t.FullName))
+                    {
+                        return t.Name;
+                    }
+
+                    if (t.FullName.Contains('+'))
                     {
                         return t.FullName.Split(".").Last().Replace("+", "");
                     }

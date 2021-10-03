@@ -21,7 +21,7 @@ namespace Ant.Platform.PipelineBehaviors
         public async Task<TResponse> Handle(TRequest req, CancellationToken ct, RequestHandlerDelegate<TResponse> next)
         {
             var sw = Stopwatch.StartNew();
-            var featureName = req.GetType().FullName?.Split(".").Last().Split("+").First();
+            var featureName = req?.GetType().FullName?.Split(".").Last().Split("+").First();
 
             try
             {
