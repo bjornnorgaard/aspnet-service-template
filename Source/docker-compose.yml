@@ -30,8 +30,8 @@ services:
       SA_PASSWORD: "Your_password123"
       ACCEPT_EULA: "Y"
     volumes:
-      - ./Svc.Todos.Data/mssqlserver/mssql/data:/var/opt/mssql/data
-      - ./Svc.Todos.Data/mssqlserver/sqlserver:/var/opt/mssqlserver
+      - ./Ant.Volumes/mssqlserver/mssql/data:/var/opt/mssql/data
+      - ./Ant.Volumes/mssqlserver/sqlserver:/var/opt/mssqlserver
 
   apm-server:
     image: docker.elastic.co/apm/apm-server:7.14.1
@@ -79,4 +79,4 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ./Svc.Todos.Data/elasticsearch/data:/usr/share/elasticsearch/data
+      - ./Ant.Volumes/elasticsearch/data:/usr/share/elasticsearch/data
