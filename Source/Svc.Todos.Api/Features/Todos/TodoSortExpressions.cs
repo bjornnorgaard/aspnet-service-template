@@ -11,10 +11,10 @@ namespace Svc.Todos.Api.Features.Todos
         {
             return propertyName?.Pascalize() switch
             {
-                nameof(TodoViewModel.Id) => todo => todo.Id,
-                nameof(TodoViewModel.Title) => todo => todo.Title,
-                nameof(TodoViewModel.Description) => todo => todo.Description,
-                nameof(TodoViewModel.IsCompleted) => todo => todo.IsCompleted,
+                nameof(TodoDto.Id) => todo => todo.Id,
+                nameof(TodoDto.Title) => todo => todo.Title,
+                nameof(TodoDto.Description) => todo => todo.Description,
+                nameof(TodoDto.IsCompleted) => todo => todo.IsCompleted,
                 _ => todo => todo.Id
             };
         }

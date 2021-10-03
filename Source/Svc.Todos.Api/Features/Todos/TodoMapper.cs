@@ -7,7 +7,7 @@ namespace Svc.Todos.Api.Features.Todos
     {
         public TodoMapper()
         {
-            CreateMap<Todo, TodoViewModel>();
+            CreateMap<Todo, TodoDto>();
 
             CreateMap<UpdateTodo.Command, Todo>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());

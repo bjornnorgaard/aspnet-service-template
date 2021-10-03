@@ -20,13 +20,13 @@ namespace Svc.Todos.Api.Features.Todos
             public int PageNumber { get; set; } = 0;
             public int PageSize { get; set; } = 10;
             [JsonIgnore] public string UserId { get; set; }
-            public string SortProperty { get; set; } = nameof(TodoViewModel.Id);
+            public string SortProperty { get; set; } = nameof(TodoDto.Id);
             public SortOrder SortOrder { get; set; } = SortOrder.None;
         }
 
         public class Result
         {
-            public List<TodoViewModel> Todos { get; set; }
+            public List<TodoDto> Todos { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -68,7 +68,7 @@ namespace Svc.Todos.Api.Features.Todos
                     .Take(request.PageSize)
                     .ToListAsync(ct);
 
-                var mapped = _mapper.Map<List<TodoViewModel>>(todos);
+                var mapped = _mapper.Map<List<TodoDto>>(todos);
                 var result = new Result { Todos = mapped };
 
                 return result;

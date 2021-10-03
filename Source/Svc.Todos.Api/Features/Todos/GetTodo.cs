@@ -23,7 +23,7 @@ namespace Svc.Todos.Api.Features.Todos
 
         public class Result
         {
-            public TodoViewModel Todo { get; set; }
+            public TodoDto Todo { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -58,7 +58,7 @@ namespace Svc.Todos.Api.Features.Todos
 
                 if (todo == null) throw new PlatformException(PlatformError.TodoNotFound);
 
-                var mapped = _mapper.Map<TodoViewModel>(todo);
+                var mapped = _mapper.Map<TodoDto>(todo);
                 var result = new Result { Todo = mapped };
 
                 return result;

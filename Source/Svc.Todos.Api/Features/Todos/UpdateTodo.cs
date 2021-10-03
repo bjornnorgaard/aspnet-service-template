@@ -3,11 +3,11 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using Ant.Platform.Exceptions;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Ant.Platform.Exceptions;
 using Svc.Todos.Api.Database;
 using Svc.Todos.Api.Database.Configurations;
 
@@ -26,7 +26,7 @@ namespace Svc.Todos.Api.Features.Todos
 
         public class Result
         {
-            public TodoViewModel UpdatedTodo { get; set; }
+            public TodoDto UpdatedTodo { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -70,7 +70,7 @@ namespace Svc.Todos.Api.Features.Todos
 
                 await _todoContext.SaveChangesAsync(ct);
 
-                var mapped = _mapper.Map<TodoViewModel>(todo);
+                var mapped = _mapper.Map<TodoDto>(todo);
                 var result = new Result { UpdatedTodo = mapped };
                 return result;
             }
