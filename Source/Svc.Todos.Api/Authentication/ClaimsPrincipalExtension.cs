@@ -6,7 +6,7 @@ namespace Svc.Todos.Api.Authentication
     {
         public static string GetUserId(this ClaimsPrincipal claimsPrincipal)
         {
-            return claimsPrincipal.Identity?.Name ?? "unknown";
+            return claimsPrincipal.Identity?.Name ?? "jdoe";
         }
     }
 }
