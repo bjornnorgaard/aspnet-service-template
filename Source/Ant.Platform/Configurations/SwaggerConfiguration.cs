@@ -40,8 +40,8 @@ namespace Ant.Platform.Configurations
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
+                // OpenAPI URL: http://localhost:5000/swagger/v1/swagger.json
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{options.ApplicationTitle} v1");
-                c.RoutePrefix = string.Empty;
             });
         }
     }
