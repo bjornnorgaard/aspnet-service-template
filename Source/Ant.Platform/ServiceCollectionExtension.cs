@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text.Json.Serialization;
 using Ant.Platform.Configurations;
 using Ant.Platform.Filters;
 using Microsoft.AspNetCore.Builder;
@@ -23,7 +24,11 @@ namespace Ant.Platform
 
             services.AddMemoryCache();
             services.AddCorsPolicy(configuration);
-            services.AddControllers(o => o.Filters.Add<ExceptionFilter>());
+            services.AddControllers(o => o.Filters.Add<ExceptionFilter>()).AddJsonOptions(o =>
+            {
+                o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                // o.JsonSerializerOptions.IgnoreNullValues = true; // TODO: Remove if not needed.
+            });
             services.AddHealthChecks();
             services.AddPlatformMediatr(assembly);
             services.AddPlatformSwagger(configuration);
