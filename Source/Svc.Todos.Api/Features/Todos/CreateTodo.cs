@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -22,7 +21,7 @@ namespace Svc.Todos.Api.Features.Todos
 
         public class Result
         {
-            public Guid TodoId { get; set; }
+            public TodoDto CreatedTodo { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -60,7 +59,8 @@ namespace Svc.Todos.Api.Features.Todos
                 await _todoContext.Todos.AddAsync(todo, ct);
                 await _todoContext.SaveChangesAsync(ct);
 
-                var result = new Result { TodoId = todo.Id };
+                var created = _mapper.Map<TodoDto>(todo);
+                var result = new Result { CreatedTodo = created };
                 return result;
             }
         }

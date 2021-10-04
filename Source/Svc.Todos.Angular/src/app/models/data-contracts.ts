@@ -15,8 +15,7 @@ export interface CreateTodoCommand {
 }
 
 export interface CreateTodoResult {
-  /** @format uuid */
-  todoId?: string;
+  createdTodo?: TodoDto;
 }
 
 export interface DeleteTodoCommand {
