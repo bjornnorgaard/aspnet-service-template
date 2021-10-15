@@ -25,7 +25,7 @@ namespace Svc.Todos.Tests.Unit.Features.Todos
             var result = await _uut.Handle(command, CancellationToken.None);
 
             // Assert
-            result.TodoId.Should().NotBeEmpty();
+            result.CreatedTodo.Id.Should().NotBeEmpty();
         }
     }
 }
