@@ -68,6 +68,7 @@ namespace Svc.Todos.Api.Features.Todos
 
                 if (todo == null) throw new PlatformException(PlatformError.TodoNotFound);
 
+                todo = _mapper.Map(request, todo);
                 await _todoContext.SaveChangesAsync(ct);
 
                 var mapped = _mapper.Map<TodoDto>(todo);
