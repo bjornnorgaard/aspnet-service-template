@@ -27,7 +27,6 @@ namespace Ant.Platform
             services.AddControllers(o => o.Filters.Add<ExceptionFilter>()).AddJsonOptions(o =>
             {
                 o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                // o.JsonSerializerOptions.IgnoreNullValues = true; // TODO: Remove if not needed.
             });
             services.AddHealthChecks();
             services.AddPlatformMediatr(assembly);
