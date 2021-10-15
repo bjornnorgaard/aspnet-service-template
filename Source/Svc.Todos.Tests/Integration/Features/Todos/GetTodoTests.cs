@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http.Json;
 using Ant.Platform.Exceptions;
 using FluentAssertions;
+using Humanizer;
 using Svc.Todos.Api.Controllers;
 using Svc.Todos.Api.Features.Todos;
 using Xunit;
@@ -26,7 +27,8 @@ namespace Svc.Todos.Tests.Integration.Features.Todos
             var content = await response.Content.ReadFromJsonAsync<PlatformBadRequestResponse>();
 
             // Assert
-            content.Code.Should().Be(PlatformError.TodoNotFound);
+            content.Code.Should().Be((int)PlatformError.TodoNotFound);
+            content.Message.Should().Be(PlatformError.TodoNotFound.Humanize(LetterCasing.Sentence));
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 

@@ -6,18 +6,18 @@ namespace Ant.Platform.Exceptions
 {
     public class PlatformException : Exception
     {
-        public string ErrorMessage { get; }
-        public PlatformError ErrorCode { get; }
+        private string Error { get; }
+        private PlatformError Code { get; }
 
         public PlatformException(PlatformError error) : base(error.Humanize(LetterCasing.Sentence))
         {
-            ErrorCode = error;
-            ErrorMessage = base.Message;
+            Code = error;
+            Error = base.Message;
         }
 
         public BadRequestObjectResult ToBadRequestObjectResponse()
         {
-            var response = new PlatformBadRequestResponse(ErrorCode, ErrorMessage);
+            var response = new PlatformBadRequestResponse { Code = (int)Code, Message = Error };
             var result = new BadRequestObjectResult(response);
             return result;
         }
