@@ -1,9 +1,9 @@
 ﻿using Ant.Platform.Hangfire;
+using Ant.Platform.Options;
 using Hangfire;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Ant.Platform.Options;
 
 namespace Ant.Platform.Configurations
 {

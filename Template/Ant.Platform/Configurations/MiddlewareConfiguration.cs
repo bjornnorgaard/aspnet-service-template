@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Ant.Platform.Middleware;
+﻿using Ant.Platform.Middleware;
+using Microsoft.AspNetCore.Builder;
 
 namespace Ant.Platform.Configurations
 {

@@ -3,10 +3,10 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using Ant.Platform.Exceptions;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Ant.Platform.Exceptions;
 using Svc.Todos.Api.Database;
 
 namespace Svc.Todos.Api.Features.Todos

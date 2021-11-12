@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using Ant.Platform.Options;
+﻿using Ant.Platform.Options;
+using Microsoft.Extensions.Configuration;
 
 namespace Svc.Todos.Api.Options
 {

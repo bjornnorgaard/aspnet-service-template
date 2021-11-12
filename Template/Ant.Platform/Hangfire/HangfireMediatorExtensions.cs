@@ -1,6 +1,6 @@
-﻿using Hangfire;
+﻿using Ant.Platform.Configurations;
+using Hangfire;
 using MediatR;
-using Ant.Platform.Configurations;
 
 namespace Ant.Platform.Hangfire
 {

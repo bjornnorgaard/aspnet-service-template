@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
+using Ant.Platform.PipelineBehaviors;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Ant.Platform.PipelineBehaviors;
 
 namespace Ant.Platform.Configurations
 {
