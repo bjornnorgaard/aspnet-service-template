@@ -49,7 +49,7 @@ public static class ServiceCollectionExtension
         {
             endpoints.MapControllers();
             endpoints.MapHealthChecks("/hc");
-            endpoints.EnabledHangfireDashboard();
+            endpoints.EnabledHangfireDashboard(configuration);
         });
 
         Log.Information("Platform successfully started");

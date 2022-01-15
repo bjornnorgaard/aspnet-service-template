@@ -9,9 +9,10 @@ namespace Ant.Platform.Configurations;
 
 public static class HangfireConfiguration
 {
-    public static void AddPlatformHangfire(this IServiceCollection services, IConfiguration configuration)
+    public static void AddPlatformHangfire(this IServiceCollection services, IConfiguration c)
     {
-        var options = new HangfireOptions(configuration);
+        var options = new HangfireOptions(c);
+        if (options.EnabledHangfire == false) return;
 
         services.AddHangfire(o =>
         {
@@ -22,8 +23,10 @@ public static class HangfireConfiguration
         services.AddHangfireServer();
     }
 
-    public static void EnabledHangfireDashboard(this IEndpointRouteBuilder endpoints)
+    public static void EnabledHangfireDashboard(this IEndpointRouteBuilder endpoints, IConfiguration c)
     {
+        var options = new HangfireOptions(c);
+        if (options.EnabledHangfire == false) return;
         endpoints.MapHangfireDashboard();
     }
 }

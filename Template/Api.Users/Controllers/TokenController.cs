@@ -13,6 +13,7 @@ public class TokenController : ControllerBase
         _mediator = mediator;
     }
 
+    [HttpGet("hello-world")]
     public ActionResult HelloWorld()
     {
         return Ok("Hello world");
