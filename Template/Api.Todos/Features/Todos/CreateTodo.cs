@@ -1,6 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
 using Api.Todos.Database;
 using Api.Todos.Database.Configurations;
 using Api.Todos.Database.Models;

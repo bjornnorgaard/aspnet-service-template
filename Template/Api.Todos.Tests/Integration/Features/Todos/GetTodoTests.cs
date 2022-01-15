@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Json;
 using Ant.Platform.Exceptions;
 using Api.Todos.Controllers;

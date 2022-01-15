@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Api.Todos.Database.Models
+﻿namespace Api.Todos.Database.Models
 {
     public class Todo
     {

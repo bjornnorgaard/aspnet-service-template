@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Ant.Platform.Options;
+﻿using Ant.Platform.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

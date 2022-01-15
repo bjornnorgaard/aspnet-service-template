@@ -1,5 +1,4 @@
-﻿using System;
-using Humanizer;
+﻿using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ant.Platform.Exceptions

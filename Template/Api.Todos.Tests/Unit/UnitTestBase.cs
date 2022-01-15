@@ -1,4 +1,3 @@
-using System;
 using Api.Todos.Database;
 using AutoMapper;
 using Xunit;

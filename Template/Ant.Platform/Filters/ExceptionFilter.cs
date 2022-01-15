@@ -1,5 +1,4 @@
-﻿using System;
-using Ant.Platform.Exceptions;
+﻿using Ant.Platform.Exceptions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using FluentValidation.Results;

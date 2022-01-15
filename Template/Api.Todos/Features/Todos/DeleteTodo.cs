@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 using Ant.Platform.Exceptions;
 using Api.Todos.Database;
 using FluentValidation;

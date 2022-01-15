@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 using Api.Todos.Database;
 using Api.Todos.Database.Configurations;
 using Api.Todos.Database.Extensions;

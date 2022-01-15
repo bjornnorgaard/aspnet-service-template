@@ -1,5 +1,4 @@
-﻿using System;
-using Api.Todos.Database.Configurations;
+﻿using Api.Todos.Database.Configurations;
 using Api.Todos.Features.Todos;
 using Bogus;
 

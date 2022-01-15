@@ -2,9 +2,7 @@ using Ant.Platform;
 using Api.Todos;
 using Api.Todos.Database;
 using Api.Todos.Options;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UsePlatformLogger();

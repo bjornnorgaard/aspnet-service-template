@@ -1,5 +1,4 @@
 ﻿using Ant.Platform.Options;
-using Microsoft.Extensions.Configuration;
 
 namespace Api.Todos.Options
 {

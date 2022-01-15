@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Api.Todos.Features.Todos
+﻿namespace Api.Todos.Features.Todos
 {
     public class TodoDto
     {

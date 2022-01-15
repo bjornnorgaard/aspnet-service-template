@@ -1,5 +1,4 @@
-﻿using System;
-using Ant.Platform.Options;
+﻿using Ant.Platform.Options;
 using Destructurama;
 using Elastic.Apm.NetCoreAll;
 using Microsoft.AspNetCore.Builder;

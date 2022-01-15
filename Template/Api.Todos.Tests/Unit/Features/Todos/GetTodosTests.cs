@@ -1,4 +1,3 @@
-using System.Threading;
 using Api.Todos.Features.Todos;
 using FluentAssertions;
 using Xunit;

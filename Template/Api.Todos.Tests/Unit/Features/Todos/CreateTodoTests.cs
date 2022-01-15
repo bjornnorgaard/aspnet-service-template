@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using Api.Todos.Features.Todos;
+﻿using Api.Todos.Features.Todos;
 using Api.Todos.Tests.Arrange.Todos;
 using FluentAssertions;
 using Xunit;
