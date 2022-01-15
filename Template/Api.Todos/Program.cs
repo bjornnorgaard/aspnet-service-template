@@ -21,9 +21,9 @@ services.AddPlatformServices(configuration, assembly);
 // Middleware
 var app = builder.Build();
 var scope = app.Services.CreateScope();
-var todoContext = scope.ServiceProvider.GetService<TodoContext>();
+var context = scope.ServiceProvider.GetService<TodoContext>();
 
-todoContext.Database.Migrate();
+context.Database.Migrate();
 app.UsePlatformServices(configuration);
 
 app.Run();
