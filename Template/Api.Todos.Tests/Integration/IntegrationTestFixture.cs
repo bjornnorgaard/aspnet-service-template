@@ -14,7 +14,7 @@ public class IntegrationTestFixture : IDisposable
     /// </summary>
     public IntegrationTestFixture()
     {
-        // TODO: Fix this.
+        // // TODO: Fix this.
         // var config = new ConfigurationBuilder()
         //     .AddJsonFile(GetConfigPath())
         //     .Build();
@@ -22,7 +22,7 @@ public class IntegrationTestFixture : IDisposable
         // var builder = new WebHostBuilder()
         //     .UseEnvironment("Test")
         //     .UseConfiguration(config)
-        //     .UseStartup < Startup(); // Todo: FIX THIS.
+        //     .UseStartup<Startup(); // Todo: FIX THIS.
         //
         // Server = new TestServer(builder);
         // Client = Server.CreateClient();
