@@ -1,6 +1,6 @@
 version: '3.7'
 
-services: 
+services:
 
   todos-api:
     image: ursu/ant-todos-api:latest
@@ -8,8 +8,8 @@ services:
       context: .
       dockerfile: todos-api.dockerfile
     ports:
-      - 5001:80
-    environment: 
+      - 6001:80
+    environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       DatabaseOptions__TodoDatabase: "Server=mssqlserver;Database=Todo;User=sa;Password=Your_password123;"
       HangfireOptions__ConnectionString: "Server=mssqlserver;Database=Todo;User=sa;Password=Your_password123;"
@@ -19,7 +19,27 @@ services:
       ElasticApm__ServiceName: "Ant Todo Api Docker"
       ElasticApm__ServerUrls: "http://apm-server:8200"
       Serilog__MinimumLevel__Override__Elastic.Apm: "Error"
-    depends_on: 
+    depends_on:
+      - mssqlserver
+
+  users-api:
+    image: ursu/ant-users-api:latest
+    build:
+      context: .
+      dockerfile: users-api.dockerfile
+    ports:
+      - 6002:80
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DatabaseOptions__UsersDatabase: "Server=mssqlserver;Database=Users;User=sa;Password=Your_password123;"
+      HangfireOptions__ConnectionString: "Server=mssqlserver;Database=Users;User=sa;Password=Your_password123;"
+      SwaggerOptions__ApplicationTitle: "Users Api Docker"
+      LoggingOptions__ApplicationName: "Users Api Docker"
+      LoggingOptions__ElasticSearchUrl: "http://elasticsearch:9200"
+      ElasticApm__ServiceName: "Users Api Docker"
+      ElasticApm__ServerUrls: "http://apm-server:8200"
+      Serilog__MinimumLevel__Override__Elastic.Apm: "Error"
+    depends_on:
       - mssqlserver
 
   mssqlserver:
@@ -36,32 +56,32 @@ services:
   apm-server:
     image: docker.elastic.co/apm/apm-server:7.14.1
     ports:
-      - "8200:8200"    
+      - "8200:8200"
     depends_on:
       - elasticsearch
       - kibana
-    cap_add: ["CHOWN", "DAC_OVERRIDE", "SETGID", "SETUID"]
-    cap_drop: ["ALL"]
+    cap_add: [ "CHOWN", "DAC_OVERRIDE", "SETGID", "SETUID" ]
+    cap_drop: [ "ALL" ]
     command: >
-        apm-server -e
-          -E apm-server.rum.enabled=true
-          -E setup.kibana.host=kibana:5601
-          -E setup.template.settings.index.number_of_replicas=0
-          -E apm-server.kibana.enabled=true
-          -E apm-server.kibana.host=kibana:5601
-          -E output.elasticsearch.hosts=["elasticsearch:9200"]
-    
+      apm-server -e
+        -E apm-server.rum.enabled=true
+        -E setup.kibana.host=kibana:5601
+        -E setup.template.settings.index.number_of_replicas=0
+        -E apm-server.kibana.enabled=true
+        -E apm-server.kibana.host=kibana:5601
+        -E output.elasticsearch.hosts=["elasticsearch:9200"]
+
   kibana:
     image: docker.elastic.co/kibana/kibana:7.14.1
     ports:
       - "5601:5601"
-    depends_on: 
+    depends_on:
       - elasticsearch
     environment:
       ELASTICSEARCH_URL: http://elasticsearch:9200
       elasticsearch.username: elastic
       elasticsearch.password: changeme
-      
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.14.1
     ports:
