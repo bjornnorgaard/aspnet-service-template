@@ -1,7 +1,14 @@
 using Ant.Platform;
 
-var builder = WebApplication.CreateBuilder(args);
-builder.Host.UsePlatformLogger();
-builder.Host.ConfigureWebHostDefaults(host => host.UseStartup<Startup>());
-var app = builder.Build();
-app.Run();
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        CreateHostBuilder(args).Build().Run();
+    }
+
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .UsePlatformLogger()
+            .ConfigureWebHostDefaults(builder => builder.UseStartup<Startup>());
+}
