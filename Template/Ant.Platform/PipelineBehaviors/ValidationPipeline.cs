@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace Ant.Platform.PipelineBehaviors
 {
     public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+        where TRequest : IRequest<TResponse>
     {
         private readonly IValidator<TRequest> _validator;
         private readonly ILogger<ValidationPipeline<TRequest, TResponse>> _logger;

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 namespace Ant.Platform.PipelineBehaviors
 {
     public class LoggingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+        where TRequest : IRequest<TResponse>
     {
         private readonly ILogger<LoggingPipeline<TRequest, TResponse>> _logger;
 
