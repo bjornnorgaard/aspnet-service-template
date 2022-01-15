@@ -1,24 +1,23 @@
 ﻿using AutoMapper;
 using Xunit;
 
-namespace Api.Todos.Tests.Unit.Features.Todos
+namespace Api.Todos.Tests.Unit.Features.Todos;
+
+public class TodoMapperTests
 {
-    public class TodoMapperTests
+    private readonly IMapper _uut;
+
+    public TodoMapperTests()
     {
-        private readonly IMapper _uut;
+        _uut = new MapperConfiguration(c => c.AddMaps(typeof(AssemblyAnchor).Assembly)).CreateMapper();
+    }
 
-        public TodoMapperTests()
-        {
-            _uut = new MapperConfiguration(c => c.AddMaps(typeof(AssemblyAnchor).Assembly)).CreateMapper();
-        }
+    [Fact]
+    public void AssertValidConfiguration()
+    {
+        // Arrange
 
-        [Fact]
-        public void AssertValidConfiguration()
-        {
-            // Arrange
-
-            // Act + Assert
-            _uut.ConfigurationProvider.AssertConfigurationIsValid();
-        }
+        // Act + Assert
+        _uut.ConfigurationProvider.AssertConfigurationIsValid();
     }
 }

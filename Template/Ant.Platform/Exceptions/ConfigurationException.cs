@@ -1,19 +1,18 @@
-﻿namespace Ant.Platform.Exceptions
+﻿namespace Ant.Platform.Exceptions;
+
+internal class ConfigurationException : Exception
 {
-    internal class ConfigurationException : Exception
+    public List<string> MissingConfigurations { get; }
+
+    public ConfigurationException(List<string> invalidConfigurations)
+        : base($"Found missing configurations, check {nameof(MissingConfigurations)} property for details.")
     {
-        public List<string> MissingConfigurations { get; }
+        MissingConfigurations = invalidConfigurations;
 
-        public ConfigurationException(List<string> invalidConfigurations)
-            : base($"Found missing configurations, check {nameof(MissingConfigurations)} property for details.")
+        Console.WriteLine("These sections and properties are missing values:");
+        foreach (var prop in MissingConfigurations)
         {
-            MissingConfigurations = invalidConfigurations;
-
-            Console.WriteLine("These sections and properties are missing values:");
-            foreach (var prop in MissingConfigurations)
-            {
-                Console.WriteLine($"{prop}");
-            }
+            Console.WriteLine($"{prop}");
         }
     }
 }

@@ -4,26 +4,25 @@ using Api.Todos.Features.Todos;
 using FluentAssertions;
 using Xunit;
 
-namespace Api.Todos.Tests.Integration.Features.Todos
+namespace Api.Todos.Tests.Integration.Features.Todos;
+
+public class GetTodosTests : IntegrationTestBase
 {
-    public class GetTodosTests : IntegrationTestBase
+    public GetTodosTests(IntegrationTestFixture fixture) : base(fixture)
     {
-        public GetTodosTests(IntegrationTestFixture fixture) : base(fixture)
-        {
-        }
+    }
 
-        [Fact]
-        public async void ShouldReturnEmptyList_WhenDatabaseIsEmpty()
-        {
-            // Arrange
-            var command = new GetTodos.Command();
+    [Fact]
+    public async void ShouldReturnEmptyList_WhenDatabaseIsEmpty()
+    {
+        // Arrange
+        var command = new GetTodos.Command();
 
-            // Act
-            var response = await Client.PostAsJsonAsync(Routes.Todos.GetTodos, command);
-            var content = await response.Content.ReadFromJsonAsync<GetTodos.Result>();
+        // Act
+        var response = await Client.PostAsJsonAsync(Routes.Todos.GetTodos, command);
+        var content = await response.Content.ReadFromJsonAsync<GetTodos.Result>();
 
-            // Assert
-            content.Todos.Should().BeEmpty();
-        }
+        // Assert
+        content.Todos.Should().BeEmpty();
     }
 }

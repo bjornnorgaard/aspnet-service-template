@@ -7,52 +7,51 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace Ant.Platform
+namespace Ant.Platform;
+
+public static class ServiceCollectionExtension
 {
-    public static class ServiceCollectionExtension
+    public static void AddPlatformServices(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        Assembly assembly)
     {
-        public static void AddPlatformServices(
-            this IServiceCollection services,
-            IConfiguration configuration,
-            Assembly assembly)
+        services.AddPlatformLogging(configuration);
+
+        Log.Information("Adding platform services...");
+
+        configuration.ValidatePlatformConfiguration();
+
+        services.AddMemoryCache();
+        services.AddCorsPolicy(configuration);
+        services.AddControllers(o => o.Filters.Add<ExceptionFilter>()).AddJsonOptions(o =>
         {
-            services.AddPlatformLogging(configuration);
+            o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
+        services.AddHealthChecks();
+        services.AddPlatformMediatr(assembly);
+        services.AddPlatformSwagger(configuration);
+        services.AddPlatformHangfire(configuration);
 
-            Log.Information("Adding platform services...");
+        Log.Information("Platform services added");
+    }
 
-            configuration.ValidatePlatformConfiguration();
+    public static void UsePlatformServices(this IApplicationBuilder app, IConfiguration configuration)
+    {
+        Log.Information("Setting up platform pipeline...");
 
-            services.AddMemoryCache();
-            services.AddCorsPolicy(configuration);
-            services.AddControllers(o => o.Filters.Add<ExceptionFilter>()).AddJsonOptions(o =>
-            {
-                o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-            });
-            services.AddHealthChecks();
-            services.AddPlatformMediatr(assembly);
-            services.AddPlatformSwagger(configuration);
-            services.AddPlatformHangfire(configuration);
-
-            Log.Information("Platform services added");
-        }
-
-        public static void UsePlatformServices(this IApplicationBuilder app, IConfiguration configuration)
+        app.UsePlatformLogging(configuration);
+        app.UsePlatformSwagger(configuration);
+        app.UsePlatformMiddleware();
+        app.UseRouting();
+        app.UseCorsPolicy();
+        app.UseEndpoints(endpoints =>
         {
-            Log.Information("Setting up platform pipeline...");
+            endpoints.MapControllers();
+            endpoints.MapHealthChecks("/hc");
+            endpoints.EnabledHangfireDashboard();
+        });
 
-            app.UsePlatformLogging(configuration);
-            app.UsePlatformSwagger(configuration);
-            app.UsePlatformMiddleware();
-            app.UseRouting();
-            app.UseCorsPolicy();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                endpoints.MapHealthChecks("/hc");
-                endpoints.EnabledHangfireDashboard();
-            });
-
-            Log.Information("Platform successfully started");
-        }
+        Log.Information("Platform successfully started");
     }
 }

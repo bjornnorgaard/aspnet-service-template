@@ -1,9 +1,8 @@
-﻿namespace Api.Todos
+﻿namespace Api.Todos;
+
+/// <summary>
+/// Only exists to allow for assembly scanning.
+/// </summary>
+public class AssemblyAnchor
 {
-    /// <summary>
-    /// Only exists to allow for assembly scanning.
-    /// </summary>
-    public class AssemblyAnchor
-    {
-    }
 }

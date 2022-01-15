@@ -7,58 +7,57 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Api.Todos.Features.Todos
+namespace Api.Todos.Features.Todos;
+
+public class GetTodo
 {
-    public class GetTodo
+    public class Command : IRequest<Result>
     {
-        public class Command : IRequest<Result>
+        public Guid TodoId { get; set; }
+        [JsonIgnore] public string UserId { get; set; }
+    }
+
+    public class Result
+    {
+        public TodoDto Todo { get; set; }
+    }
+
+    public class Validator : AbstractValidator<Command>
+    {
+        public Validator()
         {
-            public Guid TodoId { get; set; }
-            [JsonIgnore] public string UserId { get; set; }
+            RuleFor(c => c.TodoId).NotEmpty();
+
+            RuleFor(c => c.UserId).NotEmpty()
+                .MinimumLength(TodoConstants.UserId.MinLenght)
+                .MaximumLength(TodoConstants.UserId.MaxLength);
+        }
+    }
+
+    public class Handler : IRequestHandler<Command, Result>
+    {
+        private readonly TodoContext _todoContext;
+        private readonly IMapper _mapper;
+
+        public Handler(TodoContext todoContext, IMapper mapper)
+        {
+            _todoContext = todoContext;
+            _mapper = mapper;
         }
 
-        public class Result
+        public async Task<Result> Handle(Command request, CancellationToken ct)
         {
-            public TodoDto Todo { get; set; }
-        }
+            var todo = await _todoContext.Todos.AsNoTracking()
+                .Where(t => t.Id == request.TodoId)
+                .Where(t => t.UserId == request.UserId)
+                .FirstOrDefaultAsync(ct);
 
-        public class Validator : AbstractValidator<Command>
-        {
-            public Validator()
-            {
-                RuleFor(c => c.TodoId).NotEmpty();
+            if (todo == null) throw new PlatformException(PlatformError.TodoNotFound);
 
-                RuleFor(c => c.UserId).NotEmpty()
-                    .MinimumLength(TodoConstants.UserId.MinLenght)
-                    .MaximumLength(TodoConstants.UserId.MaxLength);
-            }
-        }
+            var mapped = _mapper.Map<TodoDto>(todo);
+            var result = new Result { Todo = mapped };
 
-        public class Handler : IRequestHandler<Command, Result>
-        {
-            private readonly TodoContext _todoContext;
-            private readonly IMapper _mapper;
-
-            public Handler(TodoContext todoContext, IMapper mapper)
-            {
-                _todoContext = todoContext;
-                _mapper = mapper;
-            }
-
-            public async Task<Result> Handle(Command request, CancellationToken ct)
-            {
-                var todo = await _todoContext.Todos.AsNoTracking()
-                    .Where(t => t.Id == request.TodoId)
-                    .Where(t => t.UserId == request.UserId)
-                    .FirstOrDefaultAsync(ct);
-
-                if (todo == null) throw new PlatformException(PlatformError.TodoNotFound);
-
-                var mapped = _mapper.Map<TodoDto>(todo);
-                var result = new Result { Todo = mapped };
-
-                return result;
-            }
+            return result;
         }
     }
 }

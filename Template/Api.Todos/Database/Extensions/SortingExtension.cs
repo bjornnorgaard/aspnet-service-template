@@ -1,27 +1,26 @@
 ﻿using System.Linq.Expressions;
 
-namespace Api.Todos.Database.Extensions
+namespace Api.Todos.Database.Extensions;
+
+public static class SortingExtension
 {
-    public static class SortingExtension
+    public static IQueryable<T> SortBy<T>(this IQueryable<T> q, Expression<Func<T, object>> prop, SortOrder order)
     {
-        public static IQueryable<T> SortBy<T>(this IQueryable<T> q, Expression<Func<T, object>> prop, SortOrder order)
+        q = order switch
         {
-            q = order switch
-            {
-                SortOrder.None => q,
-                SortOrder.Asc => q.OrderBy(prop),
-                SortOrder.Desc => q.OrderByDescending(prop),
-                _ => q
-            };
+            SortOrder.None => q,
+            SortOrder.Asc => q.OrderBy(prop),
+            SortOrder.Desc => q.OrderByDescending(prop),
+            _ => q
+        };
 
-            return q;
-        }
+        return q;
     }
+}
 
-    public enum SortOrder
-    {
-        None,
-        Desc,
-        Asc,
-    }
+public enum SortOrder
+{
+    None,
+    Desc,
+    Asc,
 }

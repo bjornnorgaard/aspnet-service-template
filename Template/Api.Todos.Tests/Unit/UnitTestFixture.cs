@@ -2,35 +2,34 @@ using Api.Todos.Database;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
-namespace Api.Todos.Tests.Unit
+namespace Api.Todos.Tests.Unit;
+
+public class UnitTestFixture : IDisposable
 {
-    public class UnitTestFixture : IDisposable
+    public TodoContext TodoContext { get; set; }
+    public IMapper Mapper { get; set; }
+
+    /// <summary>
+    /// This constructor is run once before the suite starts.
+    /// </summary>
+    public UnitTestFixture()
     {
-        public TodoContext TodoContext { get; set; }
-        public IMapper Mapper { get; set; }
+        var builder = new DbContextOptionsBuilder<TodoContext>();
+        var cs = "Server=localhost;Database=Todo_UnitTest;User=sa;Password=Your_password123;";
+        builder.UseSqlServer(cs);
 
-        /// <summary>
-        /// This constructor is run once before the suite starts.
-        /// </summary>
-        public UnitTestFixture()
-        {
-            var builder = new DbContextOptionsBuilder<TodoContext>();
-            var cs = "Server=localhost;Database=Todo_UnitTest;User=sa;Password=Your_password123;";
-            builder.UseSqlServer(cs);
+        Mapper = new MapperConfiguration(c => c.AddMaps(typeof(AssemblyAnchor).Assembly)).CreateMapper();
 
-            Mapper = new MapperConfiguration(c => c.AddMaps(typeof(AssemblyAnchor).Assembly)).CreateMapper();
+        TodoContext = new TodoContext(builder.Options);
+        TodoContext.Database.Migrate();
+    }
 
-            TodoContext = new TodoContext(builder.Options);
-            TodoContext.Database.Migrate();
-        }
-
-        /// <summary>
-        /// This Dispose() method is invoked after the entire suite has completed.
-        /// </summary>
-        public void Dispose()
-        {
-            // Clear, delete, rollback, whatever.
-            TodoContext.Database.EnsureDeleted();
-        }
+    /// <summary>
+    /// This Dispose() method is invoked after the entire suite has completed.
+    /// </summary>
+    public void Dispose()
+    {
+        // Clear, delete, rollback, whatever.
+        TodoContext.Database.EnsureDeleted();
     }
 }

@@ -7,38 +7,37 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 
-namespace Ant.Platform.Configurations
+namespace Ant.Platform.Configurations;
+
+public static class LoggingConfiguration
 {
-    public static class LoggingConfiguration
+    public static void AddPlatformLogging(this IServiceCollection services, IConfiguration configuration)
     {
-        public static void AddPlatformLogging(this IServiceCollection services, IConfiguration configuration)
+        Console.WriteLine("Setting up platform logging...");
+
+        var options = new LoggingOptions(configuration);
+
+        var esOptions = new ElasticsearchSinkOptions(new Uri(options.ElasticSearchUrl))
         {
-            Console.WriteLine("Setting up platform logging...");
+            AutoRegisterTemplate = true,
+            IndexFormat = $"logstash-{DateTime.Now:yyyy.MM.dd}",
+            ModifyConnectionSettings = x => x.BasicAuthentication("elastic", "changeme")
+        };
 
-            var options = new LoggingOptions(configuration);
+        Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(configuration)
+            .Enrich.WithProperty("Application", options.ApplicationName)
+            .Enrich.WithProperty("Environment", Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"))
+            .Destructure.UsingAttributes()
+            .WriteTo.Console()
+            .WriteTo.Elasticsearch(esOptions)
+            .CreateLogger();
 
-            var esOptions = new ElasticsearchSinkOptions(new Uri(options.ElasticSearchUrl))
-            {
-                AutoRegisterTemplate = true,
-                IndexFormat = $"logstash-{DateTime.Now:yyyy.MM.dd}",
-                ModifyConnectionSettings = x => x.BasicAuthentication("elastic", "changeme")
-            };
+        Log.Information("Logger configured!");
+    }
 
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .Enrich.WithProperty("Application", options.ApplicationName)
-                .Enrich.WithProperty("Environment", Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"))
-                .Destructure.UsingAttributes()
-                .WriteTo.Console()
-                .WriteTo.Elasticsearch(esOptions)
-                .CreateLogger();
-
-            Log.Information("Logger configured!");
-        }
-
-        public static void UsePlatformLogging(this IApplicationBuilder app, IConfiguration configuration)
-        {
-            app.UseAllElasticApm(configuration);
-        }
+    public static void UsePlatformLogging(this IApplicationBuilder app, IConfiguration configuration)
+    {
+        app.UseAllElasticApm(configuration);
     }
 }

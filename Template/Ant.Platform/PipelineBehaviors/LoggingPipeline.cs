@@ -3,45 +3,44 @@ using Ant.Platform.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Ant.Platform.PipelineBehaviors
+namespace Ant.Platform.PipelineBehaviors;
+
+public class LoggingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
 {
-    public class LoggingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : IRequest<TResponse>
+    private readonly ILogger<LoggingPipeline<TRequest, TResponse>> _logger;
+
+    public LoggingPipeline(ILogger<LoggingPipeline<TRequest, TResponse>> logger)
     {
-        private readonly ILogger<LoggingPipeline<TRequest, TResponse>> _logger;
+        _logger = logger;
+    }
 
-        public LoggingPipeline(ILogger<LoggingPipeline<TRequest, TResponse>> logger)
+    public async Task<TResponse> Handle(TRequest req, CancellationToken ct, RequestHandlerDelegate<TResponse> next)
+    {
+        var sw = Stopwatch.StartNew();
+        var featureName = req?.GetType().FullName?.Split(".").Last().Split("+").First();
+
+        try
         {
-            _logger = logger;
+            var template = "Beginning {FeatureName} {@FeatureCommand}";
+            _logger.LogInformation(template, featureName, req);
+
+            var result = await next();
+
+            template = "Completed {FeatureName} {@FeatureResult} in {FeatureElapsedMilliseconds} ms";
+            _logger.LogInformation(template, featureName, result, sw.ElapsedMilliseconds);
+
+            return result;
         }
-
-        public async Task<TResponse> Handle(TRequest req, CancellationToken ct, RequestHandlerDelegate<TResponse> next)
+        catch (PlatformException)
         {
-            var sw = Stopwatch.StartNew();
-            var featureName = req?.GetType().FullName?.Split(".").Last().Split("+").First();
-
-            try
-            {
-                var template = "Beginning {FeatureName} {@FeatureCommand}";
-                _logger.LogInformation(template, featureName, req);
-
-                var result = await next();
-
-                template = "Completed {FeatureName} {@FeatureResult} in {FeatureElapsedMilliseconds} ms";
-                _logger.LogInformation(template, featureName, result, sw.ElapsedMilliseconds);
-
-                return result;
-            }
-            catch (PlatformException)
-            {
-                // Not an issue.
-                throw;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Feature threw {UnknownException}", e.GetType());
-                throw;
-            }
+            // Not an issue.
+            throw;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Feature threw {UnknownException}", e.GetType());
+            throw;
         }
     }
 }

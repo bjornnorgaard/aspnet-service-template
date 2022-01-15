@@ -1,12 +1,11 @@
 ﻿using System.Security.Claims;
 
-namespace Api.Todos.Authentication
+namespace Api.Todos.Authentication;
+
+public static class ClaimsPrincipalExtension
 {
-    public static class ClaimsPrincipalExtension
+    public static string GetUserId(this ClaimsPrincipal claimsPrincipal)
     {
-        public static string GetUserId(this ClaimsPrincipal claimsPrincipal)
-        {
-            return claimsPrincipal.Identity?.Name ?? "johndoe";
-        }
+        return claimsPrincipal.Identity?.Name ?? "johndoe";
     }
 }

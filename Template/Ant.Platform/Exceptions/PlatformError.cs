@@ -1,7 +1,6 @@
-﻿namespace Ant.Platform.Exceptions
+﻿namespace Ant.Platform.Exceptions;
+
+public enum PlatformError
 {
-    public enum PlatformError
-    {
-        TodoNotFound = 1001,
-    }
+    TodoNotFound = 1001,
 }

@@ -2,31 +2,30 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Ant.Platform.Configurations
+namespace Ant.Platform.Configurations;
+
+public static class CorsConfiguration
 {
-    public static class CorsConfiguration
+    private static readonly string _defaultPolicy = "DefaultCorsPolicy";
+
+    public static void AddCorsPolicy(this IServiceCollection services, IConfiguration configuration)
     {
-        private static readonly string _defaultPolicy = "DefaultCorsPolicy";
+        var asString = configuration.GetValue<string>("AllowedOrigins");
+        var origins = asString.Split(",");
 
-        public static void AddCorsPolicy(this IServiceCollection services, IConfiguration configuration)
+        services.AddCors(options =>
         {
-            var asString = configuration.GetValue<string>("AllowedOrigins");
-            var origins = asString.Split(",");
-
-            services.AddCors(options =>
+            options.AddPolicy(_defaultPolicy, builder =>
             {
-                options.AddPolicy(_defaultPolicy, builder =>
-                {
-                    builder.WithOrigins(origins)
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
+                builder.WithOrigins(origins)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
             });
-        }
+        });
+    }
 
-        public static void UseCorsPolicy(this IApplicationBuilder app)
-        {
-            app.UseCors(_defaultPolicy);
-        }
+    public static void UseCorsPolicy(this IApplicationBuilder app)
+    {
+        app.UseCors(_defaultPolicy);
     }
 }

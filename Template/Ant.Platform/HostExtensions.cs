@@ -1,15 +1,14 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace Ant.Platform
+namespace Ant.Platform;
+
+public static class HostExtensions
 {
-    public static class HostExtensions
+    public static IHostBuilder UsePlatformLogger(this IHostBuilder builder)
     {
-        public static IHostBuilder UsePlatformLogger(this IHostBuilder builder)
-        {
-            builder.UseSerilog();
+        builder.UseSerilog();
             
-            return builder;
-        }
+        return builder;
     }
 }
