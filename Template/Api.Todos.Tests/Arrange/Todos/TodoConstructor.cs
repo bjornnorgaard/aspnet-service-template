@@ -1,5 +1,4 @@
 using Api.Todos.Database;
-using Api.Todos.Database.Configurations;
 using Api.Todos.Database.Models;
 using Bogus;
 
@@ -16,7 +15,7 @@ internal static class TodoConstructor
             todo = new Todo
             {
                 Title = faker.Commerce.ProductName(),
-                Description = faker.Commerce.ProductDescription().Remove(TodoConstants.Description.MaxLength),
+                Description = faker.Commerce.ProductAdjective(),
                 UserId = Guid.NewGuid().ToString(),
                 IsCompleted = false,
             };

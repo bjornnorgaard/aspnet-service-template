@@ -1,5 +1,4 @@
-﻿using Api.Todos.Database.Configurations;
-using Api.Todos.Features.Todos;
+﻿using Api.Todos.Features.Todos;
 using Bogus;
 
 namespace Api.Todos.Tests.Arrange.Todos;
@@ -13,7 +12,7 @@ internal static class CreateTodoConstructor
         var createTodoCommand = new CreateTodo.Command
         {
             Title = faker.Commerce.ProductName(),
-            Description = faker.Commerce.ProductDescription().Remove(TodoConstants.Description.MaxLength - 1),
+            Description = faker.Commerce.ProductAdjective(),
             UserId = Guid.NewGuid().ToString()
         };
 

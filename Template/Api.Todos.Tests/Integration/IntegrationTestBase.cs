@@ -1,4 +1,5 @@
 using Api.Todos.Database;
+using Microsoft.EntityFrameworkCore.Storage;
 using Xunit;
 
 namespace Api.Todos.Tests.Integration;
@@ -6,6 +7,7 @@ namespace Api.Todos.Tests.Integration;
 [Collection("IntegrationTests")]
 public abstract class IntegrationTestBase : IDisposable
 {
+    private readonly IDbContextTransaction _transaction;
     public TodoContext Context { get; set; }
     public HttpClient Client { get; set; }
 
@@ -16,7 +18,9 @@ public abstract class IntegrationTestBase : IDisposable
     public IntegrationTestBase(IntegrationTestFixture fixture)
     {
         Client = fixture.Client;
-        Context = fixture.TodoContext;
+        Context = fixture.Context;
+
+        _transaction = Context.Database.BeginTransaction();
     }
 
     /// <summary>
@@ -25,5 +29,6 @@ public abstract class IntegrationTestBase : IDisposable
     public void Dispose()
     {
         // Clear database.
+        _transaction.Rollback();
     }
 }
