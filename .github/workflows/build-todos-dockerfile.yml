@@ -3,18 +3,10 @@ name: Build Todos API Dockerfile
 on:
   push:
     branches:
-      - main
-    paths:
-      - "Template/*Todos*"
-      - "Template/*Platform*"
-      - ".github/workflows/*todos*"
+      - "main"
   pull_request:
     branches:
-      - main
-    paths:
-      - "Template/*Todos*"
-      - "Template/*Platform*"
-      - ".github/workflows/*todos*"
+      - "main"
 
 jobs:
   build:

@@ -3,18 +3,10 @@ name: Build Users API Dockerfile
 on:
   push:
     branches:
-      - main
-    paths:
-      - "Template/*Users*"
-      - "Template/*Platform*"
-      - ".github/workflows/*Users*"
+      - "main"
   pull_request:
     branches:
-      - main
-    paths:
-      - "Template/*Users*"
-      - "Template/*Platform*"
-      - ".github/workflows/*users*"
+      - "main"
 
 jobs:
   build:
