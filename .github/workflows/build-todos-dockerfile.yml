@@ -7,17 +7,19 @@ on:
     paths:
       - "Template/*Todos*"
       - "Template/*Platform*"
+      - ".github/workflows/*todos*"
   pull_request:
     branches:
       - main
     paths:
       - "Template/*Todos*"
       - "Template/*Platform*"
+      - ".github/workflows/*todos*"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build -f Template/todos-api.dockerfile Template/
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: docker build -f Template/todos-api.dockerfile Template/
