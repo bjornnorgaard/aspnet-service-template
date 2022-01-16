@@ -1,0 +1,10 @@
+bin
+obj
+out
+TestResults
+Ant.Volumes
+*dockerfile
+.gitignore
+.dockerignore
+*.md
+.idea
