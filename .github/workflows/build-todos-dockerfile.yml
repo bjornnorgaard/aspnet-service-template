@@ -1,0 +1,23 @@
+name: Build Todos API Dockerfile
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "Template/*Todos*"
+      - "Template/*Platform*"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "Template/*Todos*"
+      - "Template/*Platform*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build -f Template/todos-api.dockerfile Template/
