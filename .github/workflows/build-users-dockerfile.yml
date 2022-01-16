@@ -1,20 +1,20 @@
-name: Build Todos API Dockerfile
+name: Build Users API Dockerfile
 
 on:
   push:
     branches:
       - main
     paths:
-      - "Template/*Todos*"
+      - "Template/*Users*"
       - "Template/*Platform*"
-      - ".github/workflows/*todos*"
+      - ".github/workflows/*Users*"
   pull_request:
     branches:
       - main
     paths:
-      - "Template/*Todos*"
+      - "Template/*Users*"
       - "Template/*Platform*"
-      - ".github/workflows/*todos*"
+      - ".github/workflows/*users*"
 
 jobs:
   build:
@@ -23,4 +23,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the Docker image
-        run: docker build -f Template/todos-api.dockerfile Template/
+        run: docker build -f Template/users-api.dockerfile Template/
