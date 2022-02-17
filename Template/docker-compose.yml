@@ -6,7 +6,6 @@ services:
     image: ursu/ant-todos-api:latest
     build:
       context: .
-      dockerfile: todos-api.dockerfile
     ports:
       - 6001:80
     environment:
@@ -18,28 +17,6 @@ services:
       LoggingOptions__ApplicationName: "Todo Api Docker"
       LoggingOptions__ElasticSearchUrl: "http://elasticsearch:9200"
       ElasticApm__ServiceName: "Todo Api"
-      ElasticApm__Environment: "Docker"
-      ElasticApm__ServerUrls: "http://apm-server:8200"
-      Serilog__MinimumLevel__Override__Elastic.Apm: "Error"
-    depends_on:
-      - mssqlserver
-
-  users-api:
-    image: ursu/ant-users-api:latest
-    build:
-      context: .
-      dockerfile: users-api.dockerfile
-    ports:
-      - 6002:80
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
-      DatabaseOptions__UsersDatabase: "Server=mssqlserver;Database=Users;User=sa;Password=Your_password123;"
-      HangfireOptions__ConnectionString: "not used"
-      HangfireOptions__EnabledHangfire: false
-      SwaggerOptions__ApplicationTitle: "Users Api"
-      LoggingOptions__ApplicationName: "Users Api"
-      LoggingOptions__ElasticSearchUrl: "http://elasticsearch:9200"
-      ElasticApm__ServiceName: "Users Api"
       ElasticApm__Environment: "Docker"
       ElasticApm__ServerUrls: "http://apm-server:8200"
       Serilog__MinimumLevel__Override__Elastic.Apm: "Error"
