@@ -24,14 +24,11 @@ public static class ServiceCollectionExtension
 
         services.AddMemoryCache();
         services.AddCorsPolicy(configuration);
-        services.AddControllers(o => o.Filters.Add<ExceptionFilter>()).AddJsonOptions(o =>
-        {
-            o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-        });
+        services.AddControllers(o => o.Filters.Add<ExceptionFilter>()).AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
         services.AddHealthChecks();
         services.AddPlatformMediatr(assembly);
-        services.AddPlatformSwagger(configuration);
         services.AddPlatformHangfire(configuration);
+        services.AddPlatformSwagger(configuration, assembly);
 
         Log.Information("Platform services added");
     }
