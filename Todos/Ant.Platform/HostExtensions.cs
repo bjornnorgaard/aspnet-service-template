@@ -8,7 +8,7 @@ public static class HostExtensions
     public static IHostBuilder UsePlatformLogger(this IHostBuilder builder)
     {
         builder.UseSerilog();
-            
+
         return builder;
     }
 }
