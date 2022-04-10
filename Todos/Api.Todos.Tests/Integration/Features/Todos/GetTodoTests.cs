@@ -16,7 +16,7 @@ public class GetTodoTests : IntegrationTestBase
     }
 
     [Fact]
-    public async void ShouldReturnBadRequest_WhenDatabaseIsEmpty()
+    public async void ShouldReturnBadRequest_WhenTodoDoesNotExist()
     {
         // Arrange
         var command = new GetTodo.Command { TodoId = Guid.NewGuid() };
@@ -30,27 +30,4 @@ public class GetTodoTests : IntegrationTestBase
         content.Message.Should().Be(PlatformError.TodoNotFound.Humanize(LetterCasing.Sentence));
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
-
-    /// <summary>
-    /// TODO: This test needs Identity to be implemented first in order to use UserId.
-    /// </summary>
-    // [Fact]
-    // public async void ShouldReturnTodo_WhenOneExists()
-    // {
-    //     // Arrange
-    //     var todo = await Context.SeedTodoAsync();
-    //     await Context.SaveChangesAsync();
-    //
-    //     var command = new GetTodo.Command { TodoId = todo.Id };
-    //
-    //     // Act
-    //     var response = await Client.PostAsJsonAsync(Routes.Todos.GetTodo, command);
-    //     var content = await response.Content.ReadFromJsonAsync<GetTodo.Result>();
-    //
-    //     // Assert
-    //     content.Todo.Id.Should().Be(todo.Id);
-    //     content.Todo.Title.Should().Be(todo.Title);
-    //     content.Todo.Description.Should().Be(todo.Description);
-    //     content.Todo.IsCompleted.Should().Be(todo.IsCompleted);
-    // }
 }
