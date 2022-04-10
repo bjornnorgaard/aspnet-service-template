@@ -12,7 +12,7 @@ services:
       ASPNETCORE_ENVIRONMENT: "Development"
       DatabaseOptions__TodoDatabase: "Server=mssqlserver;Database=Todo;User=sa;Password=Your_password123;"
       HangfireOptions__ConnectionString: "Server=mssqlserver;Database=Todo;User=sa;Password=Your_password123;"
-      HangfireOptions__EnabledHangfire: true
+      HangfireOptions__EnabledHangfire: "true"
       SwaggerOptions__ApplicationTitle: "Todo Api Docker"
       LoggingOptions__ApplicationName: "Todo Api Docker"
       LoggingOptions__ElasticSearchUrl: "http://elasticsearch:9200"
