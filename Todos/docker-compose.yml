@@ -79,39 +79,6 @@ services:
     ports:
       - 5601:5601
 
-  prometheus:
-    image: prom/prometheus:v2.30.4
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./Ant.Data/prometheus:/etc/prometheus
-      - ./volumes/prometheus:/prometheus
-    # Reload condig with: curl -X POST http://localhost:9090/-/reload
-    command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
-
-  node-exporter:
-    image: prom/node-exporter:latest
-    expose:
-      - 9100
-
-  mssql-exporter:
-    image: awaragi/prometheus-mssql-exporter
-    environment:
-      SERVER: "mssqlserver"
-      USERNAME: "sa"
-      PASSWORD: "Your_password123"
-    expose:
-      - 4000
-
-  grafana:
-    image: grafana/grafana:latest
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./Ant.Volumes/grafana/:/var/lib/grafana
-    depends_on:
-      - prometheus
-
   eventstore:
     image: eventstore/eventstore:20.10.2-buster-slim
     environment:
