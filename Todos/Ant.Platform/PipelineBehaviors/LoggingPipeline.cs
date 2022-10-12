@@ -15,8 +15,8 @@ public class LoggingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, 
         _logger = logger;
     }
 
-    public async Task<TResponse> Handle(TRequest req, CancellationToken ct, RequestHandlerDelegate<TResponse> next)
-    {
+    public async Task<TResponse> Handle(TRequest req, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    {    
         var sw = Stopwatch.StartNew();
         var featureName = req?.GetType().FullName?.Split(".").Last().Split("+").First();
 
