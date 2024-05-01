@@ -26,7 +26,9 @@ public class IntegrationTestMethodIsolation : IAsyncLifetime
     private TestServer Server { get; set; }
     public IMapper Mapper { get; set; }
 
-    private readonly MsSqlContainer _sqlContainer = new MsSqlBuilder().Build();
+    private readonly MsSqlContainer _sqlContainer = new MsSqlBuilder()
+        .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
+        .Build();
 
     /// <summary>
     /// Run once before the suite starts.
