@@ -6,7 +6,7 @@ namespace Ant.Platform.Configurations;
 
 public static class CorsConfiguration
 {
-    private static readonly string _defaultPolicy = "DefaultCorsPolicy";
+    private const string DefaultPolicy = "DefaultCorsPolicy";
 
     public static void AddCorsPolicy(this IServiceCollection services, IConfiguration configuration)
     {
@@ -15,7 +15,7 @@ public static class CorsConfiguration
 
         services.AddCors(options =>
         {
-            options.AddPolicy(_defaultPolicy, builder =>
+            options.AddPolicy(DefaultPolicy, builder =>
             {
                 builder.WithOrigins(origins)
                     .AllowAnyHeader()
@@ -26,6 +26,6 @@ public static class CorsConfiguration
 
     public static void UseCorsPolicy(this IApplicationBuilder app)
     {
-        app.UseCors(_defaultPolicy);
+        app.UseCors(DefaultPolicy);
     }
 }

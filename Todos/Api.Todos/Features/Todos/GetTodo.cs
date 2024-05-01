@@ -27,7 +27,7 @@ public class GetTodo
         public Validator()
         {
             RuleFor(c => c.TodoId).NotEmpty();
-
+            
             RuleFor(c => c.UserId).NotEmpty()
                 .MinimumLength(TodoConstants.UserId.MinLenght)
                 .MaximumLength(TodoConstants.UserId.MaxLength);
