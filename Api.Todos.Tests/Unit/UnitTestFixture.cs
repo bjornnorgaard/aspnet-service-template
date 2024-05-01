@@ -15,7 +15,7 @@ public class UnitTestFixture : IDisposable
     public UnitTestFixture()
     {
         var builder = new DbContextOptionsBuilder<TodoContext>();
-        var cs = "Server=localhost;Database=Todo_UnitTest;User=sa;Password=Your_password123;";
+        var cs = "Server=localhost;Database=Todo_UnitTest;User=sa;Password=yourStrong(!)Password;";
         builder.UseSqlServer(cs);
 
         Mapper = new MapperConfiguration(c => c.AddMaps(typeof(AssemblyAnchor).Assembly)).CreateMapper();

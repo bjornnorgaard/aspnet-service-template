@@ -1,32 +1,32 @@
 services:
 
-  # todos-api:
-  #   image: ursu/ant-todos-api:latest
-  #   build:
-  #     context: .
-  #   ports:
-  #     - 6001:80
-  #   environment:
-  #     ASPNETCORE_ENVIRONMENT: "Development"
-  #     DatabaseOptions__TodoDatabase: "Server=mssqlserver;Database=Todo;User=sa;Password=Your_password123;"
-  #     HangfireOptions__ConnectionString: "Server=mssqlserver;Database=Todo;User=sa;Password=Your_password123;"
-  #     HangfireOptions__EnabledHangfire: "true"
-  #     SwaggerOptions__ApplicationTitle: "Todo Api Docker"
-  #     LoggingOptions__ApplicationName: "Todo Api Docker"
-  #     LoggingOptions__ElasticSearchUrl: "http://elasticsearch:9200"
-  #     ElasticApm__ServiceName: "Todo Api"
-  #     ElasticApm__Environment: "Docker"
-  #     ElasticApm__ServerUrls: "http://apm-server:8200"
-  #     Serilog__MinimumLevel__Override__Elastic.Apm: "Error"
-  #   depends_on:
-  #     - mssqlserver
+  todos-api:
+    image: ursu/ant-todos-api:latest
+    build:
+      context: .
+    ports:
+      - 6001:8080
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+      DatabaseOptions__TodoDatabase: "Server=mssqlserver;Database=Todo;User=SA;Password=yourStrong(!)Password;TrustServerCertificate=True"
+      HangfireOptions__ConnectionString: "Server=mssqlserver;Database=Todo;User=SA;Password=yourStrong(!)Password;TrustServerCertificate=True"
+      HangfireOptions__EnabledHangfire: "true"
+      SwaggerOptions__ApplicationTitle: "Todo Api Docker"
+      LoggingOptions__ApplicationName: "Todo Api Docker"
+      LoggingOptions__ElasticSearchUrl: "http://elasticsearch:9200"
+      ElasticApm__ServiceName: "Todo Api"
+      ElasticApm__Environment: "Docker"
+      ElasticApm__ServerUrls: "http://apm-server:8200"
+      Serilog__MinimumLevel__Override__Elastic.Apm: "Error"
+    depends_on:
+      - mssqlserver
 
   mssqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     ports:
       - "1433:1433"
     environment:
-      MSSQL_SA_PASSWORD: "Your_password123"
+      MSSQL_SA_PASSWORD: "yourStrong(!)Password"
       ACCEPT_EULA: "Y"
     volumes:
       - ./Ant.Volumes/mssqlserver/mssql/data:/var/opt/mssql/data

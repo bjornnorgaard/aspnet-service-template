@@ -37,7 +37,7 @@ public class DeleteTodo
                 .Where(t => t.Id == request.TodoId)
                 .FirstOrDefaultAsync(ct);
         
-            if (todo == null) throw new PlatformException(PlatformError.TodoNotFound);
+            if (todo == null) return;
         
             _todoContext.Todos.Remove(todo);
             await _todoContext.SaveChangesAsync(ct);
