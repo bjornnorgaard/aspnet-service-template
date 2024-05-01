@@ -15,9 +15,6 @@ public class TodoMapperTests
     [Fact]
     public void AssertValidConfiguration()
     {
-        // Arrange
-
-        // Act + Assert
         _uut.ConfigurationProvider.AssertConfigurationIsValid();
     }
 }

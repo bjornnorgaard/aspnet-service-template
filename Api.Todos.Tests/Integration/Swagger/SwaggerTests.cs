@@ -4,9 +4,9 @@ using Xunit;
 
 namespace Api.Todos.Tests.Integration.Swagger;
 
-public class SwaggerTests : IntegrationTestBase
+public class SwaggerTests : IntegrationTestCollectionIsolation
 {
-    public SwaggerTests(IntegrationTestFixture fixture) : base(fixture)
+    public SwaggerTests(IntegrationTestMethodIsolation fixture) : base(fixture)
     {
     }
 

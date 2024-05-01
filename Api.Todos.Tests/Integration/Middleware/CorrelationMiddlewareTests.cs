@@ -3,11 +3,11 @@ using Xunit;
 
 namespace Api.Todos.Tests.Integration.Middleware;
 
-public class CorrelationMiddlewareTests : IntegrationTestBase
+public class CorrelationMiddlewareTests : IntegrationTestCollectionIsolation
 {
     private const string HeaderName = "x-correlation-id";
 
-    public CorrelationMiddlewareTests(IntegrationTestFixture fixture) : base(fixture)
+    public CorrelationMiddlewareTests(IntegrationTestMethodIsolation fixture) : base(fixture)
     {
     }
 

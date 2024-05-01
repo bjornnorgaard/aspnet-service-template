@@ -7,9 +7,9 @@ using Xunit;
 
 namespace Api.Todos.Tests.Integration.Features.Todos;
 
-public class CreateTodoTests : IntegrationTestBase
+public class CreateTodoTests : IntegrationTestCollectionIsolation
 {
-    public CreateTodoTests(IntegrationTestFixture fixture) : base(fixture)
+    public CreateTodoTests(IntegrationTestMethodIsolation fixture) : base(fixture)
     {
     }
 
@@ -24,6 +24,6 @@ public class CreateTodoTests : IntegrationTestBase
         var content = await response.Content.ReadFromJsonAsync<CreateTodo.Result>();
 
         // Assert
-        content.CreatedTodo.Should().NotBeNull();
+       content.CreatedTodo.Should().NotBeNull();
     }
 }

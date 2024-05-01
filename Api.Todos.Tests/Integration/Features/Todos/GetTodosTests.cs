@@ -3,29 +3,48 @@ using Api.Todos.Controllers;
 using Api.Todos.Features.Todos;
 using Api.Todos.Tests.Arrange.Todos;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace Api.Todos.Tests.Integration.Features.Todos;
 
-public class GetTodosTests : IntegrationTestBase
+public class GetTodosTests : IntegrationTestCollectionIsolation
 {
-    public GetTodosTests(IntegrationTestFixture fixture) : base(fixture)
+    public GetTodosTests(IntegrationTestMethodIsolation fixture) : base(fixture)
     {
     }
 
     [Fact]
-    public async Task ShouldReturnLeastOne()
+    public async Task ShouldReturnEmptyList()
     {
         // Arrange
         var command = new GetTodos.Command();
-        await Context.SeedTodoAsync();
 
         // Act
         var response = await Client.PostAsJsonAsync(Routes.Todos.GetTodos, command);
         var content = await response.Content.ReadFromJsonAsync<GetTodos.Result>();
 
         // Assert
-        content.Todos.Should().NotBeEmpty();
+        content.Todos.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task ShouldReturnListOfTodos()
+    {
+        // Arrange
+        for (var i = 0; i < 10; i++)
+        {
+            await Context.SeedTodoAsync();
+        }
+
+        await Context.SaveChangesAsync();
+
+        var command = new GetTodos.Command { PageSize = 7 };
+
+        // Act
+        var response = await Client.PostAsJsonAsync(Routes.Todos.GetTodos, command);
+        var content = await response.Content.ReadFromJsonAsync<GetTodos.Result>();
+
+        // Assert
+        content.Todos.Should().HaveCount(7);
     }
 }

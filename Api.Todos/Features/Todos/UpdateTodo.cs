@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using Ant.Platform.Exceptions;
+﻿using Ant.Platform.Exceptions;
 using Api.Todos.Database;
 using Api.Todos.Database.Configurations;
 using AutoMapper;

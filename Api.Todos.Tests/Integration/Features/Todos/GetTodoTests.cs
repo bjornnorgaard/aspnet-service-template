@@ -9,9 +9,9 @@ using Xunit;
 
 namespace Api.Todos.Tests.Integration.Features.Todos;
 
-public class GetTodoTests : IntegrationTestBase
+public class GetTodoTests : IntegrationTestCollectionIsolation
 {
-    public GetTodoTests(IntegrationTestFixture fixture) : base(fixture)
+    public GetTodoTests(IntegrationTestMethodIsolation fixture) : base(fixture)
     {
     }
 

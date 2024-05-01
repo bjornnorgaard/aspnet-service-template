@@ -5,13 +5,13 @@ using Xunit;
 
 namespace Api.Todos.Tests.Unit.Features.Todos;
 
-public class CreateTodoTests : UnitTestBase
+public class CreateTodoTests : UnitTestCollectionIsolation
 {
     private readonly CreateTodo.Handler _uut;
 
-    public CreateTodoTests(UnitTestFixture fixture) : base(fixture)
+    public CreateTodoTests(UnitTestMethodIsolation fixture) : base(fixture)
     {
-        _uut = new CreateTodo.Handler(TodoContext, Mapper);
+        _uut = new CreateTodo.Handler(Context, Mapper);
     }
 
     [Fact]

@@ -4,9 +4,9 @@ using Xunit;
 
 namespace Api.Todos.Tests.Integration.Middleware;
 
-public class HealthCheckTests : IntegrationTestBase
+public class HealthCheckTests : IntegrationTestCollectionIsolation
 {
-    public HealthCheckTests(IntegrationTestFixture fixture) : base(fixture)
+    public HealthCheckTests(IntegrationTestMethodIsolation fixture) : base(fixture)
     {
     }
 

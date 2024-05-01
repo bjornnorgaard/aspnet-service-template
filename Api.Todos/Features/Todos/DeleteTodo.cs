@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using Ant.Platform.Exceptions;
-using Api.Todos.Database;
+﻿using Api.Todos.Database;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
