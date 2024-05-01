@@ -17,6 +17,8 @@ services:
       ElasticApm__ServiceName: "Todo Api"
       ElasticApm__Environment: "Docker"
       ElasticApm__ServerUrls: "http://apm-server:8200"
+      OpenTelemetryOptions__OpenTelemetryEndpoint: "http://opentelemetry-collector:4317"
+      OpenTelemetryOptions__ApplicationName: "Todo Api"
       Serilog__MinimumLevel__Override__Elastic.Apm: "Error"
     depends_on:
       - mssqlserver
@@ -29,8 +31,8 @@ services:
       MSSQL_SA_PASSWORD: "yourStrong(!)Password"
       ACCEPT_EULA: "Y"
     volumes:
-      - ./Ant.Volumes/mssqlserver/mssql/data:/var/opt/mssql/data
-      - ./Ant.Volumes/mssqlserver/sqlserver:/var/opt/mssqlserver
+      - ./Volumes/mssqlserver/mssql/data:/var/opt/mssql/data
+      - ./Volumes/mssqlserver/sqlserver:/var/opt/mssqlserver
 
   apm-server:
     image: docker.elastic.co/apm/apm-server:7.15.2
@@ -65,7 +67,7 @@ services:
         hard: -1
         soft: -1
     volumes:
-      - ./Ant.Volumes/elasticsearch/data:/usr/share/elasticsearch/data
+      - ./Volumes/elasticsearch/data:/usr/share/elasticsearch/data
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.15.2
@@ -76,3 +78,44 @@ services:
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
     ports:
       - 5601:5601
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./Volumes/prometheus/:/prometheus
+      - ./Prometheus/:/etc/prometheus/
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: "/var/lib/grafana/dashboards/todos.json"
+      GF_SECURITY_ADMIN_USER: "admin"
+      GF_SECURITY_ADMIN_PASSWORD: "changeme"
+    depends_on:
+      - prometheus
+    volumes:
+      - ./Volumes/grafana/:/var/lib/grafana
+      - ./Grafana/provisioning:/etc/grafana/provisioning
+      - ./Grafana/dashboards:/var/lib/grafana/dashboards
+
+  opentelemetry-collector:
+    image: otel/opentelemetry-collector:latest
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+    volumes:
+      - ./OpenTelemetry/collector-config.yaml:/etc/otelcol/config.yaml
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "9411:9411"
+      # - "4317:4317"
+      # - "4318:4318"
+    environment:
+      COLLECTOR_ZIPKIN_HOST_PORT: ":9411"

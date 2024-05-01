@@ -8,3 +8,6 @@ Ant.Volumes
 .dockerignore
 *.md
 .idea
+Volumes
+Prometheus
+Grafana

@@ -17,6 +17,7 @@ public static class ServiceCollectionExtension
         Assembly assembly)
     {
         services.AddPlatformLogging(configuration);
+        services.AddPlatformTelemetry(configuration);
 
         Log.Information("Adding platform services...");
 
@@ -44,6 +45,7 @@ public static class ServiceCollectionExtension
         app.UsePlatformMiddleware();
         app.UseRouting();
         app.UseCorsPolicy();
+        app.UsePlatformTelemetry();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
