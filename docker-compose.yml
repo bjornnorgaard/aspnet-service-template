@@ -1,0 +1,78 @@
+services:
+
+  # todos-api:
+  #   image: ursu/ant-todos-api:latest
+  #   build:
+  #     context: .
+  #   ports:
+  #     - 6001:80
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: "Development"
+  #     DatabaseOptions__TodoDatabase: "Server=mssqlserver;Database=Todo;User=sa;Password=Your_password123;"
+  #     HangfireOptions__ConnectionString: "Server=mssqlserver;Database=Todo;User=sa;Password=Your_password123;"
+  #     HangfireOptions__EnabledHangfire: "true"
+  #     SwaggerOptions__ApplicationTitle: "Todo Api Docker"
+  #     LoggingOptions__ApplicationName: "Todo Api Docker"
+  #     LoggingOptions__ElasticSearchUrl: "http://elasticsearch:9200"
+  #     ElasticApm__ServiceName: "Todo Api"
+  #     ElasticApm__Environment: "Docker"
+  #     ElasticApm__ServerUrls: "http://apm-server:8200"
+  #     Serilog__MinimumLevel__Override__Elastic.Apm: "Error"
+  #   depends_on:
+  #     - mssqlserver
+
+  mssqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    environment:
+      MSSQL_SA_PASSWORD: "Your_password123"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - ./Ant.Volumes/mssqlserver/mssql/data:/var/opt/mssql/data
+      - ./Ant.Volumes/mssqlserver/sqlserver:/var/opt/mssqlserver
+
+  apm-server:
+    image: docker.elastic.co/apm/apm-server:7.15.2
+    depends_on:
+      - elasticsearch
+      - kibana
+    cap_add: [ "CHOWN", "DAC_OVERRIDE", "SETGID", "SETUID" ]
+    cap_drop: [ "ALL" ]
+    ports:
+      - 8200:8200
+    command: >
+      apm-server -e
+        -E apm-server.rum.enabled=true
+        -E setup.kibana.host=kibana:5601
+        -E setup.template.settings.index.number_of_replicas=0
+        -E apm-server.kibana.enabled=true
+        -E apm-server.kibana.host=kibana:5601
+        -E output.elasticsearch.hosts=["elasticsearch:9200"]
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
+    ports:
+      - 9200:9200
+    environment:
+      - bootstrap.memory_lock=true
+      - cluster.name=docker-cluster
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-XX:UseAVX=2 -Xms1g -Xmx1g
+    ulimits:
+      memlock:
+        hard: -1
+        soft: -1
+    volumes:
+      - ./Ant.Volumes/elasticsearch/data:/usr/share/elasticsearch/data
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.15.2
+    depends_on:
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    ports:
+      - 5601:5601
