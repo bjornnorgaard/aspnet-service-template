@@ -7,7 +7,7 @@ using FluentAssertions;
 using Humanizer;
 using Xunit;
 
-namespace Api.Todos.Tests.Integration.Features.Todos;
+namespace Api.Todos.Tests.Integration.Controllers.Todos;
 
 public class GetTodoTests : IntegrationTestCollectionIsolation
 {

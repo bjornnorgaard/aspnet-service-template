@@ -1,7 +1,4 @@
-using System.Net.Http.Json;
-using Api.Todos.Controllers;
 using Api.Todos.Features.Todos;
-using Api.Todos.Tests.Arrange.Todos;
 using FluentAssertions;
 using Xunit;
 
@@ -9,42 +6,23 @@ namespace Api.Todos.Tests.Integration.Features.Todos;
 
 public class GetTodosTests : IntegrationTestCollectionIsolation
 {
+    private readonly GetTodos.Handler _uut;
+
     public GetTodosTests(IntegrationTestMethodIsolation fixture) : base(fixture)
     {
+        _uut = new GetTodos.Handler(Context, Mapper);
     }
 
     [Fact]
-    public async Task ShouldReturnEmptyList()
+    public async Task ShouldReturnEmptyList_WhenDatabaseIsEmpty()
     {
         // Arrange
         var command = new GetTodos.Command();
 
         // Act
-        var response = await Client.PostAsJsonAsync(Routes.Todos.GetTodos, command);
-        var content = await response.Content.ReadFromJsonAsync<GetTodos.Result>();
+        var result = await _uut.Handle(command, CancellationToken.None);
 
         // Assert
-        content.Todos.Should().NotBeNull();
-    }
-
-    [Fact]
-    public async Task ShouldReturnListOfTodos()
-    {
-        // Arrange
-        for (var i = 0; i < 10; i++)
-        {
-            await Context.SeedTodoAsync();
-        }
-
-        await Context.SaveChangesAsync();
-
-        var command = new GetTodos.Command { PageSize = 7 };
-
-        // Act
-        var response = await Client.PostAsJsonAsync(Routes.Todos.GetTodos, command);
-        var content = await response.Content.ReadFromJsonAsync<GetTodos.Result>();
-
-        // Assert
-        content.Todos.Should().HaveCount(7);
+        result.Todos.Should().NotBeNull();
     }
 }

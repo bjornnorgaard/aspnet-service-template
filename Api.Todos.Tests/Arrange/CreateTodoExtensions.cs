@@ -1,9 +1,9 @@
 ﻿using Api.Todos.Features.Todos;
 using Bogus;
 
-namespace Api.Todos.Tests.Arrange.Todos;
+namespace Api.Todos.Tests.Arrange;
 
-internal static class CreateTodoConstructor
+internal static class CreateTodoExtensions
 {
     public static CreateTodo.Command CreateValid(this CreateTodo.Command command)
     {

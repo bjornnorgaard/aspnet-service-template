@@ -2,7 +2,7 @@ using System.Net;
 using FluentAssertions;
 using Xunit;
 
-namespace Api.Todos.Tests.Integration.Swagger;
+namespace Api.Todos.Tests.Integration.Middleware;
 
 public class SwaggerTests : IntegrationTestCollectionIsolation
 {

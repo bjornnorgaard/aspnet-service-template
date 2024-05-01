@@ -2,12 +2,12 @@
 using Api.Todos.Controllers;
 using Api.Todos.Database.Configurations;
 using Api.Todos.Features.Todos;
-using Api.Todos.Tests.Arrange.Todos;
+using Api.Todos.Tests.Arrange;
 using Bogus;
 using FluentAssertions;
 using Xunit;
 
-namespace Api.Todos.Tests.Integration.Features.Todos;
+namespace Api.Todos.Tests.Integration.Controllers.Todos;
 
 public class UpdateTodoTests : IntegrationTestCollectionIsolation
 {

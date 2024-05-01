@@ -3,6 +3,8 @@ using Api.Todos.Database;
 using Api.Todos.Options;
 using Microsoft.EntityFrameworkCore;
 
+namespace Api.Todos;
+
 public class Startup
 {
     public IConfiguration Configuration { get; }

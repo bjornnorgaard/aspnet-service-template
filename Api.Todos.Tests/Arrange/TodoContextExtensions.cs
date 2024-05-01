@@ -2,9 +2,9 @@ using Api.Todos.Database;
 using Api.Todos.Database.Models;
 using Bogus;
 
-namespace Api.Todos.Tests.Arrange.Todos;
+namespace Api.Todos.Tests.Arrange;
 
-internal static class TodoConstructor
+internal static class TodoContextExtensions
 {
     public static async Task<Todo> SeedTodoAsync(this TodoContext context, Todo todo = null)
     {

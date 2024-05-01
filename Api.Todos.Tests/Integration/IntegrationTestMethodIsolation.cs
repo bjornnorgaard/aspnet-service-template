@@ -1,6 +1,7 @@
 using Ant.Platform.Options;
 using Api.Todos.Database;
 using Api.Todos.Options;
+using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
@@ -23,8 +24,10 @@ public class IntegrationTestMethodIsolation : IAsyncLifetime
     public HttpClient Client { get; set; }
     public TodoContext Context { get; set; }
     private TestServer Server { get; set; }
+    public IMapper Mapper { get; set; }
+
     private readonly MsSqlContainer _sqlContainer = new MsSqlBuilder().Build();
-    
+
     /// <summary>
     /// Run once before the suite starts.
     /// </summary>
@@ -44,6 +47,8 @@ public class IntegrationTestMethodIsolation : IAsyncLifetime
             .UseEnvironment("Test")
             .UseConfiguration(config)
             .UseStartup<Startup>();
+
+        Mapper = new MapperConfiguration(c => c.AddMaps(typeof(AssemblyAnchor).Assembly)).CreateMapper();
 
         Server = new TestServer(builder);
         Client = Server.CreateClient();
@@ -70,4 +75,3 @@ public class IntegrationTestMethodIsolation : IAsyncLifetime
         return configPath;
     }
 }
-

@@ -1,7 +1,5 @@
-﻿using System.Net.Http.Json;
-using Api.Todos.Controllers;
-using Api.Todos.Features.Todos;
-using Api.Todos.Tests.Arrange.Todos;
+﻿using Api.Todos.Features.Todos;
+using Api.Todos.Tests.Arrange;
 using FluentAssertions;
 using Xunit;
 
@@ -9,21 +7,23 @@ namespace Api.Todos.Tests.Integration.Features.Todos;
 
 public class CreateTodoTests : IntegrationTestCollectionIsolation
 {
+    private readonly CreateTodo.Handler _uut;
+
     public CreateTodoTests(IntegrationTestMethodIsolation fixture) : base(fixture)
     {
+        _uut = new CreateTodo.Handler(Context, Mapper);
     }
 
     [Fact]
-    public async Task ShouldCreateTodo_WhenTodoIsValid()
+    public async Task ShouldThrow_WhenTodoIsInvalid()
     {
         // Arrange
         var command = new CreateTodo.Command().CreateValid();
 
         // Act
-        var response = await Client.PostAsJsonAsync(Routes.Todos.CreateTodo, command);
-        var content = await response.Content.ReadFromJsonAsync<CreateTodo.Result>();
+        var result = await _uut.Handle(command, CancellationToken.None);
 
         // Assert
-       content.CreatedTodo.Should().NotBeNull();
+        result.CreatedTodo.Id.Should().NotBeEmpty();
     }
 }

@@ -1,7 +1,7 @@
 ﻿using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
-namespace Api.Todos.Tests.Extensions;
+namespace Api.Todos.Tests.Assertions;
 
 public static class FluentAssertionExtension
 {
