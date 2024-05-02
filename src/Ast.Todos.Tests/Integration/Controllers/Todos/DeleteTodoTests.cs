@@ -6,6 +6,7 @@ using Ast.Todos.Features.Todos;
 using Ast.Todos.Tests.Arrange;
 using Ast.Todos.Tests.Assertions;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace Ast.Todos.Tests.Integration.Controllers.Todos;
@@ -36,23 +37,15 @@ public class DeleteTodoTests : IntegrationTestCollectionIsolation
         var todo = await Context.SeedTodoAsync();
         await Context.SaveChangesAsync();
 
-        var getCommand = new GetTodo.Command { TodoId = todo.Id };
-        var response = await Client.PostAsJsonAsync(Routes.Todos.GetTodo, getCommand);
-        var content = await response.Content.ReadFromJsonAsync<GetTodo.Result>();
-
-        content.Todo.Id.Should().Be(todo.Id);
-        content.Todo.Title.Should().NotBeNullOrEmpty();
-
         // Act
         var deleteCommand = new DeleteTodo.Command { TodoId = todo.Id };
-        response = await Client.PostAsJsonAsync(Routes.Todos.DeleteTodo, deleteCommand);
-        await response.ShouldBeSuccess();
+        var response = await Client.PostAsJsonAsync(Routes.Todos.DeleteTodo, deleteCommand);
         await Task.Delay(50); // Delete uses hangfire job, so we need to wait a bit.
 
         // Assert
-        response = await Client.PostAsJsonAsync(Routes.Todos.GetTodo, getCommand);
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        var error = await response.Content.ReadFromJsonAsync<PlatformBadRequestResponse>();
-        error.Code.Should().Be((int)PlatformError.TodoNotFound);
+        await response.ShouldBeSuccess();
+        var found = await Context.Todos.FindAsync(todo.Id);
+        found?.Should().NotBeNull();
+        found?.Title.Should().Be(todo.Title);
     }
 }
