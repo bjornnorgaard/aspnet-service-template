@@ -2,7 +2,7 @@
 using AutoMapper;
 using Xunit;
 
-namespace Ast.Todos.Tests.TestIntegration;
+namespace Ast.Todos.Tests.Integration;
 
 [Collection(nameof(IntegrationTestCollection))]
 public class IntegrationTestCollectionIsolation

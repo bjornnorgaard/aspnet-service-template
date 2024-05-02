@@ -1,9 +1,9 @@
 using System.Diagnostics;
-using AST.Platform.Exceptions;
+using Ast.Platform.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace AST.Platform.PipelineBehaviors;
+namespace Ast.Platform.PipelineBehaviors;
 
 public class LoggingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

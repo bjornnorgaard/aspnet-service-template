@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace AST.Platform.PipelineBehaviors;
+namespace Ast.Platform.PipelineBehaviors;
 
 public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

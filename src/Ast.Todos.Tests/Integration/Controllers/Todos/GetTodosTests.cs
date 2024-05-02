@@ -5,7 +5,7 @@ using Ast.Todos.Tests.Arrange;
 using FluentAssertions;
 using Xunit;
 
-namespace Ast.Todos.Tests.TestIntegration.Controllers.Todos;
+namespace Ast.Todos.Tests.Integration.Controllers.Todos;
 
 public class GetTodosTests : IntegrationTestCollectionIsolation
 {

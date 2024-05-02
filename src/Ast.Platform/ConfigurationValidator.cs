@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
-using AST.Platform.Exceptions;
-using AST.Platform.Options;
+using Ast.Platform.Exceptions;
+using Ast.Platform.Options;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 
-namespace AST.Platform;
+namespace Ast.Platform;
 
 internal static class ConfigurationValidator
 {

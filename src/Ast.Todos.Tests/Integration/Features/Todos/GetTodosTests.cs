@@ -2,7 +2,7 @@ using Ast.Todos.Features.Todos;
 using FluentAssertions;
 using Xunit;
 
-namespace Ast.Todos.Tests.TestIntegration.Features.Todos;
+namespace Ast.Todos.Tests.Integration.Features.Todos;
 
 public class GetTodosTests : IntegrationTestCollectionIsolation
 {

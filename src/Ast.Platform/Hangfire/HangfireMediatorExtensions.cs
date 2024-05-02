@@ -1,8 +1,8 @@
-﻿using AST.Platform.Configurations;
+﻿using Ast.Platform.Configurations;
 using Hangfire;
 using MediatR;
 
-namespace AST.Platform.Hangfire;
+namespace Ast.Platform.Hangfire;
 
 public static class HangfireMediatorExtensions
 {

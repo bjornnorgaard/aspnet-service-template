@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
-using AST.Platform.PipelineBehaviors;
+using Ast.Platform.PipelineBehaviors;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AST.Platform.Configurations;
+namespace Ast.Platform.Configurations;
 
 public static class MediatrConfiguration
 {

@@ -1,4 +1,4 @@
-﻿using AST.Platform.Exceptions;
+﻿using Ast.Platform.Exceptions;
 using Ast.Todos.Database;
 using AutoMapper;
 using FluentValidation;

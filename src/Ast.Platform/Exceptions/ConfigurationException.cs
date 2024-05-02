@@ -1,4 +1,4 @@
-﻿namespace AST.Platform.Exceptions;
+﻿namespace Ast.Platform.Exceptions;
 
 internal class ConfigurationException : Exception
 {

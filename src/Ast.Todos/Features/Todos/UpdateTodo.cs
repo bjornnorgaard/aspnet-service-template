@@ -1,4 +1,4 @@
-﻿using AST.Platform.Exceptions;
+﻿using Ast.Platform.Exceptions;
 using Ast.Todos.Database;
 using Ast.Todos.Database.Configurations;
 using AutoMapper;

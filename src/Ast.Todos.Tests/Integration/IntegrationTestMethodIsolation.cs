@@ -1,6 +1,6 @@
+using Ast.Platform.Options;
 using Ast.Todos.Database;
 using Ast.Todos.Options;
-using AST.Platform.Options;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Testcontainers.MsSql;
 using Xunit;
 
-namespace Ast.Todos.Tests.TestIntegration;
+namespace Ast.Todos.Tests.Integration;
 
 [CollectionDefinition(nameof(IntegrationTestCollection))]
 public class IntegrationTestCollection : ICollectionFixture<IntegrationTestMethodIsolation>
@@ -30,9 +30,6 @@ public class IntegrationTestMethodIsolation : IAsyncLifetime
         .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
         .Build();
 
-    /// <summary>
-    /// Run once before the suite starts.
-    /// </summary>
     public async Task InitializeAsync()
     {
         await _sqlContainer.StartAsync();
@@ -58,9 +55,6 @@ public class IntegrationTestMethodIsolation : IAsyncLifetime
         await Context.Database.EnsureCreatedAsync();
     }
 
-    /// <summary>
-    /// Invoked after the entire suite has completed.
-    /// </summary>
     public async Task DisposeAsync()
     {
         Client.Dispose();
@@ -73,7 +67,7 @@ public class IntegrationTestMethodIsolation : IAsyncLifetime
         var currentDirectory = Directory.GetCurrentDirectory();
         var split = currentDirectory.Split("bin");
         var testProject = split[0];
-        var settingPath = Path.Combine(testProject, "TestIntegration", "appsettings.Test.json");
+        var settingPath = Path.Combine(testProject, "Integration", "appsettings.Test.json");
         return settingPath;
     }
 }

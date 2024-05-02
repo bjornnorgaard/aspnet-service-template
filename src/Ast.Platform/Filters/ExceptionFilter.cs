@@ -1,4 +1,4 @@
-﻿using AST.Platform.Exceptions;
+﻿using Ast.Platform.Exceptions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using FluentValidation.Results;
@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
-namespace AST.Platform.Filters;
+namespace Ast.Platform.Filters;
 
 public class ExceptionFilter : IExceptionFilter
 {

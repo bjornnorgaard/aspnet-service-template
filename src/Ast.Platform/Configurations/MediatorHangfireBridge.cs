@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace AST.Platform.Configurations;
+namespace Ast.Platform.Configurations;
 
 public class MediatorHangfireBridge
 {

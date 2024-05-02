@@ -1,7 +1,7 @@
 ﻿using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AST.Platform.Exceptions;
+namespace Ast.Platform.Exceptions;
 
 public class PlatformException : Exception
 {

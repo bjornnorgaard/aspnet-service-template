@@ -1,11 +1,11 @@
-﻿using AST.Platform.Options;
+﻿using Ast.Platform.Options;
 using Destructurama;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 
-namespace AST.Platform.Configurations;
+namespace Ast.Platform.Configurations;
 
 public static class LoggingConfiguration
 {

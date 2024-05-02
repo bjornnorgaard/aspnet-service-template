@@ -1,11 +1,11 @@
-﻿using AST.Platform.Hangfire;
-using AST.Platform.Options;
+﻿using Ast.Platform.Hangfire;
+using Ast.Platform.Options;
 using Hangfire;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AST.Platform.Configurations;
+namespace Ast.Platform.Configurations;
 
 public static class HangfireConfiguration
 {

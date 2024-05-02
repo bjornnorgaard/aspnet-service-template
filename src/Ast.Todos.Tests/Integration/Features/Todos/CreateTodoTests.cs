@@ -3,7 +3,7 @@ using Ast.Todos.Tests.Arrange;
 using FluentAssertions;
 using Xunit;
 
-namespace Ast.Todos.Tests.TestIntegration.Features.Todos;
+namespace Ast.Todos.Tests.Integration.Features.Todos;
 
 public class CreateTodoTests : IntegrationTestCollectionIsolation
 {

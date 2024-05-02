@@ -2,7 +2,7 @@ using System.Net;
 using FluentAssertions;
 using Xunit;
 
-namespace Ast.Todos.Tests.TestIntegration.Middleware;
+namespace Ast.Todos.Tests.Integration.Middleware;
 
 public class HealthCheckTests : IntegrationTestCollectionIsolation
 {

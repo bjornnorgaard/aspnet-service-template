@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Xunit;
 
-namespace Ast.Todos.Tests.TestUnit;
+namespace Ast.Todos.Tests.Unit;
 
 public class TodoMapperTests
 {

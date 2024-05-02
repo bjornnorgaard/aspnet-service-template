@@ -7,7 +7,7 @@ using Bogus;
 using FluentAssertions;
 using Xunit;
 
-namespace Ast.Todos.Tests.TestIntegration.Controllers.Todos;
+namespace Ast.Todos.Tests.Integration.Controllers.Todos;
 
 public class UpdateTodoTests : IntegrationTestCollectionIsolation
 {

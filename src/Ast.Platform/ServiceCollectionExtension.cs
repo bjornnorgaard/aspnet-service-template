@@ -1,13 +1,13 @@
 ﻿using System.Reflection;
 using System.Text.Json.Serialization;
-using AST.Platform.Configurations;
-using AST.Platform.Filters;
+using Ast.Platform.Configurations;
+using Ast.Platform.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace AST.Platform;
+namespace Ast.Platform;
 
 public static class ServiceCollectionExtension
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace AST.Platform.Middleware;
+namespace Ast.Platform.Middleware;
 
 public class CorrelationMiddleware
 {

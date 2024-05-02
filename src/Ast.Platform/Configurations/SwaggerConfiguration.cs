@@ -1,10 +1,10 @@
-﻿using AST.Platform.Options;
+﻿using Ast.Platform.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
-namespace AST.Platform.Configurations;
+namespace Ast.Platform.Configurations;
 
 internal static class SwaggerConfiguration
 {

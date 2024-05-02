@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace AST.Platform.Options;
+namespace Ast.Platform.Options;
 
 public class HangfireOptions : AbstractOptions
 {

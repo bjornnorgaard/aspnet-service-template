@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace AST.Platform;
+namespace Ast.Platform;
 
 public static class HostExtensions
 {

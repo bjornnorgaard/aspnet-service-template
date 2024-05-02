@@ -2,7 +2,7 @@
 using AutoMapper;
 using Xunit;
 
-namespace Ast.Todos.Tests.TestIntegration;
+namespace Ast.Todos.Tests.Integration;
 
 public class IntegrationTestClassIsolation : IClassFixture<IntegrationTestMethodIsolation>
 {

@@ -1,7 +1,7 @@
-﻿using AST.Platform.Middleware;
+﻿using Ast.Platform.Middleware;
 using Microsoft.AspNetCore.Builder;
 
-namespace AST.Platform.Configurations;
+namespace Ast.Platform.Configurations;
 
 public static class MiddlewareConfiguration
 {
