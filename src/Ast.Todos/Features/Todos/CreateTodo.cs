@@ -1,0 +1,59 @@
+﻿using Ast.Todos.Database;
+using Ast.Todos.Database.Configurations;
+using Ast.Todos.Database.Models;
+using AutoMapper;
+using FluentValidation;
+using MediatR;
+
+namespace Ast.Todos.Features.Todos;
+
+public class CreateTodo
+{
+    public class Command : IRequest<Result>
+    {
+        public string Title { get; set; }
+        public string Description { get; set; }
+    }
+
+    public class Result
+    {
+        public TodoDto CreatedTodo { get; set; }
+    }
+
+    public class Validator : AbstractValidator<Command>
+    {
+        public Validator()
+        {
+            RuleFor(c => c.Title).NotEmpty()
+                .MinimumLength(TodoConstants.Title.MinLength)
+                .MaximumLength(TodoConstants.Title.MaxLength);
+
+            RuleFor(c => c.Description)
+                .MaximumLength(TodoConstants.Description.MaxLength);
+        }
+    }
+
+    public class Handler : IRequestHandler<Command, Result>
+    {
+        private readonly TodoContext _todoContext;
+        private readonly IMapper _mapper;
+
+        public Handler(TodoContext todoContext, IMapper mapper)
+        {
+            _todoContext = todoContext;
+            _mapper = mapper;
+        }
+
+        public async Task<Result> Handle(Command request, CancellationToken ct)
+        {
+            var todo = _mapper.Map<Todo>(request);
+
+            await _todoContext.Todos.AddAsync(todo, ct);
+            await _todoContext.SaveChangesAsync(ct);
+
+            var created = _mapper.Map<TodoDto>(todo);
+            var result = new Result { CreatedTodo = created };
+            return result;
+        }
+    }
+}

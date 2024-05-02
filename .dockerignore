@@ -1,10 +1,13 @@
 bin
 obj
 out
-TestResults
-Ant.Volumes
-*dockerfile
+volumes
+dockerfiles
+doc
+config
+.github
 .gitignore
 .dockerignore
 *.md
 .idea
+compose.yaml

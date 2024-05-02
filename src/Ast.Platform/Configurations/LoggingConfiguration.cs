@@ -1,0 +1,38 @@
+﻿using AST.Platform.Options;
+using Destructurama;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
+
+namespace AST.Platform.Configurations;
+
+public static class LoggingConfiguration
+{
+    public static void AddPlatformLogging(this IServiceCollection services, IConfiguration configuration)
+    {
+        Console.WriteLine("Setting up platform logging...");
+
+        var options = new LoggingOptions(configuration);
+
+        var esOptions = new ElasticsearchSinkOptions(new Uri(options.ElasticSearchUrl))
+        {
+            AutoRegisterTemplate = true,
+            IndexFormat = $"logstash-{DateTime.Now:yyyy.MM.dd}",
+            ModifyConnectionSettings = x => x.BasicAuthentication("elastic", "changeme")
+        };
+
+        services.AddAllElasticApm();
+        
+        Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(configuration)
+            .Enrich.WithProperty("Application", options.ApplicationName)
+            .Enrich.WithProperty("Environment", Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"))
+            .Destructure.UsingAttributes()
+            .WriteTo.Console()
+            .WriteTo.Elasticsearch(esOptions)
+            .CreateLogger();
+
+        Log.Information("Logger configured!");
+    }
+}
