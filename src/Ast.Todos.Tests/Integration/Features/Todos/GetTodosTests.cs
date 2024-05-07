@@ -10,7 +10,7 @@ public class GetTodosTests : IntegrationTestCollectionIsolation
 
     public GetTodosTests(IntegrationTestMethodIsolation fixture) : base(fixture)
     {
-        _uut = new GetTodos.Handler(Context, Mapper);
+        _uut = new GetTodos.Handler(Context);
     }
 
     [Fact]

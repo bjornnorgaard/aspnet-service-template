@@ -17,13 +17,13 @@ public class CreateTodoTests : IntegrationTestCollectionIsolation
     public async Task ShouldCreateTodo_WhenTodoIsValid()
     {
         // Arrange
-        var command = new CreateTodo.Command().CreateValid();
+        var command = ArrangeCreateTodoCommand.CreateValid();
 
         // Act
         var response = await Client.PostAsJsonAsync(Routes.Todos.CreateTodo, command);
         var content = await response.Content.ReadFromJsonAsync<CreateTodo.Result>();
 
         // Assert
-       content.CreatedTodo.Should().NotBeNull();
+        content.CreatedTodo.Should().NotBeNull();
     }
 }

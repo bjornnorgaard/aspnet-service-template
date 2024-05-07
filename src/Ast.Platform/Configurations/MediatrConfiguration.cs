@@ -17,7 +17,7 @@ public static class MediatrConfiguration
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
 
         // Add validators
-        var validators = AssemblyScanner.FindValidatorsInAssemblies(new[] {assembly});
+        var validators = AssemblyScanner.FindValidatorsInAssemblies(new[] { assembly });
         validators.ForEach(validator => services.AddTransient(validator.InterfaceType, validator.ValidatorType));
     }
 }

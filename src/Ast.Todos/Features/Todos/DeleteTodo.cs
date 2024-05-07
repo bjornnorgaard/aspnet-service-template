@@ -9,7 +9,7 @@ public class DeleteTodo
 {
     public class Command : IRequest
     {
-        public Guid TodoId { get; set; }
+        public required Guid TodoId { get; init; }
     }
 
     public class Validator : AbstractValidator<Command>
@@ -34,9 +34,9 @@ public class DeleteTodo
             var todo = await _todoContext.Todos.AsTracking()
                 .Where(t => t.Id == request.TodoId)
                 .FirstOrDefaultAsync(ct);
-        
+
             if (todo == null) return;
-        
+
             _todoContext.Todos.Remove(todo);
             await _todoContext.SaveChangesAsync(ct);
         }

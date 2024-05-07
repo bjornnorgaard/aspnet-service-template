@@ -3,9 +3,9 @@ using Bogus;
 
 namespace Ast.Todos.Tests.Arrange;
 
-internal static class CreateTodoExtensions
+internal static class ArrangeCreateTodoCommand
 {
-    public static CreateTodo.Command CreateValid(this CreateTodo.Command command)
+    public static CreateTodo.Command CreateValid()
     {
         var faker = new Faker();
 

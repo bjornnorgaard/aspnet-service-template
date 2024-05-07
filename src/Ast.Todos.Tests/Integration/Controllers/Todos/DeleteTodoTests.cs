@@ -1,12 +1,9 @@
-﻿using System.Net;
-using System.Net.Http.Json;
-using Ast.Platform.Exceptions;
+﻿using System.Net.Http.Json;
 using Ast.Todos.Controllers;
 using Ast.Todos.Features.Todos;
 using Ast.Todos.Tests.Arrange;
 using Ast.Todos.Tests.Assertions;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace Ast.Todos.Tests.Integration.Controllers.Todos;

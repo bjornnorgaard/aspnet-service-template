@@ -1,7 +1,5 @@
 ﻿using Ast.Todos.Database;
 using Ast.Todos.Database.Configurations;
-using Ast.Todos.Database.Models;
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 
@@ -11,13 +9,13 @@ public class CreateTodo
 {
     public class Command : IRequest<Result>
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public required string Title { get; init; }
+        public required string Description { get; init; }
     }
 
     public class Result
     {
-        public TodoDto CreatedTodo { get; set; }
+        public TodoDto CreatedTodo { get; init; }
     }
 
     public class Validator : AbstractValidator<Command>
@@ -36,23 +34,21 @@ public class CreateTodo
     public class Handler : IRequestHandler<Command, Result>
     {
         private readonly TodoContext _todoContext;
-        private readonly IMapper _mapper;
 
-        public Handler(TodoContext todoContext, IMapper mapper)
+        public Handler(TodoContext todoContext)
         {
             _todoContext = todoContext;
-            _mapper = mapper;
         }
 
         public async Task<Result> Handle(Command request, CancellationToken ct)
         {
-            var todo = _mapper.Map<Todo>(request);
+            var todo = request.MapToTodo();
 
             await _todoContext.Todos.AddAsync(todo, ct);
             await _todoContext.SaveChangesAsync(ct);
 
-            var created = _mapper.Map<TodoDto>(todo);
-            var result = new Result { CreatedTodo = created };
+            var dto = todo.MapToDto();
+            var result = new Result { CreatedTodo = dto };
             return result;
         }
     }

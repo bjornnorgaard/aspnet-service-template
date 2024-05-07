@@ -1,6 +1,5 @@
 ﻿using Ast.Platform.Exceptions;
 using Ast.Todos.Database;
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +10,7 @@ public class GetTodo
 {
     public class Command : IRequest<Result>
     {
-        public Guid TodoId { get; set; }
+        public required Guid TodoId { get; init; }
     }
 
     public class Result
@@ -30,12 +29,10 @@ public class GetTodo
     public class Handler : IRequestHandler<Command, Result>
     {
         private readonly TodoContext _todoContext;
-        private readonly IMapper _mapper;
 
-        public Handler(TodoContext todoContext, IMapper mapper)
+        public Handler(TodoContext todoContext)
         {
             _todoContext = todoContext;
-            _mapper = mapper;
         }
 
         public async Task<Result> Handle(Command request, CancellationToken ct)
@@ -46,7 +43,7 @@ public class GetTodo
 
             if (todo == null) throw new PlatformException(PlatformError.TodoNotFound);
 
-            var mapped = _mapper.Map<TodoDto>(todo);
+            var mapped = todo.MapToDto();
             var result = new Result { Todo = mapped };
 
             return result;

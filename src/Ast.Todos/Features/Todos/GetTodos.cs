@@ -1,6 +1,5 @@
 ﻿using Ast.Todos.Database;
 using Ast.Todos.Database.Extensions;
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,15 +10,15 @@ public class GetTodos
 {
     public class Command : IRequest<Result>
     {
-        public int PageNumber { get; set; } = 0;
-        public int PageSize { get; set; } = 10;
-        public string SortProperty { get; set; } = nameof(TodoDto.Id);
-        public SortOrder SortOrder { get; set; } = SortOrder.None;
+        public int PageNumber { get; init; } = 0;
+        public int PageSize { get; init; } = 10;
+        public string SortProperty { get; init; } = nameof(TodoDto.Id);
+        public SortOrder SortOrder { get; init; } = SortOrder.Desc;
     }
 
     public class Result
     {
-        public List<TodoDto> Todos { get; set; }
+        public IEnumerable<TodoDto> Todos { get; init; }
     }
 
     public class Validator : AbstractValidator<Command>
@@ -40,12 +39,10 @@ public class GetTodos
     public class Handler : IRequestHandler<Command, Result>
     {
         private readonly TodoContext _todoContext;
-        private readonly IMapper _mapper;
 
-        public Handler(TodoContext todoContext, IMapper mapper)
+        public Handler(TodoContext todoContext)
         {
             _todoContext = todoContext;
-            _mapper = mapper;
         }
 
         public async Task<Result> Handle(Command request, CancellationToken ct)
@@ -56,7 +53,7 @@ public class GetTodos
                 .Take(request.PageSize)
                 .ToListAsync(ct);
 
-            var mapped = _mapper.Map<List<TodoDto>>(todos);
+            var mapped = todos.TodoDtos();
             var result = new Result { Todos = mapped };
 
             return result;

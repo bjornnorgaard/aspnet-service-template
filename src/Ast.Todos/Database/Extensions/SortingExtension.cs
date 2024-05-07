@@ -8,10 +8,9 @@ public static class SortingExtension
     {
         q = order switch
         {
-            SortOrder.None => q,
             SortOrder.Asc => q.OrderBy(prop),
             SortOrder.Desc => q.OrderByDescending(prop),
-            _ => q
+            _ => q.OrderByDescending(prop)
         };
 
         return q;
@@ -20,7 +19,6 @@ public static class SortingExtension
 
 public enum SortOrder
 {
-    None,
     Desc,
     Asc,
 }

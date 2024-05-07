@@ -1,20 +1,23 @@
-﻿using AutoMapper;
+﻿using Ast.Todos.Database.Models;
+using Ast.Todos.Features.Todos;
+using Ast.Todos.Tests.Arrange;
+using FluentAssertions;
 using Xunit;
 
 namespace Ast.Todos.Tests.Unit;
 
 public class TodoMapperTests
 {
-    private readonly IMapper _uut;
-
-    public TodoMapperTests()
-    {
-        _uut = new MapperConfiguration(c => c.AddMaps(typeof(AssemblyAnchor).Assembly)).CreateMapper();
-    }
-
     [Fact]
-    public void AssertValidConfiguration()
+    public void MapDto()
     {
-        _uut.ConfigurationProvider.AssertConfigurationIsValid();
+        // Arrange
+        var todo = new Todo().Valid();
+
+        // Act
+        var dto = todo.MapToDto();
+
+        // Assert
+        dto.Should().BeEquivalentTo(todo);
     }
 }

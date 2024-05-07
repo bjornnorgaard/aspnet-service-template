@@ -1,13 +1,17 @@
-bin
-obj
-out
-volumes
-dockerfiles
-doc
-config
+# Usual suspects
+*/bin
+*/obj
+*/out
 .github
-.gitignore
-.dockerignore
 *.md
-.idea
+.gitignore
+
+# Docker 
+*/volumes
+*/dockerfiles
+.dockerignore
 compose.yaml
+
+# Editors
+*/.idea
+*/.vscode

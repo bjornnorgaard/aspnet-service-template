@@ -1,7 +1,6 @@
 using Ast.Platform.Options;
 using Ast.Todos.Database;
 using Ast.Todos.Options;
-using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +23,6 @@ public class IntegrationTestMethodIsolation : IAsyncLifetime
     public HttpClient Client { get; set; }
     public TodoContext Context { get; set; }
     private TestServer Server { get; set; }
-    public IMapper Mapper { get; set; }
 
     private readonly MsSqlContainer _sqlContainer = new MsSqlBuilder()
         .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
@@ -46,8 +44,6 @@ public class IntegrationTestMethodIsolation : IAsyncLifetime
             .UseEnvironment("Test")
             .UseConfiguration(config)
             .UseStartup<Startup>();
-
-        Mapper = new MapperConfiguration(c => c.AddMaps(typeof(AssemblyAnchor).Assembly)).CreateMapper();
 
         Server = new TestServer(builder);
         Client = Server.CreateClient();

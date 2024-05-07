@@ -23,7 +23,7 @@ public static class LoggingConfiguration
         };
 
         services.AddAllElasticApm();
-        
+
         Log.Logger = new LoggerConfiguration()
             .ReadFrom.Configuration(configuration)
             .Enrich.WithProperty("Application", options.ApplicationName)

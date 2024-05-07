@@ -11,14 +11,14 @@ public class CreateTodoTests : IntegrationTestCollectionIsolation
 
     public CreateTodoTests(IntegrationTestMethodIsolation fixture) : base(fixture)
     {
-        _uut = new CreateTodo.Handler(Context, Mapper);
+        _uut = new CreateTodo.Handler(Context);
     }
 
     [Fact]
     public async Task ShouldThrow_WhenTodoIsInvalid()
     {
         // Arrange
-        var command = new CreateTodo.Command().CreateValid();
+        var command = ArrangeCreateTodoCommand.CreateValid();
 
         // Act
         var result = await _uut.Handle(command, CancellationToken.None);

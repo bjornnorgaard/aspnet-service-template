@@ -16,12 +16,10 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        var assembly = typeof(Startup).Assembly;
-
         var connectionString = new DatabaseOptions(Configuration).TodoDatabase;
         services.AddDbContext<TodoContext>(o => o.UseSqlServer(connectionString));
 
-        services.AddAutoMapper(assembly);
+        var assembly = typeof(Startup).Assembly;
         services.AddPlatformServices(Configuration, assembly);
     }
 

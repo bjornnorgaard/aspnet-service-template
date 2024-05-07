@@ -1,19 +1,42 @@
 ﻿using Ast.Todos.Database.Models;
-using AutoMapper;
 
 namespace Ast.Todos.Features.Todos;
 
-public class TodoMapper : Profile
+public static class TodoMapper
 {
-    public TodoMapper()
+    public static Todo MapToTodo(this CreateTodo.Command command)
     {
-        CreateMap<Todo, TodoDto>();
+        return new Todo
+        {
+            Title = command.Title,
+            Description = command.Description
+        };
+    }
 
-        CreateMap<UpdateTodo.Command, Todo>()
-            .ForMember(dest => dest.Id, opt => opt.Ignore());
+    public static Todo MapToTodo(this UpdateTodo.Command command)
+    {
+        return new Todo
+        {
+            Id = command.TodoId,
+            Title = command.Title,
+            Description = command.Description,
+            IsCompleted = command.IsCompleted
+        };
+    }
 
-        CreateMap<CreateTodo.Command, Todo>()
-            .ForMember(dest => dest.Id, opt => opt.Ignore())
-            .ForMember(dest => dest.IsCompleted, opt => opt.Ignore());
+    public static TodoDto MapToDto(this Todo todo)
+    {
+        return new TodoDto
+        {
+            Id = todo.Id,
+            Title = todo.Title,
+            Description = todo.Description,
+            IsCompleted = todo.IsCompleted
+        };
+    }
+
+    public static IEnumerable<TodoDto> TodoDtos(this IEnumerable<Todo> todos)
+    {
+        return todos.Select(t => t.MapToDto());
     }
 }

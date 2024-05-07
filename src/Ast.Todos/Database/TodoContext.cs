@@ -5,7 +5,7 @@ namespace Ast.Todos.Database;
 
 public class TodoContext : DbContext
 {
-    public DbSet<Todo> Todos { get; set; }
+    public DbSet<Todo> Todos { get; init; }
 
     public TodoContext(DbContextOptions options) : base(options)
     {
