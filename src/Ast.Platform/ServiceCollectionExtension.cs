@@ -5,7 +5,6 @@ using Ast.Platform.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
 
 namespace Ast.Platform;
 
@@ -16,13 +15,8 @@ public static class ServiceCollectionExtension
         IConfiguration configuration,
         Assembly assembly)
     {
-        services.AddPlatformLogging(configuration);
-
-        Log.Information("Adding platform services...");
-
         configuration.ValidatePlatformConfiguration();
-
-        services.AddMemoryCache();
+        services.AddPlatformTelemetry(configuration);
         services.AddCorsPolicy(configuration);
         services.AddControllers(o => o.Filters.Add<ExceptionFilter>()).AddJsonOptions(o =>
         {
@@ -32,16 +26,12 @@ public static class ServiceCollectionExtension
         services.AddPlatformMediatr(assembly);
         services.AddPlatformSwagger(configuration);
         services.AddPlatformHangfire(configuration);
-
-        Log.Information("Platform services added");
     }
 
     public static void UsePlatformServices(this IApplicationBuilder app, IConfiguration configuration)
     {
-        Log.Information("Setting up platform pipeline...");
-
+        app.UsePlatformTelemetry(configuration);
         app.UsePlatformSwagger(configuration);
-        app.UsePlatformMiddleware();
         app.UseRouting();
         app.UseCorsPolicy();
         app.UseEndpoints(endpoints =>
@@ -50,7 +40,5 @@ public static class ServiceCollectionExtension
             endpoints.MapHealthChecks("/hc");
             endpoints.EnabledHangfireDashboard(configuration);
         });
-
-        Log.Information("Platform successfully started");
     }
 }
