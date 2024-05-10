@@ -11,8 +11,8 @@ public static class HangfireConfiguration
 {
     public static void AddPlatformHangfire(this IServiceCollection services, IConfiguration c)
     {
-        var options = new HangfireOptions(c);
-        if (options.EnabledHangfire == false) return;
+        var options = new ServiceOptions(c);
+        if (options.HangfireEnabled == false) return;
 
         services.AddHangfire(o =>
         {
@@ -25,8 +25,8 @@ public static class HangfireConfiguration
 
     public static void EnabledHangfireDashboard(this IEndpointRouteBuilder endpoints, IConfiguration c)
     {
-        var options = new HangfireOptions(c);
-        if (options.EnabledHangfire == false) return;
+        var options = new ServiceOptions(c);
+        if (options.HangfireEnabled == false) return;
         endpoints.MapHangfireDashboard();
     }
 }

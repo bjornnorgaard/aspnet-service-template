@@ -19,16 +19,17 @@ public class LoggingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, 
     {
         var sw = Stopwatch.StartNew();
         var feature = req?.GetType().FullName?.Split(".").Last().Split("+").First();
-        using var activity = TelemetryConfig.Source.StartFeatureActivity(feature);
+        using var activity = TelemetryConfig.Source.StartActivity(feature);
 
         var template = "Beginning {FeatureName} {@FeatureCommand}";
+        Activity.Current?.AddEvent(new ActivityEvent("Feature started"));
         _logger.LogInformation(template, feature, req);
 
         var result = await next();
 
         template = "Completed {FeatureName} {@FeatureResult} in {FeatureElapsedMilliseconds} ms";
         _logger.LogInformation(template, feature, result, sw.ElapsedMilliseconds);
-        activity?.SetStatus(ActivityStatusCode.Ok);
+        Activity.Current?.AddEvent(new ActivityEvent("Feature completed"));
 
         return result;
     }

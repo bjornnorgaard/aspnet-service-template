@@ -1,6 +1,5 @@
 using Ast.Platform.Options;
 using Ast.Todos.Database;
-using Ast.Todos.Options;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
@@ -37,8 +36,7 @@ public class IntegrationTestMethodIsolation : IAsyncLifetime
             .Build();
 
         var cs = _sqlContainer.GetConnectionString();
-        config[$"{nameof(DatabaseOptions)}:{nameof(DatabaseOptions.TodoDatabase)}"] = cs;
-        config[$"{nameof(HangfireOptions)}:{nameof(HangfireOptions.ConnectionString)}"] = cs;
+        config[$"{nameof(ServiceOptions)}:{nameof(ServiceOptions.ConnectionString)}"] = cs;
 
         var builder = new WebHostBuilder()
             .UseEnvironment("Test")

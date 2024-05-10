@@ -13,22 +13,25 @@ internal static class TelemetryConfiguration
 {
     internal static void AddPlatformTelemetry(this IServiceCollection services, IConfiguration configuration)
     {
-        var options = new LoggingOptions(configuration);
+        var options = new ServiceOptions(configuration);
 
         services.AddOpenTelemetry()
             .ConfigureResource(resource => resource
-                .AddService(options.ApplicationName))
+                .AddService(
+                    serviceName: options.ServiceName,
+                    serviceInstanceId: Environment.MachineName)
+            )
             .WithMetrics(metrics => metrics
                 .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
                 .AddMeter("Microsoft.AspNetCore.Hosting")
                 .AddMeter(TelemetryMeters.Meter.Name)
-                .AddMeter(options.ApplicationName)
+                .AddMeter(options.ServiceName)
                 .AddAspNetCoreInstrumentation()
                 .AddRuntimeInstrumentation()
                 .AddOtlpExporter())
             .WithTracing(tracing => tracing
                 .AddSource(TelemetryConfig.ProjectName)
-                .AddSource(options.ApplicationName)
+                .AddSource(options.ServiceName)
                 .AddEntityFrameworkCoreInstrumentation()
                 .AddAspNetCoreInstrumentation()
                 .AddOtlpExporter());

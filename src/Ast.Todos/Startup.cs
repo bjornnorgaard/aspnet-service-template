@@ -1,6 +1,6 @@
 ﻿using Ast.Platform;
+using Ast.Platform.Options;
 using Ast.Todos.Database;
-using Ast.Todos.Options;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ast.Todos;
@@ -16,9 +16,8 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        var connectionString = new DatabaseOptions(Configuration).TodoDatabase;
-        services.AddDbContext<TodoContext>(o => o.UseSqlServer(connectionString));
-
+        var cs = new ServiceOptions(Configuration).ConnectionString;
+        services.AddDbContext<TodoContext>(o => o.UseSqlServer(cs));
         var assembly = typeof(Startup).Assembly;
         services.AddPlatformServices(Configuration, assembly);
     }

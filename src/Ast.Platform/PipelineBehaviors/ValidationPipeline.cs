@@ -22,22 +22,27 @@ public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TReques
 
     public async Task<TResponse> Handle(TRequest req, RequestHandlerDelegate<TResponse> next, CancellationToken ct)
     {
+        using var activity = TelemetryConfig.Source.StartActivity("Validation");
+        
         if (_validator == null)
         {
-            Activity.Current?.AddValidationDisabled();
+            Activity.Current?.AddEvent(new ActivityEvent("Validation skipped"));
             return await next();
         }
 
+        Activity.Current?.AddEvent(new ActivityEvent("Validation started"));
         var result = await _validator.ValidateAsync(req, ct);
-        Activity.Current?.AddValidationResult(result.IsValid);
+        Activity.Current?.AddEvent(new ActivityEvent("Validation completed"));
 
         if (!result.IsValid)
         {
+            Activity.Current?.AddEvent(new ActivityEvent("Validation failed"));
             var featureName = req.GetType().FullName?.Split(".").Last().Split("+").First();
             _logger.LogWarning("Validation failed for {FeatureName} {@FeatureCommand}", featureName, req);
             throw new ValidationException(result.Errors);
         }
 
+        Activity.Current?.AddEvent(new ActivityEvent("Validation passed"));
         return await next();
     }
 }
