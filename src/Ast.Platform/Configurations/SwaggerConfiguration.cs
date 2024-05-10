@@ -16,16 +16,8 @@ internal static class SwaggerConfiguration
         {
             c.CustomSchemaIds(t =>
             {
-                if (string.IsNullOrWhiteSpace(t.FullName))
-                {
-                    return t.Name;
-                }
-
-                if (t.FullName.Contains('+'))
-                {
-                    return t.FullName.Split(".").Last().Replace("+", "");
-                }
-
+                if (string.IsNullOrWhiteSpace(t.FullName)) return t.Name;
+                if (t.FullName.Contains('+')) return t.FullName.Split(".").Last().Replace("+", "");
                 return t.Name;
             });
             c.SwaggerDoc("v1", new OpenApiInfo { Title = options.ApplicationTitle, Version = "v1" });

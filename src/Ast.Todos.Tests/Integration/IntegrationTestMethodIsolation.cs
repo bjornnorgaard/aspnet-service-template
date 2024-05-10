@@ -20,13 +20,13 @@ public class IntegrationTestCollection : ICollectionFixture<IntegrationTestMetho
 
 public class IntegrationTestMethodIsolation : IAsyncLifetime
 {
-    public HttpClient Client { get; set; }
-    public TodoContext Context { get; set; }
-    private TestServer Server { get; set; }
-
     private readonly MsSqlContainer _sqlContainer = new MsSqlBuilder()
         .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
         .Build();
+
+    public HttpClient Client { get; set; }
+    public TodoContext Context { get; set; }
+    private TestServer Server { get; set; }
 
     public async Task InitializeAsync()
     {
