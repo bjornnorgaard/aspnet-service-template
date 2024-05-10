@@ -19,7 +19,7 @@ public class LoggingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, 
     {
         var sw = Stopwatch.StartNew();
         var feature = req?.GetType().FullName?.Split(".").Last().Split("+").First();
-        using var activity = TelemetryConfig.Source.StartActivity(feature);
+        using var activity = TelemetrySource.Source.StartActivity(feature);
 
         var template = "Beginning {FeatureName} {@FeatureCommand}";
         Activity.Current?.AddEvent(new ActivityEvent("Feature started"));
