@@ -11,7 +11,6 @@ services:
       - .env
     depends_on:
       - mssqlserver
-    restart: on-failure
 
   mssqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -29,4 +28,3 @@ services:
     ports:
       - "18888:18888"
       - "4317:18889"
-    restart: on-failure
