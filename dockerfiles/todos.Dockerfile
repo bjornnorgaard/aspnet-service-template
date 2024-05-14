@@ -8,7 +8,7 @@ RUN for file in $(ls *.csproj); do mkdir -p ${file%.*}/ && mv $file ${file%.*}/;
 RUN dotnet restore
 
 COPY . .
-RUN dotnet build
+RUN dotnet build --no-restore
 RUN dotnet publish Ast.Todos/Ast.Todos.csproj -c Release -o out
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
