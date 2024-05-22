@@ -1,4 +1,6 @@
-﻿using Ast.Todos.Database;
+﻿using System.Diagnostics;
+using Ast.Platform.Telemetry;
+using Ast.Todos.Database;
 using Ast.Todos.Database.Extensions;
 using FluentValidation;
 using MediatR;
@@ -47,6 +49,9 @@ public class GetTodos
 
         public async Task<Result> Handle(Command request, CancellationToken ct)
         {
+            ActivityCurrent.SetTag("PageNumber", request.PageNumber);
+            ActivityCurrent.SetTag("PageSize", request.PageSize);
+
             var todos = await _todoContext.Todos.AsNoTracking()
                 .SortBy(TodoSortExpressions.Get(request.SortProperty), request.SortOrder)
                 .Skip(request.PageNumber * request.PageSize)
