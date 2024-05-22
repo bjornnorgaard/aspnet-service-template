@@ -22,13 +22,16 @@ internal static class TelemetryConfiguration
                 .AddSource(TelemetrySource.ProjectName)
                 .AddSource(options.ServiceName)
                 .AddEntityFrameworkCoreInstrumentation()
+                .AddHttpClientInstrumentation()
                 .AddAspNetCoreInstrumentation()
                 .AddOtlpExporter(b => b.Endpoint = new Uri(options.TelemetryCollectorHost)))
             .WithMetrics(metrics => metrics
                 .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
                 .AddMeter("Microsoft.AspNetCore.Hosting")
                 .AddMeter(TelemetryMeters.Meter.Name)
+                .AddMeter(TelemetryMeters.FeatureInvokationCount.Name)
                 .AddAspNetCoreInstrumentation()
+                .AddHttpClientInstrumentation()
                 .AddRuntimeInstrumentation()
                 .AddOtlpExporter(b => b.Endpoint = new Uri(options.TelemetryCollectorHost)));
     }

@@ -21,6 +21,8 @@ public class LoggingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, 
         var feature = req?.GetType().FullName?.Split(".").Last().Split("+").First();
         using var activity = TelemetrySource.Source.StartActivity(feature);
 
+        TelemetryMeters.FeatureInvokationCount.Add(1, new KeyValuePair<string, object>("feature_name", feature));
+
         var template = "Beginning {FeatureName} {@FeatureCommand}";
         Activity.Current?.AddEvent(new ActivityEvent("Feature started"));
         _logger.LogInformation(template, feature, req);

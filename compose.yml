@@ -9,6 +9,7 @@ services:
       - "6001:8080"
     env_file:
       - .env
+    restart: on-failure
     depends_on:
       - mssqlserver
 
