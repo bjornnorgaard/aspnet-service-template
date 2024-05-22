@@ -11,6 +11,7 @@
 */dockerfiles
 .dockerignore
 compose.yaml
+/configs
 
 # Editors
 */.idea
