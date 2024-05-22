@@ -7,6 +7,7 @@ public class ServiceOptions : AbstractOptions
     public string ConnectionString { get; set; }
     public bool HangfireEnabled { get; set; }
     public string ServiceName { get; set; }
+    public string TelemetryCollectorHost { get; set; }
 
     public ServiceOptions(IConfiguration configuration) : base(configuration)
     {

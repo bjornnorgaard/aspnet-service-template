@@ -23,14 +23,14 @@ internal static class TelemetryConfiguration
                 .AddSource(options.ServiceName)
                 .AddEntityFrameworkCoreInstrumentation()
                 .AddAspNetCoreInstrumentation()
-                .AddOtlpExporter())
+                .AddOtlpExporter(b => b.Endpoint = new Uri(options.TelemetryCollectorHost)))
             .WithMetrics(metrics => metrics
                 .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
                 .AddMeter("Microsoft.AspNetCore.Hosting")
                 .AddMeter(TelemetryMeters.Meter.Name)
                 .AddAspNetCoreInstrumentation()
                 .AddRuntimeInstrumentation()
-                .AddOtlpExporter());
+                .AddOtlpExporter(b => b.Endpoint = new Uri(options.TelemetryCollectorHost)));
     }
 
     internal static void UsePlatformTelemetry(this IApplicationBuilder app, IConfiguration configuration)
