@@ -11,10 +11,6 @@ public static class HostExtensions
     {
         const string key = $"{nameof(ServiceOptions)}__{nameof(ServiceOptions.TelemetryCollectorHost)}";
         var collectorEndpoint = Environment.GetEnvironmentVariable(key);
-        if (string.IsNullOrWhiteSpace(collectorEndpoint))
-        {
-            throw new Exception($"Env var {key} was empty.");
-        }
 
         return builder.ConfigureLogging(loggingBuilder =>
         {
@@ -22,7 +18,9 @@ public static class HostExtensions
                 {
                     loggerOptions.IncludeScopes = true;
                     loggerOptions.IncludeFormattedMessage = true;
-                    loggerOptions.AddOtlpExporter(options => options.Endpoint = new Uri(collectorEndpoint));
+
+                    if (string.IsNullOrWhiteSpace(collectorEndpoint)) loggerOptions.AddOtlpExporter();
+                    else loggerOptions.AddOtlpExporter(options => options.Endpoint = new Uri(collectorEndpoint));
                 }
             );
         });
