@@ -13,7 +13,7 @@ public static class HostExtensions
         var collectorEndpoint = Environment.GetEnvironmentVariable(key);
         if (string.IsNullOrWhiteSpace(collectorEndpoint))
         {
-            throw new Exception($"Telemetry collector host is not set. Environment variable: {key} was empty.");
+            throw new Exception($"Env var {key} was empty.");
         }
 
         return builder.ConfigureLogging(loggingBuilder =>
