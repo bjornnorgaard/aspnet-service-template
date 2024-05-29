@@ -15,10 +15,23 @@ internal static class TelemetryConfiguration
     {
         var options = new ServiceOptions(configuration);
 
+        var attributes = new Dictionary<string, object>
+        {
+            ["environment.name"] = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),
+            ["server.name"] = Environment.MachineName,
+        };
+
+        var resourceBuilder = ResourceBuilder
+            .CreateDefault()
+            .AddAttributes(attributes)
+            .AddService(serviceName: options.ServiceName);
+
         services.AddOpenTelemetry()
             .ConfigureResource(builder => builder
-                .AddService(serviceName: options.ServiceName, serviceInstanceId: Environment.MachineName))
+                .AddService(options.ServiceName)
+                .AddAttributes(attributes))
             .WithTracing(tracing => tracing
+                .SetResourceBuilder(resourceBuilder)
                 .AddSource(TelemetrySource.ProjectName)
                 .AddSource(options.ServiceName)
                 .AddEntityFrameworkCoreInstrumentation()
@@ -26,6 +39,7 @@ internal static class TelemetryConfiguration
                 .AddAspNetCoreInstrumentation()
                 .AddOtlpExporter(b => b.Endpoint = new Uri(options.TelemetryCollectorHost)))
             .WithMetrics(metrics => metrics
+                .SetResourceBuilder(resourceBuilder)
                 .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
                 .AddMeter("Microsoft.AspNetCore.Hosting")
                 .AddMeter(TelemetryMeters.Meter.Name)
