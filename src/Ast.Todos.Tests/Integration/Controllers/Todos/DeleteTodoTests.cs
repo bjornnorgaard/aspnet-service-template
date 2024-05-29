@@ -2,6 +2,7 @@
 using Ast.Todos.Tests.Arrange;
 using Ast.Todos.Tests.Assertions;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace Ast.Todos.Tests.Integration.Controllers.Todos;
@@ -26,21 +27,21 @@ public class DeleteTodoTests : IntegrationTestCollectionIsolation
     }
 
     [Fact]
-    public async Task ShouldFailToDeleteTodo_WhenTodoDoesNotExist()
+    public async Task ShouldDeleteTodo()
     {
         // Arrange
         var todo = await Context.SeedTodoAsync();
         await Context.SaveChangesAsync();
 
         // Assert
-        var deleteCommand = new Models.Todos.DeleteTodo.Command { TodoId = todo.Id.ToString() };
-        var response = await Client.PostAsJsonAsync(Routes.Todos.DeleteTodo, deleteCommand);
+        var command = new Models.Todos.DeleteTodo.Command { TodoId = todo.Id.ToString() };
+        var response = await Client.PostAsJsonAsync(Routes.Todos.DeleteTodo, command);
         await Task.Delay(50); // Delete uses hangfire job, so we need to wait a bit.
 
         // Assert
         response.ShouldBeSuccess();
-        var found = await Context.Todos.FindAsync(todo.Id);
-        found?.Should().NotBeNull();
-        found?.Title.Should().Be(todo.Title);
+        var found = await Context.Todos.FirstOrDefaultAsync(t => t.Id == todo.Id);
+        found.Should().BeEquivalentTo(todo);
+        found.Id.ToString().MustBeValidGuid();
     }
 }
