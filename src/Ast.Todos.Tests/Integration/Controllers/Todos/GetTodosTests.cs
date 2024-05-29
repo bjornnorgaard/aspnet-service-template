@@ -1,34 +1,30 @@
 using System.Net.Http.Json;
-using Ast.Todos.Controllers;
-using Ast.Todos.Features.Todos;
 using Ast.Todos.Tests.Arrange;
+using Ast.Todos.Tests.Assertions;
 using FluentAssertions;
 using Xunit;
 
 namespace Ast.Todos.Tests.Integration.Controllers.Todos;
 
-public class GetTodosTests : IntegrationTestCollectionIsolation
+public class GetTodosTests : IntegrationTestMethodIsolation
 {
-    public GetTodosTests(IntegrationTestMethodIsolation fixture) : base(fixture)
-    {
-    }
-
     [Fact]
     public async Task ShouldReturnEmptyList()
     {
         // Arrange
-        var command = new GetTodos.Command();
+        var command = new Models.Todos.GetTodos.Command();
 
         // Act
         var response = await Client.PostAsJsonAsync(Routes.Todos.GetTodos, command);
-        var content = await response.Content.ReadFromJsonAsync<GetTodos.Result>();
+        var content = await response.Content.ReadFromJsonAsync<Models.Todos.GetTodos.Result>();
 
         // Assert
-        content.Todos.Should().NotBeNull();
+        response.ShouldBeSuccess();
+        content.Todos.Should().NotBeNull().And.BeEmpty();
     }
 
     [Fact]
-    public async Task ShouldReturnListOfTodos()
+    public async Task ShouldReturnPagedListOfTodos()
     {
         // Arrange
         for (var i = 0; i < 10; i++)
@@ -38,13 +34,22 @@ public class GetTodosTests : IntegrationTestCollectionIsolation
 
         await Context.SaveChangesAsync();
 
-        var command = new GetTodos.Command { PageSize = 7 };
+        var command = new Models.Todos.GetTodos.Command{PageSize = 7};
 
         // Act
         var response = await Client.PostAsJsonAsync(Routes.Todos.GetTodos, command);
-        var content = await response.Content.ReadFromJsonAsync<GetTodos.Result>();
+        var content = await response.Content.ReadFromJsonAsync<Models.Todos.GetTodos.Result>();
 
         // Assert
+        response.ShouldBeSuccess();
         content.Todos.Should().HaveCount(7);
+
+        foreach (var todo in content.Todos)
+        {
+            todo.Id.MustBeValidGuid();
+            todo.Title.Should().NotBeNullOrWhiteSpace();
+            todo.Description.Should().NotBeNullOrWhiteSpace();
+            todo.IsCompleted.Should().BeFalse();
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Ast.Platform.Telemetry;
+﻿using Ast.Platform.Telemetry;
 using Ast.Todos.Database;
 using Ast.Todos.Database.Extensions;
 using FluentValidation;

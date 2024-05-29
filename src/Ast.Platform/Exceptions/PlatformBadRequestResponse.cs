@@ -1,6 +1,6 @@
 ﻿namespace Ast.Platform.Exceptions;
 
-public class PlatformBadRequestResponse
+internal class PlatformBadRequestResponse
 {
     public int Code { get; init; }
     public string Message { get; init; }

@@ -1,18 +1,13 @@
 ﻿using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
 
 namespace Ast.Todos.Tests.Assertions;
 
 public static class FluentAssertionExtension
 {
-    public static async Task<HttpResponseMessageAssertions> ShouldBeSuccess(this HttpResponseMessage actualValue)
+    public static void ShouldBeSuccess(this HttpResponseMessage actualValue)
     {
-        if (actualValue.IsSuccessStatusCode)
-        {
-            return new HttpResponseMessageAssertions(actualValue);
-        }
-
-        var msg = await actualValue.Content.ReadAsStringAsync();
+        if (actualValue.IsSuccessStatusCode) return;
+        var msg = actualValue.Content.ReadAsStringAsync().Result;
         throw new AssertionFailedException(msg);
     }
 }

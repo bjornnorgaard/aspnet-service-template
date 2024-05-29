@@ -1,8 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using Ast.Platform.Exceptions;
-using Ast.Todos.Controllers;
-using Ast.Todos.Features.Todos;
 using FluentAssertions;
 using Humanizer;
 using Xunit;
@@ -19,15 +17,15 @@ public class GetTodoTests : IntegrationTestCollectionIsolation
     public async Task ShouldReturnBadRequest_WhenTodoDoesNotExist()
     {
         // Arrange
-        var command = new GetTodo.Command { TodoId = Guid.NewGuid() };
+        var command = new Models.Todos.GetTodo.Command { TodoId = Guid.NewGuid().ToString() };
 
         // Act
         var response = await Client.PostAsJsonAsync(Routes.Todos.GetTodo, command);
-        var content = await response.Content.ReadFromJsonAsync<PlatformBadRequestResponse>();
+        var content = await response.Content.ReadFromJsonAsync<Models.BadRequestResponse>();
 
         // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         content.Code.Should().Be((int)PlatformError.TodoNotFound);
         content.Message.Should().Be(PlatformError.TodoNotFound.Humanize(LetterCasing.Sentence));
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 }
