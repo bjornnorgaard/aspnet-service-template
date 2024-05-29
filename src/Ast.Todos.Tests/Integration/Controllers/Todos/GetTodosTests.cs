@@ -34,7 +34,7 @@ public class GetTodosTests : IntegrationTestMethodIsolation
 
         await Context.SaveChangesAsync();
 
-        var command = new Models.Todos.GetTodos.Command{PageSize = 7};
+        var command = new Models.Todos.GetTodos.Command { PageSize = 7 };
 
         // Act
         var response = await Client.PostAsJsonAsync(Routes.Todos.GetTodos, command);
