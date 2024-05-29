@@ -1,18 +1,18 @@
 # Usual suspects
-*/bin
-*/obj
-*/out
+**/bin
+**/obj
+**/out
 .github
 *.md
 .gitignore
 
 # Docker 
-*/volumes
-*/dockerfiles
+volumes
+dockerfiles
 .dockerignore
 compose.yaml
-/configs
+configs
 
 # Editors
-*/.idea
-*/.vscode
+**/.idea
+**/.vscode
