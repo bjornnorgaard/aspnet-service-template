@@ -3,15 +3,16 @@
 **/obj
 **/out
 .github
+.git
 *.md
 .gitignore
 
 # Docker 
 volumes
+configs
 dockerfiles
 .dockerignore
 compose.yaml
-configs
 
 # Editors
 **/.idea
