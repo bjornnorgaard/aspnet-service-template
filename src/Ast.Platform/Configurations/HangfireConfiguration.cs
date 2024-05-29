@@ -1,6 +1,7 @@
 ﻿using Ast.Platform.Hangfire;
 using Ast.Platform.Options;
 using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +17,7 @@ public static class HangfireConfiguration
 
         services.AddHangfire(o =>
         {
-            o.UseSqlServerStorage(options.ConnectionString);
+            o.UsePostgreSqlStorage(setup => setup.UseNpgsqlConnection(options.ConnectionString));
             o.AddMediatR();
         });
 

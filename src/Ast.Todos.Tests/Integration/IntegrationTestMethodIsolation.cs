@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Testcontainers.MsSql;
+using Testcontainers.PostgreSql;
 using Xunit;
 
 namespace Ast.Todos.Tests.Integration;
@@ -19,8 +19,8 @@ public class IntegrationTestCollection : ICollectionFixture<IntegrationTestMetho
 
 public class IntegrationTestMethodIsolation : IAsyncLifetime
 {
-    private readonly MsSqlContainer _sqlContainer = new MsSqlBuilder()
-        .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
+    private readonly PostgreSqlContainer _sqlContainer = new PostgreSqlBuilder()
+        .WithImage("postgres:15-alpine")
         .Build();
 
     public HttpClient Client { get; set; }
@@ -45,7 +45,7 @@ public class IntegrationTestMethodIsolation : IAsyncLifetime
 
         Server = new TestServer(builder);
         Client = Server.CreateClient();
-        Context = new TodoContext(new DbContextOptionsBuilder<TodoContext>().UseSqlServer(cs).Options);
+        Context = new TodoContext(new DbContextOptionsBuilder<TodoContext>().UseNpgsql(cs).Options);
         await Context.Database.EnsureCreatedAsync();
     }
 

@@ -11,18 +11,16 @@ services:
       - .env
     restart: on-failure
     depends_on:
-      - mssqlserver
+      - postgres
 
-  mssqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+  postgres:
+    image: postgres:15-alpine
     ports:
-      - "1433:1433"
-    environment:
-      MSSQL_SA_PASSWORD: "yourStrong(!)Password"
-      ACCEPT_EULA: "Y"
+      - "5432:5432"
+    env_file:
+      - .env
     volumes:
-      - ./volumes/mssqlserver/mssql/data:/var/opt/mssql/data
-      - ./volumes/mssqlserver/sqlserver:/var/opt/mssqlserver
+      - ./volumes/postgres/data:/var/lib/postgresql/data
 
   aspire-dashboard:
     image: mcr.microsoft.com/dotnet/nightly/aspire-dashboard:8.0.0-preview.6

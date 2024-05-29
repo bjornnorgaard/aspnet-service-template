@@ -17,7 +17,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         var cs = new ServiceOptions(Configuration).ConnectionString;
-        services.AddDbContext<TodoContext>(o => o.UseSqlServer(cs));
+        services.AddDbContext<TodoContext>(o => o.UseNpgsql(cs));
         var assembly = typeof(Startup).Assembly;
         services.AddPlatformServices(Configuration, assembly);
     }
