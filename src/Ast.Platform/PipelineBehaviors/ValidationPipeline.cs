@@ -22,6 +22,8 @@ public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TReques
 
     public async Task<TResponse> Handle(TRequest req, RequestHandlerDelegate<TResponse> next, CancellationToken ct)
     {
+        using var activity = TelemetrySource.Source.StartActivity("Validation");
+
         if (_validator == null)
         {
             Activity.Current?.AddEvent(new ActivityEvent("Validation skipped"));
