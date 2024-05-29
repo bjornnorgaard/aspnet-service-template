@@ -14,10 +14,10 @@ internal static class TelemetryConfiguration
     internal static void AddPlatformTelemetry(this IServiceCollection services, IConfiguration configuration)
     {
         var options = new ServiceOptions(configuration);
-
+        var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "null";
         var attributes = new Dictionary<string, object>
         {
-            ["environment.name"] = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),
+            ["environment.name"] = env,
             ["server.name"] = Environment.MachineName,
         };
 
