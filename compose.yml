@@ -14,7 +14,7 @@ services:
       - postgres
 
   postgres:
-    image: postgres:15-alpine
+    image: postgres:15.7-alpine3.20
     ports:
       - "5432:5432"
     env_file:
