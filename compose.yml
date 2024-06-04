@@ -24,6 +24,8 @@ services:
 
   aspire-dashboard:
     image: mcr.microsoft.com/dotnet/nightly/aspire-dashboard:8.0.0-preview.6
+    env_file:
+      - .env
     environment:
       DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: true
     ports:
@@ -31,13 +33,32 @@ services:
       - "18889:18889"
 
   otel-collector:
-    image: otel/opentelemetry-collector:0.24.0
+    image: otel/opentelemetry-collector:0.101.0
     command: [ "--config=/etc/otel-collector-config.yml" ]
     ports:
-      - "4317:4317"
+      - "4317:4317" # OpenTelemetry gRPC receiver
+      - "8888:8888" # Prometheus metrics exposed by the collector
+      - "8889:8889" # Prometheus exporter metrics
     environment:
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://aspire-dashboard:18889"
     volumes:
-      - ./configs/otelcollector/otelcol-config.yml:/etc/otel-collector-config.yml
-    depends_on:
-      - aspire-dashboard
+      - ./configs/otelcollector/otel-collector-config.yml:/etc/otel-collector-config.yml
+
+  prometheus:
+    image: prom/prometheus:v2.33.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./configs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: "admin"
+      GF_SECURITY_ADMIN_PASSWORD: "changeme"
+    volumes:
+      - ./volumes/grafana/:/var/lib/grafana
+      - ./configs/grafana/provisioning:/etc/grafana/provisioning
+      - ./configs/grafana/dashboards:/var/lib/grafana/dashboards

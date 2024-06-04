@@ -1,0 +1,35 @@
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    uid: "d9b364a5-2503-4f17-8ef9-b4eab61f43cb"
+    type: prometheus
+    access: proxy
+    isDefault: true
+    # Access mode - proxy (server in the UI) or direct (browser in the UI).
+    url: http://prometheus:9090
+    jsonData:
+      httpMethod: POST
+      manageAlerts: false
+      prometheusType: Prometheus
+      prometheusVersion: 2.44.0
+      cacheLevel: 'High'
+      disableRecordingRules: false
+      incrementalQueryOverlapWindow: 10m
+
+  - name: Postgres
+    uid: "r3t364a5-5203-1t17-9nf9-d6eab61f43uh"
+    type: postgres
+    url: "postgres:5432"
+    user: todos
+    secureJsonData:
+      password: "mysecretpassword"
+    jsonData:
+      database: todos
+      sslmode: "disable" # disable/require/verify-ca/verify-full
+      maxOpenConns: 100 # Grafana v5.4+
+      maxIdleConns: 100 # Grafana v5.4+
+      maxIdleConnsAuto: true # Grafana v9.5.1+
+      connMaxLifetime: 14400 # Grafana v5.4+
+      postgresVersion: 903 # 903=9.3, 904=9.4, 905=9.5, 906=9.6, 1000=10
+      timescaledb: false
