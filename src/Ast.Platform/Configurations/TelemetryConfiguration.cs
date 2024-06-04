@@ -47,6 +47,7 @@ internal static class TelemetryConfiguration
                 .AddAspNetCoreInstrumentation()
                 .AddHttpClientInstrumentation()
                 .AddRuntimeInstrumentation()
+                .AddProcessInstrumentation()
                 .AddOtlpExporter(b => b.Endpoint = new Uri(options.TelemetryCollectorHost)));
     }
 
