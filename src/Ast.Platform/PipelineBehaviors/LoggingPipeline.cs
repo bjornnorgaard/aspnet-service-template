@@ -23,7 +23,6 @@ public class LoggingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, 
         Activity.Current?.AddEvent(new ActivityEvent("Feature started"));
         Activity.Current?.AddTag("feature.name", feature);
 
-        TelemetryMeters.FeatureInvokationCount.Add(1, new KeyValuePair<string, object>("feature_name", feature));
         _logger.LogInformation("Beginning {FeatureName} {@FeatureCommand}", feature, req);
 
         var result = await next();

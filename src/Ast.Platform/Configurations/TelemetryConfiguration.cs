@@ -42,8 +42,6 @@ internal static class TelemetryConfiguration
                 .SetResourceBuilder(resourceBuilder)
                 .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
                 .AddMeter("Microsoft.AspNetCore.Hosting")
-                .AddMeter(TelemetryMeters.Meter.Name)
-                .AddMeter(TelemetryMeters.FeatureInvokationCount.Name)
                 .AddAspNetCoreInstrumentation()
                 .AddHttpClientInstrumentation()
                 .AddRuntimeInstrumentation()
