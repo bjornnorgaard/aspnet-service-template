@@ -7,12 +7,8 @@ using Xunit;
 
 namespace Ast.Todos.Tests.Integration.Controllers.Todos;
 
-public class DeleteTodoTests : IntegrationTestCollectionIsolation
+public class DeleteTodoTests : IntegrationTestMethodIsolation
 {
-    public DeleteTodoTests(IntegrationTestMethodIsolation fixture) : base(fixture)
-    {
-    }
-
     [Fact]
     public async Task ShouldReturnSuccess_EvenWhenTodoDoesNotExist()
     {
