@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry.Logs;
-using Serilog;
 
 namespace Ast.Platform;
 
@@ -15,7 +14,8 @@ public static class HostExtensions
         if (string.IsNullOrWhiteSpace(collectorEndpoint))
         {
             collectorEndpoint = "http://localhost:18889";
-            Console.WriteLine($"Environment variable {key} is not set. Using default OpenTelemetry collector endpoint: {collectorEndpoint}");
+            Console.WriteLine(
+                $"Environment variable {key} is not set. Using default OpenTelemetry collector endpoint: {collectorEndpoint}");
         }
 
         return builder.ConfigureLogging(loggingBuilder =>
