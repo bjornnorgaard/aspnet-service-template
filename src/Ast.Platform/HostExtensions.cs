@@ -13,7 +13,7 @@ public static class HostExtensions
         var collectorEndpoint = Environment.GetEnvironmentVariable(key);
         if (string.IsNullOrWhiteSpace(collectorEndpoint))
         {
-            collectorEndpoint = "http://localhost:18889";
+            collectorEndpoint = "http://localhost:4317";
             Console.WriteLine($"Env var {key} is not set. Using default: {collectorEndpoint}");
         }
 
