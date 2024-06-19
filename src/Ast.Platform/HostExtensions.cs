@@ -14,8 +14,7 @@ public static class HostExtensions
         if (string.IsNullOrWhiteSpace(collectorEndpoint))
         {
             collectorEndpoint = "http://localhost:18889";
-            Console.WriteLine(
-                $"Environment variable {key} is not set. Using default OpenTelemetry collector endpoint: {collectorEndpoint}");
+            Console.WriteLine($"Env var {key} is not set. Using default: {collectorEndpoint}");
         }
 
         return builder.ConfigureLogging(loggingBuilder =>
