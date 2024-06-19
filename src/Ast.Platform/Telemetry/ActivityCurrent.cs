@@ -8,4 +8,9 @@ public static class ActivityCurrent
     {
         Activity.Current?.SetTag(key, value);
     }
+
+    public static void AddEvent(string name)
+    {
+        Activity.Current?.AddEvent(new ActivityEvent(name));
+    }
 }
