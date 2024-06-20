@@ -9,6 +9,31 @@ services:
       - "6001:8080"
     env_file:
       - .env
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ENVIRONMENT_NAME}
+      ServiceOptions__ServiceName: "Todos API"
+      ServiceOptions__ConnectionString: "Host=${DATABASE_HOST}; Database=todos; Username=${POSTGRES_USER}; Password=${POSTGRES_PASSWORD}"
+      ServiceOptions__HangfireEnabled: "true"
+      ServiceOptions__TelemetryCollectorHost: ${OTEL_COLLECTOR_HOST}
+    restart: on-failure
+    depends_on:
+      - postgres
+
+  users-api:
+    image: ursu/ant-users-api:latest
+    build:
+      context: src
+      dockerfile: ../dockerfiles/users.Dockerfile
+    ports:
+      - "6002:8080"
+    env_file:
+      - .env
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ENVIRONMENT_NAME}
+      ServiceOptions__ServiceName: "Users API"
+      ServiceOptions__ConnectionString: "Host=postgres; Database=users; Username=${POSTGRES_USER}; Password=${POSTGRES_PASSWORD}"
+      ServiceOptions__HangfireEnabled: "true"
+      ServiceOptions__TelemetryCollectorHost: ${OTEL_COLLECTOR_HOST}
     restart: on-failure
     depends_on:
       - postgres

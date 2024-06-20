@@ -28,6 +28,20 @@ public static class ServiceCollectionExtension
         services.AddPlatformHangfire(configuration);
     }
 
+    public static WebApplicationBuilder AddPlatformServices(this WebApplicationBuilder builder)
+    {
+        var configuration = builder.Configuration;
+        configuration.ValidatePlatformConfiguration();
+        builder.Services.AddPlatformTelemetry(configuration);
+        builder.Services.AddPlatformHangfire(configuration);
+        builder.Services.AddCorsPolicy(configuration);
+        builder.Services.AddHealthChecks();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
+        return builder;
+    }
+
     public static void UsePlatformServices(this IApplicationBuilder app, IConfiguration configuration)
     {
         app.UsePlatformTelemetry(configuration);
@@ -40,5 +54,17 @@ public static class ServiceCollectionExtension
             endpoints.MapHealthChecks("/hc");
             endpoints.EnabledHangfireDashboard(configuration);
         });
+    }
+
+    public static WebApplication MapPlatformServices(this WebApplication app)
+    {
+        var configuration = app.Configuration;
+        app.UsePlatformTelemetry(configuration);
+        app.UseCorsPolicy();
+        app.MapHealthChecks("/hc");
+        app.EnabledHangfireDashboard(configuration);
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        return app;
     }
 }
