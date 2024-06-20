@@ -2,17 +2,21 @@ receivers:
   otlp:
     protocols:
       grpc:
+      http:
 
 exporters:
   prometheus:
     endpoint: "0.0.0.0:8889"
-    const_labels:
-      label1: value1
 
   debug:
 
-  otlp:
+  otlp/aspire:
     endpoint: aspire-dashboard:18889
+    tls:
+      insecure: true
+
+  otlp/jaeger:
+    endpoint: "jaeger:4317"
     tls:
       insecure: true
 
@@ -32,12 +36,12 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug, otlp]
+      exporters: [debug, otlp/aspire, otlp/jaeger]
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug, prometheus]
+      exporters: [debug, prometheus, otlp/aspire]
     logs:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug, otlp]
+      exporters: [debug, otlp/aspire]
