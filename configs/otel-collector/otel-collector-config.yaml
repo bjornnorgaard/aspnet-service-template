@@ -5,10 +5,10 @@ receivers:
       http:
 
 exporters:
+  debug:
+
   prometheus:
     endpoint: "0.0.0.0:8889"
-
-  debug:
 
   otlp/aspire:
     endpoint: aspire-dashboard:18889
