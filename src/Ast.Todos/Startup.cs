@@ -2,6 +2,7 @@
 using Ast.Platform.Options;
 using Ast.Todos.Database;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace Ast.Todos;
 
@@ -22,9 +23,18 @@ public class Startup
         services.AddPlatformServices(Configuration, assembly);
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TodoContext todoContext)
+    public void Configure(IApplicationBuilder app, TodoContext todoContext, ILogger<Startup> logger)
     {
-        todoContext.Database.Migrate();
+        try
+        {
+            todoContext.Database.Migrate();
+        }
+        catch (PostgresException e)
+        {
+            logger.LogError(e, "Failed to migrate database");
+            Console.WriteLine(e);
+        }
+
         app.UsePlatformServices(Configuration);
     }
 }
