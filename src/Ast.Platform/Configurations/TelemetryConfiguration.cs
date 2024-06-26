@@ -40,12 +40,6 @@ internal static class TelemetryConfiguration
                 .AddOtlpExporter(b => b.Endpoint = new Uri(options.TelemetryCollectorHost)))
             .WithMetrics(metrics => metrics
                 .SetResourceBuilder(resourceBuilder)
-                .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
-                .AddMeter("Microsoft.AspNetCore.Hosting")
-                .AddMeter("Microsoft.AspNetCore.Http.Connections")
-                .AddMeter("Microsoft.AspNetCore.Routing")
-                .AddMeter("Microsoft.AspNetCore.Diagnostics")
-                .AddMeter("Microsoft.AspNetCore.RateLimiting")
                 .AddAspNetCoreInstrumentation()
                 .AddHttpClientInstrumentation()
                 .AddRuntimeInstrumentation()
