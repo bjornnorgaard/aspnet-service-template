@@ -48,8 +48,8 @@ public class GetTodos
 
         public async Task<Result> Handle(Command request, CancellationToken ct)
         {
-            ActivityCurrent.SetTag("PageNumber", request.PageNumber);
-            ActivityCurrent.SetTag("PageSize", request.PageSize);
+            ActivityCurrent.SetTag("page_number", request.PageNumber);
+            ActivityCurrent.SetTag("page_size", request.PageSize);
 
             var todos = await _todoContext.Todos.AsNoTracking()
                 .SortBy(TodoSortExpressions.Get(request.SortProperty), request.SortOrder)

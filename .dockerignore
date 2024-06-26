@@ -8,9 +8,9 @@
 .gitignore
 
 # Docker 
-volumes
-configs
-dockerfiles
+**/volumes
+**/configs
+**/dockerfiles
 .dockerignore
 compose.yaml
 

@@ -18,18 +18,16 @@ public class LoggingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, 
     public async Task<TResponse> Handle(TRequest req, RequestHandlerDelegate<TResponse> next, CancellationToken ct)
     {
         var feature = req?.GetType().FullName?.Split(".").Last().Split("+").First();
-
         using var activity = TelemetrySource.Source.StartActivity(feature);
-        Activity.Current?.AddEvent(new ActivityEvent("Feature started"));
-        Activity.Current?.AddTag("feature.name", feature);
+        ActivityCurrent.SetTag("feature.name", feature);
 
-        TelemetryMeters.FeatureInvokationCount.Add(1, new KeyValuePair<string, object>("feature_name", feature));
+        ActivityCurrent.AddEvent("Feature started");
         _logger.LogInformation("Beginning {FeatureName} {@FeatureCommand}", feature, req);
 
         var result = await next();
 
         _logger.LogInformation("Completed {FeatureName} {@FeatureResult}", feature, result);
-        Activity.Current?.AddEvent(new ActivityEvent("Feature completed"));
+        ActivityCurrent.AddEvent("Feature completed");
 
         return result;
     }

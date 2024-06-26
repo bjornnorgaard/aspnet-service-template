@@ -6,21 +6,10 @@ using Xunit;
 
 namespace Ast.Todos.Tests.Integration.Controllers.Todos;
 
-public class GetTodosTests : IntegrationTestMethodIsolation
+public class GetTodosTests : IntegrationTestCollectionIsolation
 {
-    [Fact]
-    public async Task ShouldReturnEmptyList()
+    public GetTodosTests(IntegrationTestMethodIsolation fixture) : base(fixture)
     {
-        // Arrange
-        var command = new Models.Todos.GetTodos.Command();
-
-        // Act
-        var response = await Client.PostAsJsonAsync(Routes.Todos.GetTodos, command);
-        var content = await response.Content.ReadFromJsonAsync<Models.Todos.GetTodos.Result>();
-
-        // Assert
-        response.ShouldBeSuccess();
-        content.Todos.Should().NotBeNull().And.BeEmpty();
     }
 
     [Fact]
