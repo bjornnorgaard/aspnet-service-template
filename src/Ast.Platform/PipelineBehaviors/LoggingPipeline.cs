@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Ast.Platform.Telemetry;
 using MediatR;
 using Microsoft.Extensions.Logging;

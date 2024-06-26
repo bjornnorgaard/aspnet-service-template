@@ -8,8 +8,9 @@ namespace Ast.Platform.Configurations;
 
 public static class MediatrConfiguration
 {
-    public static void AddPlatformMediatr(this IServiceCollection services, Assembly assembly)
+    public static void AddPlatformMediatr(this IServiceCollection services)
     {
+        var assembly = Assembly.GetEntryAssembly();
         services.AddMediatR(x => x.RegisterServicesFromAssembly(assembly));
 
         // Order of pipeline-behaviors is important

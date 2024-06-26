@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using Ast.Platform.Configurations;
 using Ast.Platform.Filters;
 using Microsoft.AspNetCore.Builder;
@@ -10,10 +9,7 @@ namespace Ast.Platform;
 
 public static class ServiceCollectionExtension
 {
-    public static void AddPlatformServices(
-        this IServiceCollection services,
-        IConfiguration configuration,
-        Assembly assembly)
+    public static void AddPlatformServices(this IServiceCollection services, IConfiguration configuration)
     {
         configuration.ValidatePlatformConfiguration();
         services.AddPlatformTelemetry(configuration);
@@ -23,7 +19,7 @@ public static class ServiceCollectionExtension
             o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
         services.AddHealthChecks();
-        services.AddPlatformMediatr(assembly);
+        services.AddPlatformMediatr();
         services.AddPlatformSwagger(configuration);
         services.AddPlatformHangfire(configuration);
     }
@@ -32,12 +28,21 @@ public static class ServiceCollectionExtension
     {
         var configuration = builder.Configuration;
         configuration.ValidatePlatformConfiguration();
-        builder.Services.AddPlatformTelemetry(configuration);
+        builder.AddPlatformTelemetry(configuration);
+        builder.Services.AddPlatformMediatr();
         builder.Services.AddPlatformHangfire(configuration);
         builder.Services.AddCorsPolicy(configuration);
         builder.Services.AddHealthChecks();
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.CustomSchemaIds(t =>
+            {
+                if (string.IsNullOrWhiteSpace(t.FullName)) return t.Name;
+                if (t.FullName.Contains('+')) return t.FullName.Split(".").Last().Replace("+", "");
+                return t.Name;
+            });
+        });
 
         return builder;
     }

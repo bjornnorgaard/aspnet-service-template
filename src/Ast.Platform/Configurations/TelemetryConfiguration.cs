@@ -3,6 +3,8 @@ using Ast.Platform.Telemetry;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -11,6 +13,32 @@ namespace Ast.Platform.Configurations;
 
 internal static class TelemetryConfiguration
 {
+    internal static void AddPlatformTelemetry(this WebApplicationBuilder builder, IConfiguration configuration)
+    {
+        var options = new ServiceOptions(configuration);
+        var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "null";
+        var attributes = new Dictionary<string, object>
+        {
+            ["environment.name"] = env,
+            ["server.name"] = Environment.MachineName,
+        };
+
+        var resourceBuilder = ResourceBuilder
+            .CreateDefault()
+            .AddAttributes(attributes)
+            .AddService(serviceName: options.ServiceName);
+
+        builder.Logging.AddOpenTelemetry(o =>
+        {
+            o.IncludeFormattedMessage = true;
+            o.IncludeScopes = true;
+            o.SetResourceBuilder(resourceBuilder);
+            o.AddOtlpExporter();
+        });
+
+        builder.Services.AddPlatformTelemetry(configuration);
+    }
+
     internal static void AddPlatformTelemetry(this IServiceCollection services, IConfiguration configuration)
     {
         var options = new ServiceOptions(configuration);
@@ -27,7 +55,7 @@ internal static class TelemetryConfiguration
             .AddService(serviceName: options.ServiceName);
 
         services.AddOpenTelemetry()
-            .ConfigureResource(builder => builder
+            .ConfigureResource(resource => resource
                 .AddService(options.ServiceName)
                 .AddAttributes(attributes))
             .WithTracing(tracing => tracing
